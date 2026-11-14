@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Auth status update in Top Bar
+  // 3. Auth status update in Top Bar & Mobile Drawer
   const authContainer = document.getElementById('topBarAuth');
   if (authContainer && window.AppState) {
     const currentUser = window.AppState.getCurrentUser();
@@ -74,10 +74,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
       authContainer.innerHTML = `
         ${adminLinkHtml}
-        <span style="color: var(--color-gold); font-weight: 600;">Xin chào, ${currentUser.fullName}</span>
+        <a href="#" id="topBarUserAccountBtn" style="color: var(--color-gold); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Xem và quản lý tài khoản của bạn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Tài khoản: ${currentUser.fullName}
+        </a>
         <span style="color: rgba(201,166,107,0.4); margin: 0 8px;">|</span>
         <a href="#" id="topBarLogoutBtn" style="color: var(--color-cream-dark); text-decoration: underline;">Đăng xuất</a>
       `;
+
+      const userAccountBtn = document.getElementById('topBarUserAccountBtn');
+      if (userAccountBtn) {
+        userAccountBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (window.openUserAccountModal) {
+            window.openUserAccountModal('profile');
+          }
+        });
+      }
+
+      // Cập nhật liên kết trên menu di động khi đã đăng nhập
+      if (mobileNav) {
+        const mobileAuthLink = mobileNav.querySelector('a[href$="login.html"]');
+        if (mobileAuthLink) {
+          mobileAuthLink.textContent = `Tài khoản: ${currentUser.fullName}`;
+          mobileAuthLink.href = '#';
+          mobileAuthLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeMobileNav();
+            if (window.openUserAccountModal) {
+              window.openUserAccountModal('profile');
+            }
+          });
+        }
+      }
 
       const logoutBtn = document.getElementById('topBarLogoutBtn');
       if (logoutBtn) {

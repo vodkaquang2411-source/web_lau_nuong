@@ -658,7 +658,13 @@ const AppState = {
     return this.getFavorites().includes(Number(productId));
   },
 
-  // Auth User
+  getUserFavoriteProducts() {
+    const favIds = this.getFavorites();
+    const products = this.getProducts();
+    return products.filter(p => favIds.includes(Number(p.id)));
+  },
+
+  // Auth User & User Profile
   getCurrentUser() {
     const raw = localStorage.getItem(STORAGE_KEYS.AUTH);
     return raw ? JSON.parse(raw) : null;
@@ -670,6 +676,64 @@ const AppState = {
 
   logout() {
     localStorage.removeItem(STORAGE_KEYS.AUTH);
+  },
+
+  getUserReservations(user) {
+    if (!user) user = this.getCurrentUser();
+    if (!user) return [];
+
+    const reservations = this.getReservations();
+    const userEmail = (user.email || '').toLowerCase().trim();
+    const userPhone = (user.phone || '').replace(/\s+/g, '');
+    const userName = (user.fullName || '').toLowerCase().trim();
+    const userId = user.id ? Number(user.id) : null;
+
+    return reservations.filter(r => {
+      if (userId && r.userId && Number(r.userId) === userId) return true;
+      if (userEmail) {
+        if (r.customerEmail && r.customerEmail.toLowerCase().trim() === userEmail) return true;
+        if (r.email && r.email.toLowerCase().trim() === userEmail) return true;
+      }
+      if (userPhone) {
+        if (r.customerPhone && r.customerPhone.replace(/\s+/g, '') === userPhone) return true;
+        if (r.phone && r.phone.replace(/\s+/g, '') === userPhone) return true;
+      }
+      if (userName && (r.customerName || r.fullName)) {
+        const resName = (r.customerName || r.fullName || '').toLowerCase().trim();
+        if (resName && resName === userName) return true;
+      }
+      return false;
+    });
+  },
+
+  updateUserProfile({ fullName, phone }) {
+    const user = this.getCurrentUser();
+    if (!user) return { success: false, message: 'Bạn chưa đăng nhập.' };
+
+    const updatedUser = {
+      ...user,
+      fullName: fullName.trim() || user.fullName,
+      phone: phone.trim() || user.phone
+    };
+    this.setCurrentUser(updatedUser);
+
+    // Đồng bộ vào danh sách khách hàng (customers)
+    const customers = this.getCustomers();
+    const customerIdx = customers.findIndex(c => 
+      (user.id && c.id === user.id) || 
+      (user.email && c.email && c.email.toLowerCase() === user.email.toLowerCase())
+    );
+
+    if (customerIdx !== -1) {
+      customers[customerIdx] = {
+        ...customers[customerIdx],
+        fullName: updatedUser.fullName,
+        phone: updatedUser.phone
+      };
+      localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(customers));
+    }
+
+    return { success: true, user: updatedUser };
   }
 };
 

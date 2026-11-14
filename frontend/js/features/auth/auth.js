@@ -78,11 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = '../admin/index.html';
         }, 1000);
       } else {
-        // Khách hàng thông thường
+        // Khách hàng thông thường - tìm trong danh sách khách hàng nếu có
+        const customers = window.AppState.getCustomers ? window.AppState.getCustomers() : [];
+        const existing = customers.find(c => 
+          (c.email && c.email.toLowerCase() === email.toLowerCase()) ||
+          (c.phone && c.phone.replace(/\s+/g, '') === email.replace(/\s+/g, ''))
+        );
+
         const customerUser = {
-          id: 2,
-          fullName: email.split('@')[0] || 'Khách Hàng',
-          email: email,
+          id: existing ? existing.id : 2,
+          fullName: existing ? existing.fullName : (email.split('@')[0] || 'Khách hàng thân thiết'),
+          email: existing ? existing.email : email,
+          phone: existing ? existing.phone : '0912345678',
           role: 'customer',
           token: 'mock-jwt-token-customer'
         };
