@@ -406,8 +406,8 @@
   display: inline-block;
   font-size: 0.82rem;
   font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-transform: none;
   color: var(--color-brand);
   background: rgba(185, 39, 47, 0.1);
   padding: 6px 14px;

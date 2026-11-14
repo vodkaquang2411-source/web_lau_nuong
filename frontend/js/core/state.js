@@ -344,11 +344,11 @@ const INITIAL_PRODUCTS = [
 const INITIAL_BRANCHES = [
   {
     id: 1,
-    name: 'Chi Nhánh Phố Huế (Trụ Sở Chính)',
-    address: '123 Phố Huế, Quận Hai Bà Trưng, TP. Hà Nội',
-    phone: '024 3822 8888',
+    name: 'Chi Nhánh Kiến Hưng (Trụ Sở Chính)',
+    address: 'Kiến Hưng, TP. Hải Phòng',
+    phone: '0345662169',
     hours: '10:00 - 23:00',
-    city: 'hanoi',
+    city: 'haiphong',
     imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80',
     isActive: true
   },
@@ -402,7 +402,7 @@ const INITIAL_RESERVATIONS = [
     customerPhone: '0912345678',
     customerEmail: 'maianh.hoang@gmail.com',
     branchId: 1,
-    branchName: 'Chi Nhánh Phố Huế',
+    branchName: 'Chi Nhánh Kiến Hưng',
     date: '2026-11-15',
     time: '18:30',
     guestCount: 4,

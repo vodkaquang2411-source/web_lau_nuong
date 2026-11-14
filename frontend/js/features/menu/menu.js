@@ -1,72 +1,72 @@
 /**
  * LẨU NƯỚNG VN - MENU PAGE LOGIC & SMART AUTO-SUGGEST
- * 1. Phân nhóm thực đơn theo quy trình gọi món logic (Lẩu -> Nướng -> Thịt Bò -> Hải Sản -> Rau Nấm -> Combo -> Đồ Uống)
- * 2. Thanh tìm kiếm gợi ý thông minh (Live Search Autocomplete + Từ khóa hot + Hỗ trợ tiếng Việt không dấu)
- * 3. Bộ lọc nhanh theo nhu cầu (Món bán chạy, Nhúng lẩu, Nướng than, Dưới 200k)
- * 4. Chuyển đổi linh hoạt giữa chế độ Xem theo nhóm (Grouped) và Xem dạng lưới (Grid)
+ * 1. Phân nhóm thực đơn theo quy trình ẩm thực chuẩn (Dùng ảnh thật đại diện cho từng phân khu)
+ * 2. Tất cả tiêu mục chỉ in hoa chữ cái đầu tiên, còn lại chữ thường tự nhiên
+ * 3. Thanh tìm kiếm gợi ý thông minh (Hỗ trợ tiếng Việt có dấu và không dấu)
+ * 4. Không dùng icon/emoji AI hoạt họa - Ưu tiên ảnh thật và đường nét thanh lịch
  */
 
-// Cấu trúc danh mục và mô tả gợi ý theo quy trình ẩm thực lẩu nướng
+// Cấu trúc danh mục và mô tả gợi ý theo quy trình ẩm thực lẩu nướng (Dùng ảnh thật minh họa)
 const MENU_SECTIONS = [
   {
     key: 'lau',
-    name: 'Món Lẩu Gia Truyền',
-    icon: '🍲',
-    step: 'Bước 1: Chọn Nước Lẩu Đậm Vị',
+    name: 'Món lẩu gia truyền',
+    imageThumb: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=120&q=80',
+    step: 'Bước 1: Chọn nước lẩu đậm vị',
     desc: 'Nước dùng ninh hầm từ xương ống và thảo mộc thiên nhiên hơn 8 tiếng, thanh ngọt trọn vị sum vầy.'
   },
   {
     key: 'nuong',
-    name: 'Đồ Nướng Than Hoa',
-    icon: '🔥',
-    step: 'Bước 2: Chọn Món Nướng Xèo Xèo',
+    name: 'Đồ nướng than hoa',
+    imageThumb: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=120&q=80',
+    step: 'Bước 2: Chọn món nướng xèo xèo',
     desc: 'Các món nướng đặc chế tẩm ướp sốt tiêu đen, chao đỏ, hạt dổi mắc khén nướng trên than hoa đượm lửa.'
   },
   {
     key: 'thit-bo',
-    name: 'Thịt Bò Mỹ Thượng Hạng',
-    icon: '🥩',
-    step: 'Bước 3: Chọn Thịt Nhúng & Nướng',
+    name: 'Thịt bò Mỹ thượng hạng',
+    imageThumb: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=120&q=80',
+    step: 'Bước 3: Chọn thịt nhúng & nướng',
     desc: 'Ba chỉ bò, bắp bò hoa và gầu bò chọn lọc vân mỡ cẩm thạch, mềm mọng tan ngay nơi đầu lưỡi.'
   },
   {
     key: 'hai-san',
-    name: 'Hải Sản Biển Tươi Sống',
-    icon: '🦐',
-    step: 'Bước 4: Hải Sản Tươi Rói Trong Ngày',
+    name: 'Hải sản biển tươi sống',
+    imageThumb: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=120&q=80',
+    step: 'Bước 4: Hải sản tươi rói trong ngày',
     desc: 'Tôm sú bật tanh tách, mực trứng Phú Quốc, bạch tuộc baby và hàu nướng mỡ hành đậu phộng.'
   },
   {
     key: 'rau-kem',
-    name: 'Rau Xanh VietGAP & Nấm Quý',
-    icon: '🥬',
-    step: 'Bước 5: Rau Củ Organic & Nấm Tươi',
+    name: 'Rau xanh VietGAP & nấm tươi',
+    imageThumb: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=120&q=80',
+    step: 'Bước 5: Rau củ organic & nấm tươi',
     desc: 'Set nấm tươi hảo hạng 6 loại, rau rừng sạch sục rửa Ozone và đậu phụ Mơ chiên lướt ván béo bùi.'
   },
   {
     key: 'combo',
-    name: 'Combo Đại Tiệc Tiết Kiệm',
-    icon: '🎉',
-    step: 'Lựa Chọn Trọn Vị Cho Bàn Tiệc',
+    name: 'Combo đại tiệc tiết kiệm',
+    imageThumb: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=120&q=80',
+    step: 'Lựa chọn trọn vị cho bàn tiệc',
     desc: 'Đầy đủ món ngon tinh túy từ khai vị, lẩu nướng đến đồ uống cho nhóm 2 đến 8 khách với giá cực ưu đãi.'
   },
   {
     key: 'do-uong',
-    name: 'Đồ Uống & Tráng Miệng Thanh Mát',
-    icon: '🍹',
-    step: 'Giải Nhiệt & Thưởng Thức Trọn Vẹn',
+    name: 'Đồ uống & tráng miệng thanh mát',
+    imageThumb: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=120&q=80',
+    step: 'Giải nhiệt & thưởng thức trọn vẹn',
     desc: 'Trà đào cam sả hạt chia, trà mận Hậu Sapa đá tuyết và nước mơ Chùa Hương gừng phèn giải ngấy hoàn hảo.'
   }
 ];
 
 const CATEGORY_NAMES = {
-  'lau': 'Món Lẩu',
-  'nuong': 'Đồ Nướng',
-  'thit-bo': 'Thịt Bò Mỹ',
-  'hai-san': 'Hải Sản',
-  'rau-kem': 'Rau & Nấm',
-  'combo': 'Combo Tiết Kiệm',
-  'do-uong': 'Đồ Uống'
+  'lau': 'Món lẩu',
+  'nuong': 'Đồ nướng',
+  'thit-bo': 'Thịt bò Mỹ',
+  'hai-san': 'Hải sản',
+  'rau-kem': 'Rau & nấm',
+  'combo': 'Combo tiết kiệm',
+  'do-uong': 'Đồ uống'
 };
 
 const POPULAR_KEYWORDS = [
@@ -155,22 +155,22 @@ document.addEventListener('DOMContentLoaded', () => {
     return new Intl.NumberFormat('vi-VN').format(num) + ' đ';
   }
 
-  // Xác định nhãn gợi ý cách thưởng thức món (Lẩu / Nướng / Cả hai)
+  // Xác định nhãn gợi ý cách thưởng thức món (Chữ thường, chỉ in hoa chữ cái đầu)
   function getDishUsageBadge(product) {
     if (product.category === 'lau') {
-      return `<span class="dish-usage-badge dish-usage-lau">🍲 Chuyên Nhúng Lẩu</span>`;
+      return `<span class="dish-usage-badge dish-usage-lau">Chuyên nhúng lẩu</span>`;
     } else if (product.category === 'nuong') {
-      return `<span class="dish-usage-badge dish-usage-nuong">🔥 Chuyên Đồ Nướng</span>`;
+      return `<span class="dish-usage-badge dish-usage-nuong">Chuyên đồ nướng</span>`;
     } else if (product.category === 'thit-bo') {
-      return `<span class="dish-usage-badge dish-usage-both">🥩 Cả Lẩu & Nướng</span>`;
+      return `<span class="dish-usage-badge dish-usage-both">Cả lẩu & nướng</span>`;
     } else if (product.category === 'hai-san') {
-      return `<span class="dish-usage-badge dish-usage-both">🦐 Cả Lẩu & Nướng</span>`;
+      return `<span class="dish-usage-badge dish-usage-both">Cả lẩu & nướng</span>`;
     } else if (product.category === 'rau-kem') {
-      return `<span class="dish-usage-badge dish-usage-lau">🥬 Nhúng Lẩu & Ăn Kèm</span>`;
+      return `<span class="dish-usage-badge dish-usage-lau">Nhúng lẩu & ăn kèm</span>`;
     } else if (product.category === 'combo') {
-      return `<span class="dish-usage-badge dish-usage-combo">🎉 Set Đại Tiệc</span>`;
+      return `<span class="dish-usage-badge dish-usage-combo">Set đại tiệc</span>`;
     } else if (product.category === 'do-uong') {
-      return `<span class="dish-usage-badge dish-usage-drink">🍹 Đồ Uống Mát Lạnh</span>`;
+      return `<span class="dish-usage-badge dish-usage-drink">Đồ uống mát lạnh</span>`;
     }
     return '';
   }
@@ -186,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="card-img-wrap">
           <img src="${product.imageUrl}" alt="${product.name}" loading="lazy">
           <div class="card-badges">
-            ${product.isFeatured ? '<span class="badge badge-hot">Bán Chạy</span>' : ''}
-            ${!product.isAvailable ? '<span class="badge badge-soldout">Hết món</span>' : ''}
+            ${product.isFeatured ? '<span class="badge badge-hot">Bán chạy</span>' : ''}
+            ${!product.isAvailable ? '<span class="badge badge-soldout">Tạm hết</span>' : ''}
           </div>
           <button class="btn-favorite ${isFav ? 'active' : ''}" data-id="${product.id}" title="${isFav ? 'Bỏ thích' : 'Yêu thích món'}" aria-label="Yêu thích món">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="${isFav ? 'var(--color-brand)' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // Cập nhật số lượng món trên các Tab danh mục
+  // Cập nhật số lượng món trên các Tab danh mục (Chữ thường, in hoa chữ cái đầu)
   function updateCategoryCounts() {
     const allProducts = window.AppState.getProducts();
     const counts = {};
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryTabs.forEach(tab => {
       const cat = tab.getAttribute('data-category');
       if (cat === 'all') {
-        tab.textContent = `Tất Cả Món (${allProducts.length})`;
+        tab.textContent = `Tất cả món (${allProducts.length})`;
       } else {
         const catName = CATEGORY_NAMES[cat] || cat;
         tab.textContent = `${catName} (${counts[cat] || 0})`;
@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <section class="menu-section-group" id="sec-${sec.key}">
             <div class="menu-section-header">
               <div class="menu-section-title-wrap">
-                <div class="menu-section-icon">${sec.icon}</div>
+                <img src="${sec.imageThumb}" alt="${sec.name}" class="menu-section-thumb" loading="lazy">
                 <div>
                   <h2 class="menu-section-title">${sec.name}</h2>
                   <p class="menu-section-desc"><strong>${sec.step}:</strong> ${sec.desc}</p>
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       searchSuggestDropdown.innerHTML = `
         <div class="suggest-header">
-          <span>🔥 Từ khóa tìm kiếm phổ biến</span>
+          <span>Từ khóa tìm kiếm phổ biến</span>
         </div>
         <div class="suggest-keywords">
           ${POPULAR_KEYWORDS.map(kw => `
@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
           `).join('')}
         </div>
         <div class="suggest-header">
-          <span>👑 Món nổi bật được gọi nhiều nhất</span>
+          <span>Món nổi bật được gọi nhiều nhất</span>
         </div>
         <div class="suggest-items-list">
           ${topPicks.map(p => `
@@ -575,7 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Lọc theo Quick Tags (Món bán chạy, nhúng lẩu, nướng than, dưới 200k)
+  // Lọc theo Quick Tags (Chữ thường, chỉ in hoa chữ cái đầu)
   quickTags.forEach(btn => {
     btn.addEventListener('click', () => {
       quickTags.forEach(b => b.classList.remove('active'));

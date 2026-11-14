@@ -25,7 +25,7 @@ ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 
 -- 3. Nạp Danh sách Chi nhánh
 INSERT INTO `branches` (`id`, `name`, `address`, `phone`, `hours`, `city`, `image_url`, `is_active`) VALUES
-(1, 'Chi Nhánh Phố Huế (Trụ Sở Chính)', '123 Phố Huế, Quận Hai Bà Trưng, TP. Hà Nội', '024 3822 8888', '10:00 - 23:00', 'hanoi', 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80', TRUE),
+(1, 'Chi Nhánh Kiến Hưng (Trụ Sở Chính)', 'Kiến Hưng, TP. Hải Phòng', '0345662169', '10:00 - 23:00', 'haiphong', 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80', TRUE),
 (2, 'Chi Nhánh Vincom Bà Triệu', 'Tầng 4, TTTM Vincom Center, 191 Bà Triệu, TP. Hà Nội', '024 3974 9999', '10:00 - 22:00', 'hanoi', 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=700&q=80', TRUE),
 (3, 'Chi Nhánh Landmark 81', 'Tầng B1, Tòa tháp Landmark 81, 720A Điện Biên Phủ, Q. Bình Thạnh, TP.HCM', '028 7300 8888', '10:00 - 23:00', 'hcm', 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=700&q=80', TRUE),
 (4, 'Chi Nhánh Nguyễn Thái Học', '88 Nguyễn Thái Học, Phường Cầu Ông Lãnh, Quận 1, TP.HCM', '028 3920 6666', '10:00 - 23:00', 'hcm', 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=80', TRUE),

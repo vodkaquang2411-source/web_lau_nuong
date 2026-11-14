@@ -161,8 +161,8 @@
   border-radius: var(--radius-full);
   font-size: 0.72rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  text-transform: none;
+  letter-spacing: 0.3px;
 }
 
 .badge-hot {
@@ -221,8 +221,8 @@
   font-size: 0.8rem;
   color: var(--color-gold-dark);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  text-transform: none;
+  letter-spacing: 0.3px;
   margin-bottom: 6px;
 }
 
@@ -445,9 +445,9 @@
   padding: 12px 18px 8px;
   font-size: 0.8rem;
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--color-gold-dark);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -583,8 +583,8 @@
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--color-gold-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  text-transform: none;
+  letter-spacing: 0.3px;
   margin-right: 4px;
 }
 
@@ -678,7 +678,22 @@
 .menu-section-title-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+}
+
+.menu-section-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid var(--color-gold);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.menu-section-thumb:hover {
+  transform: scale(1.08);
 }
 
 .menu-section-icon {
@@ -723,13 +738,13 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 4px;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 600;
   margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  text-transform: none;
+  letter-spacing: 0.2px;
   width: fit-content;
 }
 
