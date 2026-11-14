@@ -5,7 +5,7 @@
  */
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'launuongvn_products_v1',
+  PRODUCTS: 'launuongvn_products_v2',
   CATEGORIES: 'launuongvn_categories_v1',
   BRANCHES: 'launuongvn_branches_v1',
   RESERVATIONS: 'launuongvn_reservations_v1',
@@ -14,7 +14,7 @@ const STORAGE_KEYS = {
   FAVORITES: 'launuongvn_favorites_v1'
 };
 
-// DỮ LIỆU KHỞI TẠO BAN ĐẦU (SEED DATA CHUẨN)
+// DỮ LIỆU KHỞI TẠO BAN ĐẦU (SEED DATA CHUẨN 30 MÓN VIỆT NAM & CHÂU Á)
 const INITIAL_CATEGORIES = [
   { id: 1, name: 'Món Lẩu', slug: 'lau', description: 'Nước lẩu gia truyền ninh hầm từ thảo mộc thiên nhiên', sortOrder: 1 },
   { id: 2, name: 'Đồ Nướng', slug: 'nuong', description: 'Các món nướng tẩm ướp đậm đà sốt đặc chế', sortOrder: 2 },
@@ -26,6 +26,7 @@ const INITIAL_CATEGORIES = [
 ];
 
 const INITIAL_PRODUCTS = [
+  // --- 1. MÓN LẨU (Category: lau) ---
   {
     id: 1,
     name: 'Lẩu Riêu Cua Bắp Bò Sườn Sụn',
@@ -38,37 +39,17 @@ const INITIAL_PRODUCTS = [
   },
   {
     id: 2,
-    name: 'Dẻ Sườn Bò Sốt Tiêu Đen Phú Quốc',
-    category: 'nuong',
-    price: 249000,
-    imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
-    description: 'Dẻ sườn bò Mỹ chọn lọc với vân mỡ đan xen đều đặn, tẩm ướp cùng sốt tiêu đen nguyên hạt nướng xèo xèo thơm nức mũi.',
-    isFeatured: true,
-    isAvailable: true
-  },
-  {
-    id: 3,
     name: 'Lẩu Nấm Chim Câu Bổ Dưỡng',
     category: 'lau',
     price: 450000,
-    imageUrl: 'https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80',
     description: 'Nước dùng hầm từ xương gà ta và thảo mộc hơn 8 giờ, kết hợp 6 loại nấm quý và chim bồ câu béo ngậy ngọt thanh.',
     isFeatured: true,
     isAvailable: true
   },
   {
-    id: 4,
-    name: 'Tôm Sú Nướng Sốt Bơ Tỏi Phô Mai',
-    category: 'hai-san',
-    price: 219000,
-    imageUrl: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80',
-    description: 'Tôm sú tươi sống size lớn, rưới đẫm sốt bơ tỏi vàng óng phủ phô mai Mozzarella kéo sợi béo ngậy tan chảy.',
-    isFeatured: true,
-    isAvailable: true
-  },
-  {
-    id: 5,
-    name: 'Lẩu Thái Chua Cay Hải Sản Đậm Đà',
+    id: 3,
+    name: 'Lẩu Thái Tomyum Hải Sản Chua Cay',
     category: 'lau',
     price: 389000,
     imageUrl: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=600&q=80',
@@ -77,112 +58,284 @@ const INITIAL_PRODUCTS = [
     isAvailable: true
   },
   {
-    id: 6,
-    name: 'Lẩu Tứ Xuyên Cay Nồng Đặc Biệt',
+    id: 4,
+    name: 'Lẩu Tứ Xuyên 2 Ngăn Cay Nồng Thảo Quả',
     category: 'lau',
     price: 420000,
     imageUrl: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=600&q=80',
-    description: 'Dành riêng cho tín đồ ăn cay với hoa tiêu Tứ Xuyên tê tê nơi đầu lưỡi và ớt khô cay nồng bốc khói nghi ngút.',
+    description: 'Nồi lẩu 2 ngăn âm dương với hoa tiêu Tứ Xuyên tê tê kích thích vị giác và nước hầm xương ống ngọt thanh.',
     isFeatured: false,
     isAvailable: true
   },
   {
+    id: 5,
+    name: 'Lẩu Ếch Đồng Măng Cay Giòn Rụm',
+    category: 'lau',
+    price: 359000,
+    imageUrl: 'https://images.unsplash.com/photo-1625398407796-82650a8c135f?auto=format&fit=crop&w=600&q=80',
+    description: 'Thịt ếch đồng xào săn da giòn rụm với măng trúc muối ớt chua cay, thơm ngào ngạt mùi lá lốt tía tô Bắc Bộ.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 6,
+    name: 'Lẩu Bò Nhúng Dấm Thảo Mộc Gia Truyền',
+    category: 'lau',
+    price: 379000,
+    imageUrl: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80',
+    description: 'Nước dấm gạo thanh chua dịu hầm cùng nước dừa xiêm bến tre, sả, hành tây, nhúng kèm bắp bò tươi và bánh tráng cuốn.',
+    isFeatured: false,
+    isAvailable: true
+  },
+
+  // --- 2. ĐỒ NƯỚNG (Category: nuong) ---
+  {
     id: 7,
-    name: 'Ba Chỉ Bò Mỹ Nướng Sốt Galbi Hàn Quốc',
-    category: 'thit-bo',
-    price: 189000,
-    imageUrl: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80',
-    description: 'Ba chỉ bò Mỹ thái mỏng cuộn nấm kim châm hoặc ướp sốt Galbi truyền thống ngọt dịu đậm đà.',
+    name: 'Dẻ Sườn Bò Nướng Sốt Tiêu Đen Phú Quốc',
+    category: 'nuong',
+    price: 249000,
+    imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+    description: 'Dẻ sườn bò rút xương tẩm ướp tiêu chín Phú Quốc và sốt đặc chế, nướng xèo xèo trên than hoa thơm nức mũi.',
     isFeatured: true,
     isAvailable: true
   },
   {
     id: 8,
-    name: 'Thăn Ngoại Bò Black Angus Thượng Hạng',
-    category: 'thit-bo',
-    price: 320000,
-    imageUrl: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80',
-    description: 'Từng thớ thịt bò Angus nhập khẩu mềm tan như bơ khi nướng chín tới trên vỉ than hoa không khói.',
-    isFeatured: false,
+    name: 'Nầm Heo Nướng Chao Giòn Béo Sần Sật',
+    category: 'nuong',
+    price: 189000,
+    imageUrl: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=80',
+    description: 'Nầm heo tươi giòn hoa sần sật, ướp chao đỏ bông gòn và ớt sa tế, nướng vàng xém chấm sốt me chanh tỏi ớt.',
+    isFeatured: true,
     isAvailable: true
   },
   {
     id: 9,
-    name: 'Lõi Nạc Vai Bò Nhúng Lẩu Tươi Ngon',
-    category: 'thit-bo',
-    price: 210000,
-    imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
-    description: 'Lõi vai bò có đường gân giòn nhẹ ở giữa, nhúng lẩu 15 giây vừa chín tái giữ trọn vị ngọt tự nhiên.',
+    name: 'Nọng Heo Nướng Hạt Dổi Mắc Khén Tây Bắc',
+    category: 'nuong',
+    price: 199000,
+    imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80',
+    description: 'Nọng heo vân mỡ cẩm thạch giòn sần sật không hề ngấy, tẩm ướp hạt dổi rừng và mắc khén thơm lừng núi rừng Tây Bắc.',
     isFeatured: false,
     isAvailable: true
   },
   {
     id: 10,
-    name: 'Mực Nang Nướng Sốt Sa Tế Cay',
-    category: 'hai-san',
-    price: 199000,
-    imageUrl: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=600&q=80',
-    description: 'Mực nang dày mình giòn sần sật, khía vảy rồng tẩm sốt sa tế ớt hiểm cay xé lưỡi kích thích vị giác.',
+    name: 'Ba Chỉ Cuộn Nấm Kim Châm Nướng Sốt Mè',
+    category: 'nuong',
+    price: 159000,
+    imageUrl: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80',
+    description: 'Từng cuộn ba chỉ tươi ôm trọn nấm kim châm giòn ngọt, rưới sốt tương mè rang thơm lừng nướng chín vàng ươm.',
     isFeatured: false,
     isAvailable: true
   },
   {
     id: 11,
-    name: 'Hàu Sữa Nướng Phô Mai Béo Ngậy',
-    category: 'hai-san',
+    name: 'Dạ Dày Nướng Sa Tế Cay Nồng Bắt Miệng',
+    category: 'nuong',
     price: 179000,
-    imageUrl: 'https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=600&q=80',
-    description: 'Set 6 hàu sữa Vân Đồn béo múp, nướng cùng sốt kem phô mai trứng béo ngậy thơm lừng.',
+    imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80',
+    description: 'Dạ dày heo sơ chế sạch sẽ, khía vảy rồng thấm đẫm sa tế tỏi ớt, nướng giòn sần sật cực kỳ bắt miệng.',
     isFeatured: false,
     isAvailable: true
   },
+
+  // --- 3. THỊT BÒ MỸ (Category: thit-bo) ---
   {
     id: 12,
-    name: 'Nấm Tươi Tổng Hợp Nhúng Lẩu (6 loại)',
-    category: 'rau-kem',
-    price: 110000,
-    imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
-    description: 'Gồm nấm đông cô, nấm đùi gà, nấm linh chi trắng/nâu, nấm kim châm và nấm hương tươi thanh mát.',
-    isFeatured: false,
+    name: 'Ba Chỉ Bò Mỹ Cắt Lát Cuộn Tròn',
+    category: 'thit-bo',
+    price: 189000,
+    imageUrl: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80',
+    description: 'Ba chỉ bò Mỹ chọn lọc tỷ lệ nạc mỡ chuẩn 7:3, thái mỏng cuộn hoa văn đẹp mắt, nhúng lẩu mềm tan trong miệng.',
+    isFeatured: true,
     isAvailable: true
   },
   {
     id: 13,
-    name: 'Rau Xanh Hữu Cơ Nhúng Lẩu Tươi Mát',
-    category: 'rau-kem',
-    price: 65000,
-    imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
-    description: 'Rau muống chẻ, cải thảo, rau tần ô (cải cúc) và mồng tơi tươi rói được rửa sạch bằng công nghệ sục Ozone.',
-    isFeatured: false,
+    name: 'Bắp Bò Hoa Nhúng Lẩu Giòn Ngọt',
+    category: 'thit-bo',
+    price: 220000,
+    imageUrl: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80',
+    description: 'Từng lát bắp bò vân hoa màu đỏ tươi xen gân trong veo, chỉ cần nhúng 15-20 giây là giữ trọn vị ngọt đậm đà.',
+    isFeatured: true,
     isAvailable: true
   },
   {
     id: 14,
-    name: 'Combo Hẹn Hò Ấm Áp (2-3 Người)',
-    category: 'combo',
-    price: 599000,
-    imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80',
-    description: 'Gồm 01 nồi lẩu 2 ngăn, 01 đĩa ba chỉ bò Mỹ & bắp hoa (350g), 01 dẻ sườn nướng, rau nấm và 02 đồ uống.',
-    isFeatured: true,
+    name: 'Gầu Bò Mỹ Tươi Giòn Thơm Béo',
+    category: 'thit-bo',
+    price: 199000,
+    imageUrl: 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=600&q=80',
+    description: 'Gầu bò Mỹ có viền mỡ giòn sần sật không ngấy, khi nhúng vào nước lẩu sôi tỏa hương thơm ngậy đặc trưng.',
+    isFeatured: false,
     isAvailable: true
   },
   {
     id: 15,
-    name: 'Combo Sum Vầy Đoàn Viên (4-6 Người)',
-    category: 'combo',
-    price: 1199000,
-    imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
-    description: 'Lẩu 4 ngăn đại tiệc, thăn bò Black Angus, hải sản tổng hợp, dẻ sườn sốt tiêu, set rau nấm và tráng miệng.',
+    name: 'Lõi Nạc Vai Bò Ướp Sốt Mật Ong Sa Tế',
+    category: 'thit-bo',
+    price: 210000,
+    imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+    description: 'Lõi nạc vai bò có dải gân mảnh ở giữa, tẩm sốt mật ong sa tế nướng vừa chín tới ngọt mềm mọng nước.',
+    isFeatured: false,
+    isAvailable: true
+  },
+
+  // --- 4. HẢI SẢN (Category: hai-san) ---
+  {
+    id: 16,
+    name: 'Tôm Sú Biển Tươi Sống (Đĩa 300g)',
+    category: 'hai-san',
+    price: 219000,
+    imageUrl: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80',
+    description: 'Tôm sú tươi roi rói vỏ mỏng thịt chắc ngọt đậm vị biển, dùng để nhúng lẩu chua cay hoặc nướng muối ớt đều tuyệt đỉnh.',
     isFeatured: true,
     isAvailable: true
   },
   {
-    id: 16,
-    name: 'Trà Đào Cam Sả Hạt Chia Thanh Nhiệt',
+    id: 17,
+    name: 'Mực Trứng Phú Quốc Nướng Sa Tế Cay',
+    category: 'hai-san',
+    price: 199000,
+    imageUrl: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=600&q=80',
+    description: 'Mực trứng Phú Quốc nguyên con ôm bụng trứng béo bùi, ướp sốt sa tế ớt hiểm nướng than hoa vàng rộm xèo xèo.',
+    isFeatured: true,
+    isAvailable: true
+  },
+  {
+    id: 18,
+    name: 'Bạch Tuộc Baby Nướng Muối Ớt Xanh',
+    category: 'hai-san',
+    price: 185000,
+    imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+    description: 'Bạch tuộc baby tươi giòn rụm được khía hoa ướp muối ớt cay nồng, chấm sốt ớt xanh chua cay ngọt dịu.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 19,
+    name: 'Hàu Sữa Nướng Mỡ Hành Đậu Phộng',
+    category: 'hai-san',
+    price: 179000,
+    imageUrl: 'https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=600&q=80',
+    description: 'Set 6 hàu sữa Vân Đồn tươi béo múp, nướng than hoa xèo xèo cùng mỡ hành tươi và đậu phộng rang giòn thơm phức.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 20,
+    name: 'Ngao Hai Cùi Tươi Nhúng Lẩu Ngọt Nước',
+    category: 'hai-san',
+    price: 139000,
+    imageUrl: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80',
+    description: 'Ngao hai cùi mập mạp nhiều thịt, thả vào nồi lẩu bung vỏ tiết ra nước cốt ngọt thanh mát lành.',
+    isFeatured: false,
+    isAvailable: true
+  },
+
+  // --- 5. RAU & NẤM (Category: rau-kem) ---
+  {
+    id: 21,
+    name: 'Set Nấm Tươi Hảo Hạng (6 Loại Nấm)',
+    category: 'rau-kem',
+    price: 110000,
+    imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
+    description: 'Gồm nấm đông cô tươi, nấm đùi gà baby, linh chi nâu, linh chi trắng, nấm kim châm và mộc nhĩ giòn.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 22,
+    name: 'Mẹt Rau Rừng & Rau Xanh VietGAP Nhúng Lẩu',
+    category: 'rau-kem',
+    price: 65000,
+    imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
+    description: 'Đầy đủ rau muống non chẻ ngọn, cải thảo ngọt, mồng tơi và cải cúc tần ô được sục rửa sạch sẽ đạt chuẩn organic.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 23,
+    name: 'Đậu Phụ Mơ Chiên Lướt Ván & Váng Đậu Giòn',
+    category: 'rau-kem',
+    price: 55000,
+    imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
+    description: 'Đậu phụ làng Mơ béo mềm núng nính chiên lướt ngoài vàng ruộm trong mềm mọng, kèm cuộn váng đậu chiên phồng giòn tan.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 24,
+    name: 'Ngô Ngọt & Khoai Môn Lệ Phố Bùi Ngậy',
+    category: 'rau-kem',
+    price: 50000,
+    imageUrl: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&q=80',
+    description: 'Ngô ngọt Đà Lạt luộc ngọt nước lẩu kết hợp khoai môn Lệ Phố dẻo bùi béo ngậy làm nước dùng thêm đậm đà sánh mịn.',
+    isFeatured: false,
+    isAvailable: true
+  },
+
+  // --- 6. COMBO TIẾT KIỆM (Category: combo) ---
+  {
+    id: 25,
+    name: 'Combo Hẹn Hò Ấm Áp (2 - 3 Người)',
+    category: 'combo',
+    price: 599000,
+    imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80',
+    description: 'Gồm 01 nồi lẩu 2 ngăn tự chọn vị, 01 đĩa ba chỉ bò Mỹ & bắp hoa (350g), 01 dẻ sườn nướng mật ong, đĩa rau nấm và 02 đồ uống.',
+    isFeatured: true,
+    isAvailable: true
+  },
+  {
+    id: 26,
+    name: 'Combo Sum Vầy Đoàn Viên (4 - 6 Người)',
+    category: 'combo',
+    price: 1199000,
+    imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
+    description: '01 Lẩu 4 ngăn đại tiệc, thăn bò, mực trứng nướng sa tế, nầm nướng chao, đĩa rau nấm hảo hạng và 4 đồ uống trái cây.',
+    isFeatured: true,
+    isAvailable: true
+  },
+  {
+    id: 27,
+    name: 'Combo Tiệc Tùng Thịnh Soạn (6 - 8 Người)',
+    category: 'combo',
+    price: 1799000,
+    imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+    description: 'Đại tiệc toàn diện lẩu riêu cua bắp bò + bếp nướng xèo xèo, bạch tuộc, tôm sú, nọng heo hạt dổi, tráng miệng chè dưỡng nhan.',
+    isFeatured: true,
+    isAvailable: true
+  },
+
+  // --- 7. ĐỒ UỐNG & TRÁNG MIỆNG (Category: do-uong) ---
+  {
+    id: 28,
+    name: 'Trà Đào Cam Sả Hạt Chia Mát Lạnh',
     category: 'do-uong',
     price: 49000,
     imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80',
-    description: 'Vị trà lài ủ lạnh thơm thanh khiết kết hợp đào miếng giòn sần sật, sả tươi và hạt chia giải nhiệt khi ăn lẩu nướng.',
+    description: 'Vị trà lài ủ lạnh thơm thanh khiết kết hợp miếng đào giòn rụm, sả tươi và hạt chia giải nhiệt khi ăn lẩu nướng.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 29,
+    name: 'Trà Mận Hậu Sapa Đá Tuyết Chua Ngọt',
+    category: 'do-uong',
+    price: 55000,
+    imageUrl: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80',
+    description: 'Mận hậu Sapa chín mọng ủ đường phèn thanh mát cùng trà ô long cao sơn, vị chua ngọt giải ngấy tuyệt đối.',
+    isFeatured: false,
+    isAvailable: true
+  },
+  {
+    id: 30,
+    name: 'Nước Mơ Chùa Hương Gừng Phèn Cổ Truyền',
+    category: 'do-uong',
+    price: 45000,
+    imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80',
+    description: 'Mơ rừng Chùa Hương ngâm đường phèn gừng tươi theo công thức cổ truyền, vị chua thanh ngọt hậu giúp tiêu hóa êm ru.',
     isFeatured: false,
     isAvailable: true
   }

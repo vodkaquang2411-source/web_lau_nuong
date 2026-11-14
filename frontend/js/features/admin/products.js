@@ -3,6 +3,16 @@
  * Thao tác Thêm (Create), Đọc (Read), Sửa (Update), Xóa (Delete) món ăn thực đơn
  */
 
+const CATEGORY_NAMES = {
+  'lau': 'Món Lẩu',
+  'nuong': 'Đồ Nướng',
+  'thit-bo': 'Thịt Bò Mỹ',
+  'hai-san': 'Hải Sản',
+  'rau-kem': 'Rau & Nấm',
+  'combo': 'Combo Tiết Kiệm',
+  'do-uong': 'Đồ Uống'
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('adminProductsTableBody');
   const searchInput = document.getElementById('adminProductSearch');
@@ -51,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <strong>${item.name}</strong>
           <div style="font-size: 0.8rem; color: #777; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${item.description || ''}</div>
         </td>
-        <td><span class="badge" style="background: #E5E7EB; color: #374151;">${item.category.toUpperCase()}</span></td>
+        <td><span class="badge" style="background: #E5E7EB; color: #374151; font-weight: 600;">${CATEGORY_NAMES[item.category] || item.category}</span></td>
         <td><strong style="color: var(--color-brand);">${formatPrice(item.price)}</strong></td>
         <td>${item.isFeatured ? '<span class="status-pill status-active">★ Nổi bật</span>' : '<span style="color:#999;">Thường</span>'}</td>
         <td>

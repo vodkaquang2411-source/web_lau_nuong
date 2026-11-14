@@ -3,6 +3,16 @@
  * Tìm kiếm món ăn tức thời, Lọc theo danh mục, Sắp xếp theo giá, Modal chi tiết món & Yêu thích
  */
 
+const CATEGORY_NAMES = {
+  'lau': 'Món Lẩu',
+  'nuong': 'Đồ Nướng',
+  'thit-bo': 'Thịt Bò Mỹ',
+  'hai-san': 'Hải Sản',
+  'rau-kem': 'Rau & Nấm',
+  'combo': 'Combo Tiết Kiệm',
+  'do-uong': 'Đồ Uống'
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const gridContainer = document.getElementById('menuProductGrid');
   const searchInput = document.getElementById('menuSearchInput');
@@ -20,6 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function formatPrice(num) {
     return new Intl.NumberFormat('vi-VN').format(num) + ' đ';
+  }
+
+  // Cập nhật số đếm động trên từng Tab Danh Mục
+  function updateCategoryCounts() {
+    const allProducts = window.AppState.getProducts();
+    const counts = {};
+    allProducts.forEach(p => {
+      counts[p.category] = (counts[p.category] || 0) + 1;
+    });
+
+    categoryTabs.forEach(tab => {
+      const cat = tab.getAttribute('data-category');
+      if (cat === 'all') {
+        tab.textContent = `Tất Cả Món (${allProducts.length})`;
+      } else {
+        const catName = CATEGORY_NAMES[cat] || cat;
+        tab.textContent = `${catName} (${counts[cat] || 0})`;
+      }
+    });
   }
 
   function renderMenu() {
@@ -65,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render items
     gridContainer.innerHTML = list.map(product => {
       const isFav = window.AppState.isFavorite(product.id);
+      const catTitle = CATEGORY_NAMES[product.category] || product.category;
       return `
         <article class="product-card">
           <div class="card-img-wrap">
@@ -78,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
           </div>
           <div class="card-body">
-            <span class="card-category">${product.category.toUpperCase()}</span>
+            <span class="card-category">${catTitle}</span>
             <h3 class="card-title">${product.name}</h3>
             <p class="card-desc">${product.description}</p>
             <div class="card-footer">
@@ -163,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initial render
+  // Initial render & count update
+  updateCategoryCounts();
   renderMenu();
 });
