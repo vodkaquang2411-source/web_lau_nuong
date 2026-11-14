@@ -99,10 +99,16 @@
         <!-- Toolbar: Search & Sort & Category Filters -->
         <div class="menu-toolbar">
           <div class="toolbar-controls">
-            <!-- Search Box -->
-            <div class="search-box">
+            <!-- Search Box with Live Auto-Suggestions -->
+            <div class="search-box" id="searchBoxWrap">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input type="text" id="menuSearchInput" placeholder="Tìm kiếm món ăn (VD: bò, lẩu nấm, tôm sú...)" autocomplete="off">
+              <input type="text" id="menuSearchInput" placeholder="Tìm kiếm món ăn (VD: bò, riêu cua, mực trứng, nầm nướng...)" autocomplete="off">
+              <button class="search-clear-btn" id="searchClearBtn" title="Xóa từ khóa" aria-label="Xóa từ khóa">&times;</button>
+              
+              <!-- Search Suggestion Dropdown -->
+              <div class="search-suggest-dropdown" id="searchSuggestDropdown">
+                <!-- Sẽ được đổ nội dung động qua JS: Từ khóa hot hoặc kết quả tức thì -->
+              </div>
             </div>
 
             <!-- Sort By Price -->
@@ -128,6 +134,29 @@
             <button class="category-pill" data-category="combo">Combo Tiết Kiệm (3)</button>
             <button class="category-pill" data-category="do-uong">Đồ Uống (3)</button>
           </nav>
+        </div>
+
+        <!-- Logic Controls: Quick Tags Bar & View Mode Switcher -->
+        <div class="menu-controls-row">
+          <div class="quick-filters-bar">
+            <span class="quick-filter-label">Gợi ý gọi món:</span>
+            <button class="quick-tag active" data-filter="all">Tất cả</button>
+            <button class="quick-tag" data-filter="featured">★ Bán chạy nhất</button>
+            <button class="quick-tag" data-filter="usage-lau">🍲 Món nhúng lẩu</button>
+            <button class="quick-tag" data-filter="usage-nuong">🔥 Món nướng than</button>
+            <button class="quick-tag" data-filter="under-200">Dưới 200.000 đ</button>
+          </div>
+
+          <div class="view-mode-switcher">
+            <button class="view-mode-btn active" id="btnViewGrouped" title="Xem menu phân chia theo từng bước gọi món">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              Theo nhóm thực đơn
+            </button>
+            <button class="view-mode-btn" id="btnViewGrid" title="Xem toàn bộ món dạng lưới phẳng">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              Dạng lưới
+            </button>
+          </div>
         </div>
 
         <!-- Filter Result Counter -->

@@ -14,19 +14,29 @@
     if (!modalOverlay || !modalBody || !product) return;
 
     const isFav = window.AppState ? window.AppState.isFavorite(product.id) : false;
+    const catMap = {
+      'lau': 'Món Lẩu Gia Truyền',
+      'nuong': 'Đồ Nướng Than Hoa',
+      'thit-bo': 'Thịt Bò Mỹ Thượng Hạng',
+      'hai-san': 'Hải Sản Biển Tươi Sống',
+      'rau-kem': 'Rau & Nấm Ăn Kèm',
+      'combo': 'Combo Đại Tiệc Sum Vầy',
+      'do-uong': 'Đồ Uống & Tráng Miệng'
+    };
+    const catTitle = catMap[product.category] || product.category;
 
     modalBody.innerHTML = `
       <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: start;">
         <div style="border-radius: var(--radius-md); overflow: hidden; height: 320px; box-shadow: var(--shadow-sm); position: relative;">
           <img src="${product.imageUrl}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
           <div style="position: absolute; top: 12px; left: 12px;">
-            ${product.isFeatured ? '<span class="badge badge-hot">Đặc Biệt</span>' : ''}
+            ${product.isFeatured ? '<span class="badge badge-hot">Bán Chạy</span>' : ''}
             ${!product.isAvailable ? '<span class="badge badge-soldout">Tạm hết món</span>' : ''}
           </div>
         </div>
         <div>
           <span style="font-size: 0.82rem; font-weight: 700; color: var(--color-gold-dark); text-transform: uppercase;">
-            ${product.category.toUpperCase()}
+            ${catTitle}
           </span>
           <h2 style="font-size: 1.45rem; color: var(--color-primary); margin: 6px 0 12px;">${product.name}</h2>
           <div style="font-size: 1.6rem; font-weight: 700; color: var(--color-brand); margin-bottom: 16px;">
