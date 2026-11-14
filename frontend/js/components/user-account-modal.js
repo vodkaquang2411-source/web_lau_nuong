@@ -28,39 +28,39 @@
 
     const modalHtml = `
       <div class="modal-overlay" id="userAccountModalOverlay" aria-hidden="true" style="z-index: 2100;">
-        <div class="modal-content" id="userAccountModalContent" style="max-width: 520px; width: 92%; padding: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(201,166,107,0.35); box-shadow: 0 18px 45px rgba(0,0,0,0.35); display: flex; flex-direction: column; max-height: 86vh;">
+        <div class="modal-content" id="userAccountModalContent" style="max-width: 720px; width: 94%; padding: 0; border-radius: 16px; overflow: hidden; border: 1px solid rgba(201,166,107,0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.4); display: flex; flex-direction: column; max-height: 88vh;">
           
           <!-- Modal Header -->
-          <div style="background: var(--color-primary, #1e1918); color: #fff; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--color-gold, #c9a66b); position: relative;">
+          <div style="background: var(--color-primary, #1e1918); color: #fff; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--color-gold, #c9a66b); position: relative;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold, #c9a66b)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              <h3 style="margin: 0; font-size: 1.15rem; color: #fff; font-weight: 600;">Tài khoản của bạn</h3>
+              <h3 style="margin: 0; font-size: 1.2rem; color: #fff; font-weight: 600;">Tài khoản của bạn</h3>
             </div>
-            <button type="button" id="closeUserAccountModalBtn" aria-label="Đóng cửa sổ" style="background: transparent; border: none; color: #fff; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s;">
+            <button type="button" id="closeUserAccountModalBtn" aria-label="Đóng cửa sổ" style="background: transparent; border: none; color: #fff; cursor: pointer; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
 
           <!-- Navigation Tabs -->
-          <div style="display: flex; background: #fbf9f6; border-bottom: 1px solid #e8e3dc; padding: 4px 10px 0;">
-            <button type="button" class="uacc-tab-btn active" data-tab="profile" style="flex: 1; padding: 11px 8px; border: none; background: transparent; font-size: 0.88rem; font-weight: 600; color: var(--color-primary, #1e1918); cursor: pointer; border-bottom: 3px solid var(--color-brand, #8f1724); display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <div style="display: flex; background: #fbf9f6; border-bottom: 1px solid #e8e3dc; padding: 4px 14px 0;">
+            <button type="button" class="uacc-tab-btn active" data-tab="profile" style="flex: 1; padding: 12px 10px; border: none; background: transparent; font-size: 0.92rem; font-weight: 600; color: var(--color-primary, #1e1918); cursor: pointer; border-bottom: 3px solid var(--color-brand, #8f1724); display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               <span>Thông tin cá nhân</span>
             </button>
-            <button type="button" class="uacc-tab-btn" data-tab="reservations" style="flex: 1; padding: 11px 8px; border: none; background: transparent; font-size: 0.88rem; font-weight: 600; color: #666; cursor: pointer; border-bottom: 3px solid transparent; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <button type="button" class="uacc-tab-btn" data-tab="reservations" style="flex: 1; padding: 12px 10px; border: none; background: transparent; font-size: 0.92rem; font-weight: 600; color: #666; cursor: pointer; border-bottom: 3px solid transparent; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               <span>Bàn đã đặt</span>
-              <span id="uaccResCountBadge" style="background: #eee; color: #444; border-radius: 10px; font-size: 0.72rem; padding: 1px 6px; font-weight: 700; display: none;">0</span>
+              <span id="uaccResCountBadge" style="background: #eee; color: #444; border-radius: 10px; font-size: 0.74rem; padding: 1px 7px; font-weight: 700; display: none;">0</span>
             </button>
-            <button type="button" class="uacc-tab-btn" data-tab="favorites" style="flex: 1; padding: 11px 8px; border: none; background: transparent; font-size: 0.88rem; font-weight: 600; color: #666; cursor: pointer; border-bottom: 3px solid transparent; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <button type="button" class="uacc-tab-btn" data-tab="favorites" style="flex: 1; padding: 12px 10px; border: none; background: transparent; font-size: 0.92rem; font-weight: 600; color: #666; cursor: pointer; border-bottom: 3px solid transparent; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
               <span>Món yêu thích</span>
-              <span id="uaccFavCountBadge" style="background: #eee; color: #444; border-radius: 10px; font-size: 0.72rem; padding: 1px 6px; font-weight: 700; display: none;">0</span>
+              <span id="uaccFavCountBadge" style="background: #eee; color: #444; border-radius: 10px; font-size: 0.74rem; padding: 1px 7px; font-weight: 700; display: none;">0</span>
             </button>
           </div>
 
           <!-- Tab Contents Body -->
-          <div id="uaccTabBody" style="padding: 20px; overflow-y: auto; flex: 1;">
+          <div id="uaccTabBody" style="padding: 24px; overflow-y: auto; flex: 1;">
             <!-- Dynamic Content -->
           </div>
 
@@ -765,16 +765,13 @@
               ${formatMoney(p.price)}
             </div>
           </div>
-          <div style="display: flex; gap: 6px; align-items: center; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end;">
-            <button type="button" class="btn btn-gold btn-add-fav-to-res" data-id="${p.id}" style="padding: 6px 10px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+          <div style="display: flex; gap: 8px; align-items: center; flex-shrink: 0;">
+            <button type="button" class="btn btn-gold btn-add-fav-to-res" data-id="${p.id}" style="padding: 7px 14px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
               Thêm vào bàn
             </button>
-            <button type="button" class="btn btn-secondary btn-view-fav-product" data-id="${p.id}" style="padding: 6px 10px; font-size: 0.78rem;">
-              Xem chi tiết
-            </button>
-            <button type="button" class="btn-remove-fav" data-id="${p.id}" title="Bỏ thích món này" style="background: transparent; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 6px; color: #999; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--color-brand, #8f1724)" stroke="var(--color-brand, #8f1724)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <button type="button" class="btn-remove-fav" data-id="${p.id}" title="Bỏ thích món này" style="background: transparent; border: 1px solid #ddd; width: 34px; height: 34px; border-radius: 6px; color: #999; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-brand, #8f1724)" stroke="var(--color-brand, #8f1724)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </button>
           </div>
         </div>
@@ -782,9 +779,9 @@
     }).join('');
 
     container.innerHTML = `
-      <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.85rem; color: #666;">Đã lưu: <strong>${favoriteProducts.length}</strong> món</span>
-        <a href="${menuUrl}" style="font-size: 0.82rem; color: var(--color-brand, #8f1724); font-weight: 600; text-decoration: underline;">Xem thêm món khác</a>
+      <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.88rem; color: #666;">Đã lưu: <strong>${favoriteProducts.length}</strong> món</span>
+        <a href="${menuUrl}" style="font-size: 0.84rem; color: var(--color-brand, #8f1724); font-weight: 600; text-decoration: underline;">Xem thêm món khác</a>
       </div>
       <div>${itemsHtml}</div>
     `;
@@ -817,17 +814,6 @@
         // Trường hợp 2: Có từ 2 bàn trở lên -> Mở hộp thoại chọn bàn
         if (window.openSelectReservationModal) {
           window.openSelectReservationModal(pendingList, product);
-        }
-      });
-    });
-
-    // Hook nút xem chi tiết món
-    container.querySelectorAll('.btn-view-fav-product').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = Number(btn.getAttribute('data-id'));
-        const product = window.AppState.getProductById(id);
-        if (product && window.openProductDetailModal) {
-          window.openProductDetailModal(product);
         }
       });
     });
