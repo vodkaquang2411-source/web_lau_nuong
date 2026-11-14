@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let adminLinkHtml = '';
       if (currentUser.role === 'admin') {
-        adminLinkHtml = `<a href="${adminPath}" style="color: var(--color-gold); font-weight: 700; margin-right: 12px;">★ Quản Trị</a> <span style="color: rgba(201,166,107,0.4); margin-right: 12px;">|</span>`;
+        adminLinkHtml = `<a href="${adminPath}" style="color: var(--color-gold); font-weight: 700; margin-right: 12px;">★ Quản trị</a> <span style="color: rgba(201,166,107,0.4); margin-right: 12px;">|</span>`;
       }
 
       authContainer.innerHTML = `
