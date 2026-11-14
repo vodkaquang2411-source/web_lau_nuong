@@ -190,6 +190,10 @@
       .map(w => w[0].toUpperCase())
       .join('');
 
+    const isAdmin = user.role === 'admin';
+    const isSubPage = window.location.pathname.includes('/pages/');
+    const adminPath = isSubPage ? '../admin/index.html' : 'admin/index.html';
+
     container.innerHTML = `
       <!-- Thẻ hội viên tóm tắt -->
       <div style="display: flex; align-items: center; gap: 14px; background: #faf8f5; border: 1px solid rgba(201,166,107,0.3); border-radius: 10px; padding: 14px 16px; margin-bottom: 20px;">
@@ -199,11 +203,32 @@
         <div style="flex: 1; min-width: 0;">
           <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
             <h4 style="margin: 0; font-size: 1.05rem; color: var(--color-primary, #1e1918); font-weight: 700;" id="uaccDisplayFullName">${user.fullName}</h4>
-            <span style="background: rgba(201,166,107,0.18); color: #8a6524; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(201,166,107,0.4);">Hội viên thân thiết</span>
+            ${isAdmin ? `
+              <span style="background: rgba(143,23,36,0.12); color: var(--color-brand, #8f1724); font-size: 0.74rem; font-weight: 700; padding: 2px 9px; border-radius: 12px; border: 1px solid rgba(143,23,36,0.3);">Quản trị viên</span>
+            ` : `
+              <span style="background: rgba(201,166,107,0.18); color: #8a6524; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(201,166,107,0.4);">Hội viên thân thiết</span>
+            `}
           </div>
           <p style="margin: 3px 0 0; font-size: 0.82rem; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${user.email || 'Chưa cập nhật email'}</p>
         </div>
       </div>
+
+      ${isAdmin ? `
+        <!-- Khu vực chuyển sang trang quản trị dành riêng cho Admin và Quản trị viên -->
+        <div style="background: linear-gradient(135deg, #fdfbf7 0%, #f6f0e6 100%); border: 1px solid var(--color-gold, #c9a66b); border-radius: 10px; padding: 14px 18px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; gap: 14px; box-shadow: 0 3px 10px rgba(201,166,107,0.15);">
+          <div>
+            <div style="font-weight: 700; font-size: 0.95rem; color: var(--color-primary, #1e1918); margin-bottom: 3px; display: flex; align-items: center; gap: 7px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold, #c9a66b)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+              <span>Khu vực quản trị</span>
+            </div>
+            <p style="margin: 0; font-size: 0.82rem; color: #555;">Tài khoản có quyền quản lý toàn diện thực đơn, bàn đặt và khách hàng.</p>
+          </div>
+          <a href="${adminPath}" class="btn btn-gold" style="padding: 9px 18px; font-size: 0.86rem; font-weight: 700; flex-shrink: 0; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            Đổi sang trang quản trị
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </div>
+      ` : ''}
 
       <!-- Form Thay đổi thông tin -->
       <div style="margin-bottom: 22px;">

@@ -67,13 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const adminPath = isSubPage ? '../admin/index.html' : 'admin/index.html';
       const homePath = isSubPage ? '../index.html' : 'index.html';
 
-      let adminLinkHtml = '';
-      if (currentUser.role === 'admin') {
-        adminLinkHtml = `<a href="${adminPath}" style="color: var(--color-gold); font-weight: 700; margin-right: 12px;">★ Quản trị</a> <span style="color: rgba(201,166,107,0.4); margin-right: 12px;">|</span>`;
-      }
-
       authContainer.innerHTML = `
-        ${adminLinkHtml}
         <a href="#" id="topBarUserAccountBtn" style="color: var(--color-gold); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Xem và quản lý tài khoản của bạn">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Tài khoản: ${currentUser.fullName}
