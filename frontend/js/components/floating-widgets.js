@@ -37,8 +37,8 @@
       <!-- Nút Facebook -->
       <div class="social-item">
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-facebook" aria-label="Facebook nhà hàng">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF">
+            <path d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.198h3.312h-.006z"/>
           </svg>
         </a>
         <span class="social-tooltip">Facebook nhà hàng</span>
@@ -47,9 +47,7 @@
       <!-- Nút Zalo -->
       <div class="social-item">
         <a href="https://zalo.me/0345662169" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-zalo" aria-label="Zalo tư vấn & đặt bàn">
-          <svg width="22" height="22" viewBox="0 0 48 48" fill="currentColor">
-            <path d="M24 4C13 4 4 12.1 4 22c0 5.6 2.9 10.6 7.6 14.1L9 44l8.2-3.8c2.1.6 4.4.9 6.8.9 11 0 20-8.1 20-18S35 4 24 4zm4.8 23.6h-8.7l6.6-8.2V17h-9.2v2.8h6.4l-6.6 8.2v2.4h11.5v-2.8z"></path>
-          </svg>
+          <span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 13.5px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.3px; line-height: 1;">Zalo</span>
         </a>
         <span class="social-tooltip">Zalo tư vấn & đặt bàn</span>
       </div>
@@ -57,9 +55,8 @@
       <!-- Nút YouTube -->
       <div class="social-item">
         <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-btn social-btn-youtube" aria-label="Kênh YouTube ẩm thực">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"></path>
-            <polygon fill="#FFFFFF" points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
           </svg>
         </a>
         <span class="social-tooltip">Kênh YouTube ẩm thực</span>
