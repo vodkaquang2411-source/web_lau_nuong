@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
 
@@ -141,15 +142,15 @@
             </p>
             <div style="display: flex; gap: 30px;">
               <div>
-                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;">100%</h3>
+                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;" data-counter="100" data-suffix="%">100%</h3>
                 <p style="font-size: 0.88rem; font-weight: 600;">Thịt tươi trong ngày</p>
               </div>
               <div style="border-left: 2px solid var(--color-gold); padding-left: 30px;">
-                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;">12+</h3>
+                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;" data-counter="12" data-suffix="+">12+</h3>
                 <p style="font-size: 0.88rem; font-weight: 600;">Vị nước lẩu & sốt ướp</p>
               </div>
               <div style="border-left: 2px solid var(--color-gold); padding-left: 30px;">
-                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;">05</h3>
+                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;" data-counter="5" data-prefix="0">05</h3>
                 <p style="font-size: 0.88rem; font-weight: 600;">Chi nhánh toàn quốc</p>
               </div>
             </div>
@@ -554,6 +555,7 @@
   <script src="js/components/navbar.js"></script>
   <script src="js/components/modal.js"></script>
   <script src="js/components/user-account-modal.js"></script>
+  <script src="js/components/scroll-effects.js"></script>
   <script src="js/features/home/home.js"></script>
 </body>
 </html>

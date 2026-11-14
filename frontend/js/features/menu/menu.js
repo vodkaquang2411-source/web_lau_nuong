@@ -356,6 +356,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    // Kích hoạt lại hiệu ứng cuộn 3D cho các sản phẩm vừa render
+    if (window.initScrollReveal) {
+      window.initScrollReveal();
+    }
   }
 
   // =========================================================================

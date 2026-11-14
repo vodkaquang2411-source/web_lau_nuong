@@ -73,6 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+    // Khởi tạo lại hiệu ứng cuộn 3D cho các món nổi bật
+    if (window.initScrollReveal) {
+      window.initScrollReveal();
+    }
   }
 
   renderFeaturedProducts();
