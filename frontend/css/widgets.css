@@ -1,0 +1,513 @@
+/* ==========================================================================
+   LẨU NƯỚNG VN - FLOATING WIDGETS CSS
+   1. Thanh mạng xã hội cố định bên trái (Facebook, Zalo, YouTube)
+   2. Hộp thoại hỗ trợ trực tuyến cố định bên phải (Live Chat Box)
+   Tuân thủ nghiêm ngặt:
+   - Sentence case cho toàn bộ nhãn, tiêu đề và tin nhắn
+   - Không sử dụng emoji hoặc icon AI hoạt họa (chỉ dùng SVG vector nét mảnh)
+   - Thông tin chuẩn: Hotline 0345662169, Trụ sở Kiến Hưng - Hải Phòng, Email codeweb@gmail.com
+   ========================================================================== */
+
+/* ==========================================================================
+   1. THANH MẠNG XÃ HỘI CỐ ĐỊNH BÊN TRÁI (LEFT FLOATING SOCIAL BAR)
+   ========================================================================== */
+.floating-social-bar {
+  position: fixed;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1020;
+  pointer-events: auto;
+}
+
+.social-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.social-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white, #FFFFFF);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 10px rgba(201, 166, 107, 0.15);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              filter 0.3s ease;
+  cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-btn:hover {
+  transform: scale(1.12) translateX(4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), 0 0 14px rgba(201, 166, 107, 0.3);
+}
+
+/* Màu sắc nhận diện từng mạng xã hội */
+.social-btn-facebook {
+  background: linear-gradient(135deg, #1877F2 0%, #0d5ec4 100%);
+}
+
+.social-btn-zalo {
+  background: linear-gradient(135deg, #0088FF 0%, #0063d1 100%);
+}
+
+.social-btn-youtube {
+  background: linear-gradient(135deg, #FF0000 0%, #c40000 100%);
+}
+
+/* Tooltip nhãn xuất hiện trượt từ trái sang phải */
+.social-tooltip {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-10px);
+  background: rgba(36, 32, 30, 0.95);
+  backdrop-filter: blur(8px);
+  color: var(--color-cream-light, #FBF8F3);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid var(--color-gold, #C9A66B);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease,
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.25s ease;
+}
+
+.social-tooltip::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent var(--color-gold, #C9A66B) transparent transparent;
+}
+
+.social-item:hover .social-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ==========================================================================
+   2. HỘP THOẠI HỖ TRỢ TRỰC TUYẾN BÊN PHẢI (RIGHT FLOATING CHAT BOX)
+   ========================================================================== */
+
+/* Nút kích hoạt mở Chat Box */
+.chat-trigger-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  height: 48px;
+  padding: 0 18px 0 14px;
+  border-radius: var(--radius-full, 9999px);
+  background: linear-gradient(135deg, var(--color-brand, #B9272F) 0%, var(--color-primary, #8F1724) 100%);
+  border: 1.5px solid var(--color-gold, #C9A66B);
+  color: var(--color-white, #FFFFFF);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(185, 39, 47, 0.45), 0 0 18px rgba(201, 166, 107, 0.3);
+  cursor: pointer;
+  z-index: 1050;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              background 0.3s ease;
+}
+
+.chat-trigger-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 28px rgba(185, 39, 47, 0.55), 0 0 24px rgba(201, 166, 107, 0.45);
+}
+
+.chat-trigger-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Huy hiệu chấm xanh hoạt động */
+.chat-online-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 9px;
+  height: 9px;
+  background-color: #2ECC71;
+  border-radius: var(--radius-full, 9999px);
+  border: 2px solid var(--color-primary, #8F1724);
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.6); }
+  70% { box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+.chat-trigger-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+/* Điều chỉnh lại vị trí nút Back To Top để nằm trên nút Chat Box */
+.btn-back-to-top {
+  bottom: 84px !important;
+  right: 24px !important;
+}
+
+/* ==========================================================================
+   CỬA SỔ HỘP THOẠI CHAT (CHAT WINDOW POPUP)
+   ========================================================================== */
+.chat-window {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 36px);
+  height: 520px;
+  max-height: calc(100vh - 120px);
+  background: var(--color-white, #FFFFFF);
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: 0 16px 48px rgba(36, 32, 30, 0.3), 0 0 24px rgba(201, 166, 107, 0.2);
+  border: 1.5px solid var(--color-gold, #C9A66B);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1060;
+  opacity: 0;
+  visibility: hidden;
+  transform: perspective(1000px) translateY(30px) scale(0.94);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.35s ease,
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.chat-window.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: perspective(1000px) translateY(0) scale(1);
+}
+
+/* Tiêu đề cửa sổ chat */
+.chat-header {
+  background: linear-gradient(135deg, var(--color-primary, #8F1724) 0%, var(--color-dark, #24201E) 100%);
+  color: var(--color-white, #FFFFFF);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--color-gold, #C9A66B);
+}
+
+.chat-header-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--color-gold, #C9A66B);
+  color: var(--color-dark, #24201E);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.chat-header-info h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-white, #FFFFFF);
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+}
+
+.chat-header-status {
+  font-size: 0.76rem;
+  color: var(--color-cream-light, #FBF8F3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.chat-header-status::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #2ECC71;
+  display: inline-block;
+}
+
+.chat-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full, 9999px);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-white, #FFFFFF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  border: none;
+}
+
+.chat-close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+}
+
+/* Thân nội dung tin nhắn */
+.chat-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background-color: var(--color-cream-light, #FBF8F3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Từng hàng tin nhắn */
+.chat-msg-row {
+  display: flex;
+  gap: 10px;
+  max-width: 86%;
+}
+
+.chat-msg-row.bot {
+  align-self: flex-start;
+}
+
+.chat-msg-row.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-msg-bubble {
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  border-radius: 14px;
+  word-break: break-word;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.chat-msg-row.bot .chat-msg-bubble {
+  background-color: var(--color-white, #FFFFFF);
+  color: var(--color-dark, #24201E);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--color-cream-dark, #E8DFCE);
+}
+
+.chat-msg-row.user .chat-msg-bubble {
+  background: linear-gradient(135deg, var(--color-brand, #B9272F) 0%, var(--color-primary, #8F1724) 100%);
+  color: var(--color-white, #FFFFFF);
+  border-bottom-right-radius: 4px;
+}
+
+.chat-msg-time {
+  font-size: 0.7rem;
+  color: var(--color-gray-500, #8C847E);
+  margin-top: 4px;
+  text-align: right;
+}
+
+.chat-msg-row.bot .chat-msg-time {
+  text-align: left;
+}
+
+/* Khu vực câu hỏi gợi ý nhanh (Quick Suggestions Chips) */
+.chat-quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.chat-chip {
+  background: var(--color-white, #FFFFFF);
+  color: var(--color-primary, #8F1724);
+  border: 1px solid var(--color-gold, #C9A66B);
+  border-radius: var(--radius-full, 9999px);
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.chat-chip:hover {
+  background: var(--color-gold, #C9A66B);
+  color: var(--color-dark, #24201E);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(201, 166, 107, 0.35);
+}
+
+/* Hiệu ứng đang nhập tin nhắn (Typing Indicator) */
+.chat-typing-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  background: var(--color-white, #FFFFFF);
+  border: 1px solid var(--color-cream-dark, #E8DFCE);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-gold-dark, #9E7D46);
+  border-radius: 50%;
+  animation: typingDot 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingDot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Chân hộp thoại chat: Khung nhập liệu */
+.chat-footer {
+  padding: 12px 14px;
+  background: var(--color-white, #FFFFFF);
+  border-top: 1px solid var(--color-cream-dark, #E8DFCE);
+}
+
+.chat-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-cream-light, #FBF8F3);
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--color-cream-dark, #E8DFCE);
+  padding: 4px 6px 4px 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-form:focus-within {
+  border-color: var(--color-gold, #C9A66B);
+  box-shadow: 0 0 0 3px rgba(201, 166, 107, 0.2);
+}
+
+.chat-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.88rem;
+  color: var(--color-dark, #24201E);
+  padding: 6px 0;
+}
+
+.chat-input::placeholder {
+  color: var(--color-gray-500, #8C847E);
+  font-size: 0.85rem;
+}
+
+.chat-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full, 9999px);
+  background: linear-gradient(135deg, var(--color-brand, #B9272F) 0%, var(--color-primary, #8F1724) 100%);
+  color: var(--color-white, #FFFFFF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chat-send-btn:hover {
+  transform: scale(1.08);
+}
+
+.chat-send-btn:active {
+  transform: scale(0.94);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN CHO THIẾT BỊ DI ĐỘNG
+   ========================================================================== */
+@media (max-width: 768px) {
+  .floating-social-bar {
+    left: 10px;
+    gap: 8px;
+  }
+  
+  .social-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .social-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .social-tooltip {
+    display: none; /* Ẩn tooltip hover trên màn hình chạm cảm ứng */
+  }
+
+  .chat-trigger-btn {
+    bottom: 16px;
+    right: 16px;
+    height: 44px;
+    padding: 0 14px 0 12px;
+  }
+
+  .chat-trigger-text {
+    font-size: 0.82rem;
+  }
+
+  .btn-back-to-top {
+    bottom: 70px !important;
+    right: 16px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .chat-window {
+    right: 12px;
+    bottom: 68px;
+    width: calc(100vw - 24px);
+    height: 480px;
+    max-height: calc(100vh - 100px);
+  }
+}
