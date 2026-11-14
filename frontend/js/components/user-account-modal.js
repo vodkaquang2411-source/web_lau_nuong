@@ -500,6 +500,49 @@
             </div>
           ` : ''}
 
+          <!-- Danh sách món đã đặt trước nếu có -->
+          ${Array.isArray(r.orderedDishes) && r.orderedDishes.length > 0 ? `
+            <div style="background: #faf8f5; border: 1px solid #ebd9c0; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.82rem; font-weight: 700; color: var(--color-primary, #1e1918);">
+                <span>Món ăn đặt trước (${r.orderedDishes.reduce((acc, d) => acc + d.quantity, 0)} món)</span>
+                <span style="color: var(--color-brand, #8f1724);">${formatMoney(r.totalDishPrice || 0)}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px;">
+                ${r.orderedDishes.map(d => `
+                  <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; background: #fff; border: 1px solid #eee; border-radius: 6px; padding: 5px 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
+                      <img src="${d.imageUrl}" alt="${d.name}" style="width: 28px; height: 28px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
+                      <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">${d.name}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                      <span style="color: #666; font-size: 0.78rem;">${formatMoney(d.price)}</span>
+                      ${isPending ? `
+                        <div style="display: inline-flex; align-items: center; border: 1px solid #ddd; border-radius: 4px; overflow: hidden;">
+                          <button type="button" class="btn-res-dish-minus" data-res-id="${r.id}" data-dish-id="${d.id}" style="border: none; background: #f0f0f0; width: 22px; height: 22px; cursor: pointer; font-size: 0.85rem; line-height: 1; font-weight: 700;">-</button>
+                          <span style="padding: 0 6px; font-weight: 700; font-size: 0.78rem;">${d.quantity}</span>
+                          <button type="button" class="btn-res-dish-plus" data-res-id="${r.id}" data-dish-id="${d.id}" style="border: none; background: #f0f0f0; width: 22px; height: 22px; cursor: pointer; font-size: 0.85rem; line-height: 1; font-weight: 700;">+</button>
+                        </div>
+                        <button type="button" class="btn-res-dish-del" data-res-id="${r.id}" data-dish-id="${d.id}" title="Xóa món này" style="border: none; background: transparent; color: #b02a37; cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 4px;">&times;</button>
+                      ` : `
+                        <span style="font-weight: 700; color: #333; font-size: 0.82rem;">x${d.quantity}</span>
+                      `}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+              ${isPending ? `
+                <div style="text-align: right;">
+                  <a href="${isSubPage ? 'menu.html' : 'pages/menu.html'}" class="btn-quick-goto-menu" style="font-size: 0.78rem; color: var(--color-brand, #8f1724); font-weight: 600; text-decoration: underline;">+ Chọn thêm món từ thực đơn</a>
+                </div>
+              ` : ''}
+            </div>
+          ` : (isPending ? `
+            <div style="font-size: 0.78rem; color: #777; background: #fbfbfb; border: 1px dashed #ddd; border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+              <span>Chưa có món đặt trước</span>
+              <a href="${isSubPage ? 'menu.html' : 'pages/menu.html'}" class="btn-quick-goto-menu" style="color: var(--color-brand, #8f1724); font-weight: 600; text-decoration: underline;">+ Chọn món từ thực đơn</a>
+            </div>
+          ` : '')}
+
           ${isPending ? `
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #f2ede7;">
               <span style="font-size: 0.74rem; color: #b25e00;">Chưa chốt bàn, bạn có thể chỉnh sửa lịch</span>
@@ -638,6 +681,56 @@
           }
           renderCurrentTab('reservations');
         }
+      });
+    });
+
+    // 2.5 Hook tăng/giảm/xóa món ăn đặt trước
+    container.querySelectorAll('.btn-res-dish-plus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const resId = Number(btn.getAttribute('data-res-id'));
+        const dishId = Number(btn.getAttribute('data-dish-id'));
+        const res = window.AppState.getReservations().find(r => r.id === resId);
+        if (res && Array.isArray(res.orderedDishes)) {
+          const dish = res.orderedDishes.find(d => Number(d.id) === dishId);
+          if (dish) {
+            window.AppState.updateReservationDishQuantity(resId, dishId, dish.quantity + 1);
+            renderCurrentTab('reservations');
+          }
+        }
+      });
+    });
+
+    container.querySelectorAll('.btn-res-dish-minus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const resId = Number(btn.getAttribute('data-res-id'));
+        const dishId = Number(btn.getAttribute('data-dish-id'));
+        const res = window.AppState.getReservations().find(r => r.id === resId);
+        if (res && Array.isArray(res.orderedDishes)) {
+          const dish = res.orderedDishes.find(d => Number(d.id) === dishId);
+          if (dish) {
+            window.AppState.updateReservationDishQuantity(resId, dishId, dish.quantity - 1);
+            renderCurrentTab('reservations');
+          }
+        }
+      });
+    });
+
+    container.querySelectorAll('.btn-res-dish-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const resId = Number(btn.getAttribute('data-res-id'));
+        const dishId = Number(btn.getAttribute('data-dish-id'));
+        window.AppState.removeDishFromReservation(resId, dishId);
+        if (window.showToast) {
+          window.showToast('Đã xóa món ăn khỏi đơn đặt bàn.', 'info');
+        }
+        renderCurrentTab('reservations');
+      });
+    });
+
+    // 2.6 Hook liên kết chuyển sang thực đơn chọn món
+    container.querySelectorAll('.btn-quick-goto-menu').forEach(link => {
+      link.addEventListener('click', () => {
+        window.closeUserAccountModal();
       });
     });
   }

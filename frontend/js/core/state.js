@@ -635,6 +635,83 @@ const AppState = {
     return { success: false, message: 'Không tìm thấy đơn đặt bàn.' };
   },
 
+  addDishToReservation(reservationId, productId, quantity = 1) {
+    const reservations = this.getReservations();
+    const resIdx = reservations.findIndex(r => r.id === Number(reservationId));
+    if (resIdx === -1) {
+      return { success: false, message: 'Không tìm thấy đơn đặt bàn.' };
+    }
+
+    if (reservations[resIdx].status !== 'pending') {
+      return { success: false, message: 'Đơn đặt bàn này đã được quản trị viên xử lý, không thể thêm món.' };
+    }
+
+    const product = this.getProductById(productId);
+    if (!product) {
+      return { success: false, message: 'Món ăn không tồn tại trong thực đơn.' };
+    }
+
+    if (!Array.isArray(reservations[resIdx].orderedDishes)) {
+      reservations[resIdx].orderedDishes = [];
+    }
+
+    const dishIdx = reservations[resIdx].orderedDishes.findIndex(d => Number(d.id) === Number(productId));
+    if (dishIdx !== -1) {
+      reservations[resIdx].orderedDishes[dishIdx].quantity += Number(quantity);
+    } else {
+      reservations[resIdx].orderedDishes.push({
+        id: Number(product.id),
+        name: product.name,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        quantity: Number(quantity)
+      });
+    }
+
+    // Tính tổng tiền các món đặt trước
+    reservations[resIdx].totalDishPrice = reservations[resIdx].orderedDishes.reduce(
+      (sum, d) => sum + (d.price * d.quantity), 0
+    );
+
+    localStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+    return { success: true, reservation: reservations[resIdx], product };
+  },
+
+  updateReservationDishQuantity(reservationId, productId, quantity) {
+    const reservations = this.getReservations();
+    const resIdx = reservations.findIndex(r => r.id === Number(reservationId));
+    if (resIdx === -1) return { success: false, message: 'Không tìm thấy đơn đặt bàn.' };
+
+    if (reservations[resIdx].status !== 'pending') {
+      return { success: false, message: 'Đơn đặt bàn này đã được quản trị viên xử lý.' };
+    }
+
+    if (!Array.isArray(reservations[resIdx].orderedDishes)) {
+      reservations[resIdx].orderedDishes = [];
+      return { success: false, message: 'Không có món để cập nhật.' };
+    }
+
+    const qty = Number(quantity);
+    if (qty <= 0) {
+      // Xóa món nếu số lượng <= 0
+      reservations[resIdx].orderedDishes = reservations[resIdx].orderedDishes.filter(d => Number(d.id) !== Number(productId));
+    } else {
+      const dish = reservations[resIdx].orderedDishes.find(d => Number(d.id) === Number(productId));
+      if (dish) dish.quantity = qty;
+    }
+
+    reservations[resIdx].totalDishPrice = reservations[resIdx].orderedDishes.reduce(
+      (sum, d) => sum + (d.price * d.quantity), 0
+    );
+
+    localStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+    return { success: true, reservation: reservations[resIdx] };
+  },
+
+  removeDishFromReservation(reservationId, productId) {
+    return this.updateReservationDishQuantity(reservationId, productId, 0);
+  },
+
   deleteReservation(id) {
     let reservations = this.getReservations();
     reservations = reservations.filter(r => r.id !== Number(id));

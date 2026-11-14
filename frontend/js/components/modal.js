@@ -46,9 +46,13 @@
             ${product.description}
           </p>
 
-          <div style="display: flex; gap: 12px; align-items: center;">
-            <a href="${window.location.pathname.includes('/pages/') ? 'reservation.html' : 'pages/reservation.html'}" class="btn btn-primary" style="flex: 1;">
-              Đặt Bàn Thưởng Thức
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn btn-gold modal-add-to-res-btn" data-id="${product.id}" style="padding: 11px 16px; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+              Thêm vào bàn đã đặt
+            </button>
+            <a href="${window.location.pathname.includes('/pages/') ? 'reservation.html' : 'pages/reservation.html'}" class="btn btn-primary" style="flex: 1; padding: 11px 16px; font-size: 0.9rem;">
+              Đặt bàn thưởng thức
             </a>
             <button class="btn btn-secondary btn-icon-only modal-fav-btn" data-id="${product.id}" title="${isFav ? 'Bỏ thích' : 'Yêu thích món'}">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="${isFav ? 'var(--color-brand)' : 'none'}" stroke="${isFav ? 'var(--color-brand)' : 'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -57,6 +61,43 @@
         </div>
       </div>
     `;
+
+    // Hook thêm món vào bàn đã đặt
+    const addResBtn = modalBody.querySelector('.modal-add-to-res-btn');
+    if (addResBtn) {
+      addResBtn.addEventListener('click', () => {
+        if (!window.AppState) return;
+
+        const currentUser = window.AppState.getCurrentUser();
+        if (!currentUser) {
+          if (window.showToast) {
+            window.showToast('Vui lòng đăng nhập để thêm món ăn vào bàn đã đặt.', 'warning', 'Chưa đăng nhập');
+          }
+          return;
+        }
+
+        const pendingList = window.AppState.getUserReservations(currentUser).filter(r => r.status === 'pending');
+        if (!pendingList || pendingList.length === 0) {
+          if (window.showToast) {
+            window.showToast('Bạn chưa có đơn đặt bàn nào đang chờ xác nhận. Hãy đặt bàn trước để gắn món ăn này nhé!', 'info', 'Chưa có bàn đặt');
+          }
+          return;
+        }
+
+        // Thêm vào đơn đặt bàn đang chờ gần nhất
+        const targetRes = pendingList[0];
+        const res = window.AppState.addDishToReservation(targetRes.id, product.id, 1);
+        if (res.success) {
+          if (window.showToast) {
+            window.showToast(`Đã thêm món "${product.name}" vào đơn đặt bàn ${targetRes.code || targetRes.id} thành công!`, 'success', 'Đã thêm món');
+          }
+        } else {
+          if (window.showToast) {
+            window.showToast(res.message || 'Không thể thêm món vào đơn đặt bàn.', 'warning');
+          }
+        }
+      });
+    }
 
     // Hook favorite in modal
     const favBtn = modalBody.querySelector('.modal-fav-btn');
