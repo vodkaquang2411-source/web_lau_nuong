@@ -261,9 +261,10 @@
 
 .card-price {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-brand);
-  font-family: var(--font-heading);
+  font-family: var(--font-ui), var(--font-body), sans-serif;
+  letter-spacing: -0.5px;
 }
 
 .card-price span {
