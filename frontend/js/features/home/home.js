@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="card-img-wrap">
             <img src="${product.imageUrl}" alt="${product.name}" loading="lazy">
             <div class="card-badges">
-              <span class="badge badge-hot">Nổi Bật</span>
+              <span class="badge badge-hot">Nổi bật</span>
               ${!product.isAvailable ? '<span class="badge badge-soldout">Hết món</span>' : ''}
             </div>
             <button class="btn-favorite ${isFav ? 'active' : ''}" data-id="${product.id}" title="${isFav ? 'Bỏ thích' : 'Yêu thích món'}" aria-label="Yêu thích món">

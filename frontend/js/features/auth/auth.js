@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.AppState.setCurrentUser(customerUser);
 
         if (window.showToast) {
-          window.showToast(`Chào mừng bạn quay trở lại với Lẩu Nướng VN!`, 'success', 'Đăng nhập thành công');
+          window.showToast(`Chào mừng bạn quay trở lại với LẨU NƯỚNG VN!`, 'success', 'Đăng nhập thành công');
         }
 
         setTimeout(() => {

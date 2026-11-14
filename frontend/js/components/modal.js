@@ -30,7 +30,7 @@
         <div style="border-radius: var(--radius-md); overflow: hidden; height: 320px; box-shadow: var(--shadow-sm); position: relative;">
           <img src="${product.imageUrl}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
           <div style="position: absolute; top: 12px; left: 12px;">
-            ${product.isFeatured ? '<span class="badge badge-hot">Bán Chạy</span>' : ''}
+            ${product.isFeatured ? '<span class="badge badge-hot">Bán chạy</span>' : ''}
             ${!product.isAvailable ? '<span class="badge badge-soldout">Tạm hết món</span>' : ''}
           </div>
         </div>
