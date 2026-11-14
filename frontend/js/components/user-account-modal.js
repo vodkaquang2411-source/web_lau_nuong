@@ -14,6 +14,9 @@
 (function () {
   'use strict';
 
+  // ID đơn đặt bàn đang được người dùng chỉnh sửa trong tab Bàn đã đặt
+  let editingReservationId = null;
+
   // Định dạng giá tiền VNĐ
   function formatMoney(amount) {
     return new Intl.NumberFormat('vi-VN').format(amount) + ' đ';
@@ -354,11 +357,18 @@
     }
   }
 
-  // 2. Tab Bàn đã đặt
+  // 2. Tab Bàn đã đặt (Xem, chỉnh sửa khi chưa chốt, và hủy bàn)
   function renderReservationsTab(container, user) {
     const reservations = window.AppState.getUserReservations(user);
     const isSubPage = window.location.pathname.includes('/pages/');
     const resUrl = isSubPage ? 'reservation.html' : 'pages/reservation.html';
+    const branches = window.AppState.getBranches ? window.AppState.getBranches() : [];
+    const todayStr = new Date().toISOString().slice(0, 10);
+
+    const availableTimes = [
+      '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+      '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00'
+    ];
 
     if (!reservations || reservations.length === 0) {
       container.innerHTML = `
@@ -381,8 +391,83 @@
 
     let itemsHtml = reservations.map(r => {
       const st = statusMap[r.status] || { label: r.status, color: '#333', bg: '#eee', border: '#ccc' };
-      const canCancel = r.status === 'pending';
+      const isPending = r.status === 'pending';
+      const isEditing = isPending && editingReservationId === r.id;
 
+      // 2.A. Giao diện chỉnh sửa đơn đặt bàn khi chưa được admin chốt
+      if (isEditing) {
+        const branchOptions = branches.map(b => {
+          const isSelected = (r.branchId && Number(r.branchId) === Number(b.id)) || (r.branchName === b.name);
+          return `<option value="${b.id}" ${isSelected ? 'selected' : ''}>${b.name}</option>`;
+        }).join('');
+
+        const timeOptions = availableTimes.map(t => {
+          const currentTime = (r.time || r.reservationTime || '18:00').slice(0, 5);
+          return `<option value="${t}" ${currentTime === t ? 'selected' : ''}>${t}</option>`;
+        }).join('');
+
+        const currentDate = r.date || r.reservationDate || todayStr;
+        const currentGuests = r.guestCount || 2;
+        const currentNote = r.note || r.notes || '';
+
+        return `
+          <div style="border: 2px solid var(--color-gold, #c9a66b); border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fffdf9; box-shadow: 0 4px 14px rgba(201,166,107,0.18);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed #e8d8be; padding-bottom: 8px;">
+              <div style="font-size: 0.92rem; font-weight: 700; color: var(--color-primary, #1e1918); display: flex; align-items: center; gap: 6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold, #c9a66b)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <span>Chỉnh sửa đơn: <strong>${r.code || ('LN-' + r.id)}</strong></span>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; color: ${st.color}; background: ${st.bg}; border: 1px solid ${st.border};">
+                ${st.label}
+              </span>
+            </div>
+
+            <form class="form-edit-reservation" data-id="${r.id}" novalidate>
+              <div style="margin-bottom: 10px;">
+                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #444; margin-bottom: 3px;">Chi nhánh</label>
+                <select class="form-control edit-res-branch" style="width: 100%; padding: 7px 10px; font-size: 0.84rem; border: 1px solid #ccc; border-radius: 6px; background: #fff;">
+                  ${branchOptions}
+                </select>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                <div>
+                  <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #444; margin-bottom: 3px;">Ngày dùng bữa</label>
+                  <input type="date" class="form-control edit-res-date" value="${currentDate}" min="${todayStr}" required style="width: 100%; padding: 7px 10px; font-size: 0.84rem; border: 1px solid #ccc; border-radius: 6px; background: #fff;">
+                </div>
+                <div>
+                  <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #444; margin-bottom: 3px;">Khung giờ</label>
+                  <select class="form-control edit-res-time" style="width: 100%; padding: 7px 10px; font-size: 0.84rem; border: 1px solid #ccc; border-radius: 6px; background: #fff;">
+                    ${timeOptions}
+                  </select>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; margin-bottom: 12px;">
+                <div>
+                  <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #444; margin-bottom: 3px;">Số khách</label>
+                  <input type="number" class="form-control edit-res-guests" value="${currentGuests}" min="1" max="50" required style="width: 100%; padding: 7px 10px; font-size: 0.84rem; border: 1px solid #ccc; border-radius: 6px; background: #fff;">
+                </div>
+                <div>
+                  <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #444; margin-bottom: 3px;">Ghi chú đặc biệt</label>
+                  <input type="text" class="form-control edit-res-note" value="${currentNote}" placeholder="Vị trí ngồi, ghế trẻ em..." style="width: 100%; padding: 7px 10px; font-size: 0.84rem; border: 1px solid #ccc; border-radius: 6px; background: #fff;">
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 8px; padding-top: 4px;">
+                <button type="button" class="btn btn-secondary btn-cancel-edit-mode" data-id="${r.id}" style="padding: 6px 14px; font-size: 0.8rem;">
+                  Hủy bỏ
+                </button>
+                <button type="submit" class="btn btn-gold" style="padding: 6px 16px; font-size: 0.8rem; font-weight: 600;">
+                  Lưu thay đổi
+                </button>
+              </div>
+            </form>
+          </div>
+        `;
+      }
+
+      // 2.B. Chế độ xem bình thường
       return `
         <div style="border: 1px solid #e8e3dc; border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fff; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'" onmouseout="this.style.boxShadow='none'">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 8px;">
@@ -415,13 +500,25 @@
             </div>
           ` : ''}
 
-          ${canCancel ? `
-            <div style="display: flex; justify-content: flex-end; padding-top: 6px;">
-              <button type="button" class="btn-cancel-reservation" data-id="${r.id}" data-code="${r.code || r.id}" style="background: transparent; border: 1px solid #e0b4b4; color: #b02a37; border-radius: 6px; padding: 5px 12px; font-size: 0.78rem; font-weight: 600; cursor: pointer;">
-                Hủy bàn này
-              </button>
+          ${isPending ? `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #f2ede7;">
+              <span style="font-size: 0.74rem; color: #b25e00;">Chưa chốt bàn, bạn có thể chỉnh sửa lịch</span>
+              <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-trigger-edit-res" data-id="${r.id}" style="background: transparent; border: 1px solid var(--color-gold, #c9a66b); color: #8a6524; border-radius: 6px; padding: 5px 12px; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  Chỉnh sửa
+                </button>
+                <button type="button" class="btn-cancel-reservation" data-id="${r.id}" data-code="${r.code || r.id}" style="background: transparent; border: 1px solid #e0b4b4; color: #b02a37; border-radius: 6px; padding: 5px 12px; font-size: 0.78rem; font-weight: 600; cursor: pointer;">
+                  Hủy bàn này
+                </button>
+              </div>
             </div>
-          ` : ''}
+          ` : (r.status === 'confirmed' ? `
+            <div style="padding-top: 6px; font-size: 0.76rem; color: #1b5e20; background: #f1f8e9; padding: 6px 10px; border-radius: 6px; border: 1px solid #dcedc8; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Quản trị viên đã chốt bàn. Vui lòng liên hệ hotline <strong>0345662169</strong> nếu cần đổi lịch gấp.</span>
+            </div>
+          ` : '')}
         </div>
       `;
     }).join('');
@@ -434,13 +531,108 @@
       <div>${itemsHtml}</div>
     `;
 
-    // Hook nút hủy bàn
+    // 2.1 Hook nút kích hoạt chế độ chỉnh sửa
+    container.querySelectorAll('.btn-trigger-edit-res').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.getAttribute('data-id'));
+        editingReservationId = id;
+        renderCurrentTab('reservations');
+      });
+    });
+
+    // 2.2 Hook nút hủy chế độ chỉnh sửa
+    container.querySelectorAll('.btn-cancel-edit-mode').forEach(btn => {
+      btn.addEventListener('click', () => {
+        editingReservationId = null;
+        renderCurrentTab('reservations');
+      });
+    });
+
+    // 2.3 Hook form lưu thay đổi đặt bàn
+    container.querySelectorAll('.form-edit-reservation').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = Number(form.getAttribute('data-id'));
+        const branchId = Number(form.querySelector('.edit-res-branch').value);
+        const date = form.querySelector('.edit-res-date').value;
+        const time = form.querySelector('.edit-res-time').value;
+        const guestCount = Number(form.querySelector('.edit-res-guests').value);
+        const note = form.querySelector('.edit-res-note').value.trim();
+
+        if (!date) {
+          if (window.showToast) window.showToast('Vui lòng chọn ngày dùng bữa.', 'warning');
+          return;
+        }
+
+        const selectedDate = new Date(date + 'T00:00:00');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selectedDate < today) {
+          if (window.showToast) window.showToast('Ngày dùng bữa không thể là một ngày trong quá khứ.', 'warning');
+          return;
+        }
+
+        if (!guestCount || guestCount < 1) {
+          if (window.showToast) window.showToast('Số lượng khách phải từ 1 người trở lên.', 'warning');
+          return;
+        }
+
+        // Cập nhật trong AppState
+        const res = window.AppState.updateReservation(id, {
+          branchId,
+          date,
+          reservationDate: date,
+          time,
+          reservationTime: time,
+          guestCount,
+          note,
+          notes: note
+        });
+
+        if (res.success) {
+          // Gọi API Backend ngầm nếu có kết nối
+          try {
+            fetch(`/api/reservations/${id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                branch_id: branchId,
+                reservation_date: date,
+                reservation_time: time,
+                guest_count: guestCount,
+                note: note
+              })
+            }).catch(() => {});
+          } catch (err) {}
+
+          editingReservationId = null;
+          if (window.showToast) {
+            window.showToast(`Đã cập nhật thông tin đơn đặt bàn ${res.reservation.code || id} thành công.`, 'success', 'Cập nhật thành công');
+          }
+          renderCurrentTab('reservations');
+        } else {
+          if (window.showToast) {
+            window.showToast(res.message || 'Không thể cập nhật đơn đặt bàn.', 'warning');
+          }
+        }
+      });
+    });
+
+    // 2.4 Hook nút hủy bàn
     container.querySelectorAll('.btn-cancel-reservation').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
         const code = btn.getAttribute('data-code');
         if (confirm(`Bạn có chắc chắn muốn hủy đơn đặt bàn ${code}?`)) {
           window.AppState.updateReservationStatus(id, 'cancelled');
+          try {
+            fetch(`/api/reservations/${id}/status`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'cancelled' })
+            }).catch(() => {});
+          } catch (err) {}
+
           if (window.showToast) {
             window.showToast(`Đã hủy đặt bàn ${code} thành công.`, 'info', 'Đã hủy bàn');
           }
@@ -540,6 +732,7 @@
 
   // Đóng cửa sổ nhỏ tài khoản
   window.closeUserAccountModal = function () {
+    editingReservationId = null;
     const overlay = document.getElementById('userAccountModalOverlay');
     if (overlay) {
       overlay.classList.remove('active');

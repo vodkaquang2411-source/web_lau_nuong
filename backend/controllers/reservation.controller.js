@@ -127,6 +127,58 @@ exports.updateReservationStatus = async (req, res, next) => {
   }
 };
 
+exports.updateReservation = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { branch_id, reservation_date, reservation_time, guest_count, note } = req.body;
+
+    const existing = await ReservationModel.findById(id);
+    if (!existing) {
+      return res.status(404).json({
+        success: false,
+        message: `Không tìm thấy đơn đặt bàn ID ${id}.`
+      });
+    }
+
+    if (existing.status !== 'pending') {
+      return res.status(400).json({
+        success: false,
+        message: 'Đơn đặt bàn này đã được xử lý bởi quản trị viên, không thể chỉnh sửa.'
+      });
+    }
+
+    if (reservation_date) {
+      const selectedDate = new Date(reservation_date + 'T00:00:00');
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        return res.status(400).json({
+          success: false,
+          message: 'Ngày dùng bữa không thể là một ngày trong quá khứ.'
+        });
+      }
+    }
+
+    await ReservationModel.updateReservation(id, {
+      branch_id: branch_id ? Number(branch_id) : undefined,
+      reservation_date,
+      reservation_time,
+      guest_count: guest_count ? Number(guest_count) : undefined,
+      note
+    });
+
+    const updated = await ReservationModel.findById(id);
+
+    res.json({
+      success: true,
+      message: 'Cập nhật thông tin đặt bàn thành công.',
+      data: updated
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.deleteReservation = async (req, res, next) => {
   try {
     const { id } = req.params;

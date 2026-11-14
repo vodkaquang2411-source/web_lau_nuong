@@ -80,6 +80,27 @@ class ReservationModel {
     return result.affectedRows > 0;
   }
 
+  static async updateReservation(id, { branch_id, reservation_date, reservation_time, guest_count, note }) {
+    const sql = `
+      UPDATE reservations 
+      SET branch_id = COALESCE(?, branch_id),
+          reservation_date = COALESCE(?, reservation_date),
+          reservation_time = COALESCE(?, reservation_time),
+          guest_count = COALESCE(?, guest_count),
+          note = COALESCE(?, note)
+      WHERE id = ? AND status = 'pending'
+    `;
+    const [result] = await pool.query(sql, [
+      branch_id || null,
+      reservation_date || null,
+      reservation_time || null,
+      guest_count || null,
+      note !== undefined ? note : null,
+      id
+    ]);
+    return result.affectedRows > 0;
+  }
+
   static async delete(id) {
     const sql = `DELETE FROM reservations WHERE id = ?`;
     const [result] = await pool.query(sql, [id]);

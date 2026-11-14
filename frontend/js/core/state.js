@@ -607,6 +607,34 @@ const AppState = {
     return false;
   },
 
+  updateReservation(id, updatedData) {
+    const reservations = this.getReservations();
+    const idx = reservations.findIndex(r => r.id === Number(id));
+    if (idx !== -1) {
+      if (reservations[idx].status !== 'pending') {
+        return { success: false, message: 'Đơn đặt bàn này đã được quản trị viên xử lý, không thể chỉnh sửa.' };
+      }
+
+      let branchName = reservations[idx].branchName;
+      if (updatedData.branchId) {
+        const branch = this.getBranchById(updatedData.branchId);
+        if (branch) branchName = branch.name;
+      }
+
+      reservations[idx] = {
+        ...reservations[idx],
+        ...updatedData,
+        id: Number(id),
+        branchName: branchName,
+        updatedAt: new Date().toISOString().slice(0, 16).replace('T', ' ')
+      };
+
+      localStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+      return { success: true, reservation: reservations[idx] };
+    }
+    return { success: false, message: 'Không tìm thấy đơn đặt bàn.' };
+  },
+
   deleteReservation(id) {
     let reservations = this.getReservations();
     reservations = reservations.filter(r => r.id !== Number(id));
