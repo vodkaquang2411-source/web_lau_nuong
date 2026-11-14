@@ -101,7 +101,7 @@
         }
 
         // Trường hợp 2: Có từ 2 bàn trở lên -> Mở hộp thoại chọn bàn cụ thể
-        openSelectReservationModal(pendingList, product);
+        window.openSelectReservationModal(pendingList, product);
       });
     }
 
@@ -125,17 +125,18 @@
       });
     }
 
+    modalOverlay.style.zIndex = '2200';
     modalOverlay.classList.add('active');
     modalOverlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   };
 
   // Hộp thoại nhỏ chọn bàn khi người dùng có >= 2 bàn đang chờ xác nhận
-  function openSelectReservationModal(pendingList, product) {
+  window.openSelectReservationModal = function (pendingList, product, onSelectedCallback) {
     let selectOverlay = document.getElementById('selectResModalOverlay');
     if (!selectOverlay) {
       const modalHtml = `
-        <div class="modal-overlay" id="selectResModalOverlay" aria-hidden="true" style="z-index: 2200;">
+        <div class="modal-overlay" id="selectResModalOverlay" aria-hidden="true" style="z-index: 2400;">
           <div class="modal-content" style="max-width: 440px; width: 92%; padding: 20px; border-radius: 12px; border: 1px solid rgba(201,166,107,0.4); box-shadow: 0 16px 40px rgba(0,0,0,0.35);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed #e8d8be; padding-bottom: 8px;">
               <h4 style="margin: 0; font-size: 1.05rem; color: var(--color-primary, #1e1918); font-weight: 700;">
@@ -154,10 +155,10 @@
       document.body.insertAdjacentHTML('beforeend', modalHtml);
       selectOverlay = document.getElementById('selectResModalOverlay');
 
-      document.getElementById('closeSelectResModalBtn').addEventListener('click', closeSelectReservationModal);
-      document.getElementById('cancelSelectResBtn').addEventListener('click', closeSelectReservationModal);
+      document.getElementById('closeSelectResModalBtn').addEventListener('click', window.closeSelectReservationModal);
+      document.getElementById('cancelSelectResBtn').addEventListener('click', window.closeSelectReservationModal);
       selectOverlay.addEventListener('click', (e) => {
-        if (e.target === selectOverlay) closeSelectReservationModal();
+        if (e.target === selectOverlay) window.closeSelectReservationModal();
       });
     }
 
@@ -191,29 +192,33 @@
           const targetRes = pendingList.find(r => r.id === resId);
           if (targetRes && window.AppState) {
             const res = window.AppState.addDishToReservation(targetRes.id, product.id, 1);
-            closeSelectReservationModal();
+            window.closeSelectReservationModal();
             if (res.success && window.showToast) {
               window.showToast(`Đã thêm món "${product.name}" vào đơn đặt bàn ${targetRes.code || targetRes.id} thành công!`, 'success', 'Thêm món thành công');
+            }
+            if (typeof onSelectedCallback === 'function') {
+              onSelectedCallback(targetRes);
             }
           }
         });
       });
     }
 
+    selectOverlay.style.zIndex = '2400';
     selectOverlay.classList.add('active');
     selectOverlay.setAttribute('aria-hidden', 'false');
-  }
+  };
 
-  function closeSelectReservationModal() {
+  window.closeSelectReservationModal = function () {
     const selectOverlay = document.getElementById('selectResModalOverlay');
     if (selectOverlay) {
       selectOverlay.classList.remove('active');
       selectOverlay.setAttribute('aria-hidden', 'true');
     }
-  }
+  };
 
   window.closeProductModal = function () {
-    closeSelectReservationModal();
+    window.closeSelectReservationModal();
     const modalOverlay = document.getElementById('productModalOverlay');
     if (modalOverlay) {
       modalOverlay.classList.remove('active');

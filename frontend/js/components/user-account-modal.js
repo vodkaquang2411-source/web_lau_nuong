@@ -765,11 +765,15 @@
               ${formatMoney(p.price)}
             </div>
           </div>
-          <div style="display: flex; gap: 6px; align-items: center; flex-shrink: 0;">
+          <div style="display: flex; gap: 6px; align-items: center; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end;">
+            <button type="button" class="btn btn-gold btn-add-fav-to-res" data-id="${p.id}" style="padding: 6px 10px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+              Thêm vào bàn
+            </button>
             <button type="button" class="btn btn-secondary btn-view-fav-product" data-id="${p.id}" style="padding: 6px 10px; font-size: 0.78rem;">
               Xem chi tiết
             </button>
-            <button type="button" class="btn-remove-fav" data-id="${p.id}" title="Bỏ thích món này" style="background: transparent; border: 1px solid #ddd; width: 32px; height: 32px; border-radius: 6px; color: #999; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+            <button type="button" class="btn-remove-fav" data-id="${p.id}" title="Bỏ thích món này" style="background: transparent; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 6px; color: #999; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--color-brand, #8f1724)" stroke="var(--color-brand, #8f1724)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </button>
           </div>
@@ -784,6 +788,38 @@
       </div>
       <div>${itemsHtml}</div>
     `;
+
+    // Hook nút thêm món yêu thích trực tiếp vào bàn đã đặt
+    container.querySelectorAll('.btn-add-fav-to-res').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.getAttribute('data-id'));
+        const product = window.AppState.getProductById(id);
+        if (!product) return;
+
+        const pendingList = window.AppState.getUserReservations(user).filter(r => r.status === 'pending');
+        if (!pendingList || pendingList.length === 0) {
+          if (window.showToast) {
+            window.showToast('Bạn chưa có đơn đặt bàn nào đang chờ xác nhận. Vui lòng đặt bàn trước khi thêm món nhé!', 'info', 'Chưa có bàn đặt');
+          }
+          return;
+        }
+
+        // Trường hợp 1: Có đúng 1 bàn -> Thêm trực tiếp
+        if (pendingList.length === 1) {
+          const targetRes = pendingList[0];
+          const res = window.AppState.addDishToReservation(targetRes.id, product.id, 1);
+          if (res.success && window.showToast) {
+            window.showToast(`Đã thêm món "${product.name}" vào đơn đặt bàn ${targetRes.code || targetRes.id} thành công!`, 'success', 'Đã thêm món');
+          }
+          return;
+        }
+
+        // Trường hợp 2: Có từ 2 bàn trở lên -> Mở hộp thoại chọn bàn
+        if (window.openSelectReservationModal) {
+          window.openSelectReservationModal(pendingList, product);
+        }
+      });
+    });
 
     // Hook nút xem chi tiết món
     container.querySelectorAll('.btn-view-fav-product').forEach(btn => {
