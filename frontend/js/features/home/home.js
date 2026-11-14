@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
           </div>
           <div class="card-body">
-            <span class="card-category">${product.category.toUpperCase()}</span>
+            <span class="card-category">${product.category}</span>
             <h3 class="card-title">${product.name}</h3>
             <p class="card-desc">${product.description}</p>
             <div class="card-footer">

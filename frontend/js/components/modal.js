@@ -35,7 +35,7 @@
           </div>
         </div>
         <div>
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--color-gold-dark); text-transform: uppercase;">
+          <span style="font-size: 0.88rem; font-weight: 700; color: var(--color-gold-dark);">
             ${catTitle}
           </span>
           <h2 style="font-size: 1.45rem; color: var(--color-primary); margin: 6px 0 12px;">${product.name}</h2>

@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${item.phone || 'Chưa cập nhật'}</td>
         <td>
           <span class="badge" style="background: ${item.role === 'admin' ? 'var(--color-primary)' : '#E5E7EB'}; color: ${item.role === 'admin' ? 'var(--color-gold)' : '#374151'};">
-            ${item.role.toUpperCase()}
+            ${item.role === 'admin' ? 'Quản trị viên' : 'Khách hàng'}
           </span>
         </td>
         <td><strong>${item.bookingCount || 0}</strong> lượt</td>
