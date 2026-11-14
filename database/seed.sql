@@ -7,9 +7,9 @@ USE `launuongvn`;
 -- 1. Nạp Tài khoản Quản trị viên (Mật khẩu mặc định: admin123)
 -- Mã băm bcrypt của 'admin123' với 10 vòng salt
 INSERT INTO `users` (`id`, `full_name`, `email`, `phone`, `password_hash`, `role`, `status`) VALUES
-(1, 'Admin Quản Lý', 'admin@launuongvn.vn', '0911000888', '$2b$10$tJ96lqD9O1qYmU.6z1YwUu77X2qGgC5I90h8F4p0C4K9lQ8tP6C3a', 'admin', 'active'),
-(2, 'Hoàng Mai Anh', 'maianh.hoang@gmail.com', '0912345678', '$2b$10$tJ96lqD9O1qYmU.6z1YwUu77X2qGgC5I90h8F4p0C4K9lQ8tP6C3a', 'customer', 'active'),
-(3, 'Trần Quang Huy', 'quanghuy.tran@gmail.com', '0987654321', '$2b$10$tJ96lqD9O1qYmU.6z1YwUu77X2qGgC5I90h8F4p0C4K9lQ8tP6C3a', 'customer', 'active')
+(1, 'Admin Quản Lý', 'admin@launuongvn.vn', '0911000888', '$2a$10$OJd7TJ.GVEqIMHKorUaJ5Ol2JMBEY4nQeOgSEqqZdb3GuJKoWP9u6', 'admin', 'active'),
+(2, 'Hoàng Mai Anh', 'maianh.hoang@gmail.com', '0912345678', '$2a$10$OJd7TJ.GVEqIMHKorUaJ5Ol2JMBEY4nQeOgSEqqZdb3GuJKoWP9u6', 'customer', 'active'),
+(3, 'Trần Quang Huy', 'quanghuy.tran@gmail.com', '0987654321', '$2a$10$OJd7TJ.GVEqIMHKorUaJ5Ol2JMBEY4nQeOgSEqqZdb3GuJKoWP9u6', 'customer', 'active')
 ON DUPLICATE KEY UPDATE `full_name` = VALUES(`full_name`);
 
 -- 2. Nạp Danh mục món ăn
