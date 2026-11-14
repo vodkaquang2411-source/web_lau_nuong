@@ -1,7 +1,7 @@
 /**
  * LẨU NƯỚNG VN - MENU PAGE LOGIC & SMART AUTO-SUGGEST
  * 1. Phân nhóm thực đơn theo quy trình gọi món logic (Lẩu -> Nướng -> Thịt Bò -> Hải Sản -> Rau Nấm -> Combo -> Đồ Uống)
- * 2. Thanh tìm kiếm gợi ý thông minh (Live Search Autocomplete + Từ khóa hot)
+ * 2. Thanh tìm kiếm gợi ý thông minh (Live Search Autocomplete + Từ khóa hot + Hỗ trợ tiếng Việt không dấu)
  * 3. Bộ lọc nhanh theo nhu cầu (Món bán chạy, Nhúng lẩu, Nướng than, Dưới 200k)
  * 4. Chuyển đổi linh hoạt giữa chế độ Xem theo nhóm (Grouped) và Xem dạng lưới (Grid)
  */
@@ -79,6 +79,53 @@ const POPULAR_KEYWORDS = [
   'Trà đào cam sả',
   'Combo sum vầy'
 ];
+
+// Hàm loại bỏ dấu tiếng Việt để tìm kiếm không dấu linh hoạt (ví dụ gõ 'lau' ra 'Lẩu')
+function removeVietnameseTones(str) {
+  if (!str) return '';
+  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+  str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+  str = str.replace(/đ/g, 'd');
+  str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, 'A');
+  str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, 'E');
+  str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, 'I');
+  str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, 'O');
+  str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, 'U');
+  str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, 'Y');
+  str = str.replace(/Đ/g, 'D');
+  str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return str.toLowerCase().trim();
+}
+
+// Kiểm tra chuỗi khớp từ khóa (hỗ trợ cả có dấu và không dấu)
+function matchSearch(text, query) {
+  if (!text || !query) return false;
+  const rawText = text.toLowerCase();
+  const rawQ = query.toLowerCase().trim();
+  if (rawText.includes(rawQ)) return true;
+
+  const noToneText = removeVietnameseTones(text);
+  const noToneQ = removeVietnameseTones(query);
+  return noToneText.includes(noToneQ);
+}
+
+// Bôi đậm từ khóa trong kết quả tìm kiếm
+function highlightMatch(text, query) {
+  if (!text || !query) return text;
+  const cleanQ = query.trim();
+  const idx = text.toLowerCase().indexOf(cleanQ.toLowerCase());
+  if (idx !== -1) {
+    const before = text.substring(0, idx);
+    const match = text.substring(idx, idx + cleanQ.length);
+    const after = text.substring(idx + cleanQ.length);
+    return `${before}<mark>${match}</mark>${after}`;
+  }
+  return text;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const gridContainer = document.getElementById('menuProductGrid');
@@ -188,12 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
       list = list.filter(item => item.category === currentCategory);
     }
 
-    // 2. Lọc theo Từ khóa tìm kiếm
+    // 2. Lọc theo Từ khóa tìm kiếm (hỗ trợ cả có dấu và không dấu)
     if (searchQuery.trim() !== '') {
-      const q = searchQuery.toLowerCase().trim();
       list = list.filter(item => 
-        item.name.toLowerCase().includes(q) || 
-        (item.description && item.description.toLowerCase().includes(q))
+        matchSearch(item.name, searchQuery) || 
+        matchSearch(item.description, searchQuery)
       );
     }
 
@@ -238,8 +284,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (emptyState) emptyState.style.display = 'none';
     }
 
-    // NẾU XEM THEO PHÂN NHÓM (GROUPED VIEW) VÀ KHÔNG ĐANG TÌM KIẾM CỤ THỂ HOẶC CÓ ĐỦ DỮ LIỆU
-    if (viewMode === 'grouped' && searchQuery.trim() === '' && currentQuickFilter === 'all') {
+    // NẾU XEM THEO PHÂN NHÓM (GROUPED VIEW) VÀ KHÔNG ĐANG TÌM KIẾM CỤ THỂ HOẶC QUICK FILTER
+    const isDefaultBrowsing = searchQuery.trim() === '' && currentQuickFilter === 'all';
+
+    if (viewMode === 'grouped' && isDefaultBrowsing) {
       let sectionsHTML = '';
 
       MENU_SECTIONS.forEach(sec => {
@@ -270,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       gridContainer.innerHTML = sectionsHTML;
     } else {
-      // XEM DẠNG LƯỚI PHẲNG (GRID VIEW) HOẶC KHI ĐANG CÓ KẾT QUẢ TÌM KIẾM
+      // XEM DẠNG LƯỚI PHẲNG (GRID VIEW) HOẶC KHI ĐANG CÓ KẾT QUẢ TÌM KIẾM / QUICK FILTER
       gridContainer.innerHTML = `
         <div class="grid-4">
           ${list.map(createProductCardHTML).join('')}
@@ -316,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderSearchSuggestions(query = '') {
     if (!searchSuggestDropdown) return;
     const allProducts = window.AppState.getProducts();
-    const cleanQ = query.trim().toLowerCase();
+    const cleanQ = query.trim();
 
     // 1. KHI CHƯA GÕ GÌ: Hiển thị các từ khóa hot + Gợi ý món bán chạy
     if (cleanQ === '') {
@@ -340,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="suggest-items-list">
           ${topPicks.map(p => `
             <div class="suggest-item" data-id="${p.id}">
-              <img src="${p.imageUrl}" alt="${p.name}" class="suggest-thumb">
+              <img src="${p.imageUrl}" alt="${p.name}" class="suggest-thumb" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=100&q=80'">
               <div class="suggest-info">
                 <div class="suggest-title">${p.name}</div>
                 <div class="suggest-meta">
@@ -357,10 +405,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 2. KHI ĐANG GÕ TỪ KHÓA: Lọc món ăn khớp tức thời
+    // 2. KHI ĐANG GÕ TỪ KHÓA: Lọc món ăn khớp tức thời (hỗ trợ cả có dấu và không dấu)
     const matches = allProducts.filter(p => 
-      p.name.toLowerCase().includes(cleanQ) || 
-      (p.description && p.description.toLowerCase().includes(cleanQ))
+      matchSearch(p.name, cleanQ) || 
+      matchSearch(p.description, cleanQ)
     ).slice(0, 6);
 
     if (matches.length === 0) {
@@ -373,16 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Highlight từ khóa khớp
-    function highlightMatch(text, q) {
-      const idx = text.toLowerCase().indexOf(q);
-      if (idx === -1) return text;
-      const before = text.substring(0, idx);
-      const match = text.substring(idx, idx + q.length);
-      const after = text.substring(idx + q.length);
-      return `${before}<mark>${match}</mark>${after}`;
-    }
-
     searchSuggestDropdown.innerHTML = `
       <div class="suggest-header">
         <span>Gợi ý cho bạn (${matches.length} món)</span>
@@ -391,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="suggest-items-list">
         ${matches.map(p => `
           <div class="suggest-item" data-id="${p.id}">
-            <img src="${p.imageUrl}" alt="${p.name}" class="suggest-thumb">
+            <img src="${p.imageUrl}" alt="${p.name}" class="suggest-thumb" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=100&q=80'">
             <div class="suggest-info">
               <div class="suggest-title">${highlightMatch(p.name, cleanQ)}</div>
               <div class="suggest-meta">
