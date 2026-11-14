@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Đặt Bàn - LẨU NƯỚNG VN Admin</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- Admin Sidebar -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-header">
+      <div class="logo-icon" style="width: 38px; height: 38px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg>
+      </div>
+      <div class="logo-text">
+        <div class="logo-title" style="font-size: 1.05rem;">LẨU NƯỚNG VN</div>
+        <span class="admin-badge">ADMIN PORTAL</span>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="index.html" class="admin-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Tổng quan (Dashboard)</span>
+      </a>
+
+      <a href="products.html" class="admin-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+        <span>Quản lý món ăn</span>
+      </a>
+
+      <a href="categories.html" class="admin-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span>Quản lý danh mục</span>
+      </a>
+
+      <a href="reservations.html" class="admin-nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Quản lý đặt bàn</span>
+      </a>
+
+      <a href="branches.html" class="admin-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span>Quản lý chi nhánh</span>
+      </a>
+
+      <a href="customers.html" class="admin-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Khách hàng</span>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <a href="../index.html" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        <span>Xem Website Khách</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="admin-main">
+    <header class="admin-header">
+      <h1 class="admin-header-title">Quản Lý Yêu Cầu Đặt Bàn (CRUD)</h1>
+      <button class="btn btn-secondary" id="btnRefreshReservations">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        Làm mới dữ liệu
+      </button>
+    </header>
+
+    <main class="admin-content">
+      <div class="panel">
+        <div class="panel-header">
+          <!-- Filters & Search Toolbar -->
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; width: 100%;">
+            <div style="flex: 1; min-width: 250px;">
+              <input type="text" id="adminReservationSearch" class="form-control" placeholder="Tìm theo tên khách, số điện thoại hoặc mã đặt bàn...">
+            </div>
+            <div style="width: 220px;">
+              <select id="adminReservationStatusFilter" class="form-control">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="pending">Chờ xác nhận</option>
+                <option value="confirmed">Đã xác nhận</option>
+                <option value="completed">Đã hoàn thành</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Mã</th>
+                  <th>Họ tên khách</th>
+                  <th>Điện thoại</th>
+                  <th>Chi nhánh</th>
+                  <th>Ngày dùng bữa</th>
+                  <th>Giờ đến</th>
+                  <th>Số khách</th>
+                  <th>Trạng thái</th>
+                  <th style="width: 140px; text-align: right;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminReservationsTableBody">
+                <!-- Sẽ được đổ tự động bằng JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- RESERVATION DETAIL / EDIT MODAL -->
+  <div class="modal-overlay" id="reservationDetailModal" aria-hidden="true" role="dialog">
+    <div class="modal-content" style="max-width: 580px;">
+      <button class="modal-close" id="closeReservationDetailModal">&times;</button>
+      <div style="padding: 28px;">
+        <h2 style="color: var(--color-primary); font-size: 1.35rem; margin-bottom: 6px;">Chi Tiết Đơn Đặt Bàn</h2>
+        <p style="color: var(--color-gray-500); font-size: 0.9rem; margin-bottom: 20px;">Mã phiếu: <strong id="modalResCode" style="color: var(--color-brand);">#</strong></p>
+
+        <div id="modalResDetailsContent" style="background: var(--color-cream); border-radius: var(--radius-md); padding: 18px; margin-bottom: 22px; font-size: 0.92rem; line-height: 1.8;">
+          <!-- Chi tiết đơn -->
+        </div>
+
+        <form id="updateReservationStatusForm">
+          <input type="hidden" id="modalResId" value="">
+          <div class="form-group">
+            <label for="modalResStatusSelect" class="form-label">Cập nhật trạng thái xử lý:</label>
+            <select id="modalResStatusSelect" class="form-control" style="font-weight: 600;">
+              <option value="pending">Đang chờ xác nhận</option>
+              <option value="confirmed">Đã xác nhận (Đã gọi điện cho khách)</option>
+              <option value="completed">Đã hoàn thành (Khách đã đến dùng bữa)</option>
+              <option value="cancelled">Hủy đặt bàn</option>
+            </select>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+            <button type="button" class="btn btn-secondary" id="btnCancelResDetailModal">Đóng</button>
+            <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="../js/core/state.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/features/admin/reservations.js"></script>
+</body>
+</html>

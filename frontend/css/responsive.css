@@ -1,0 +1,152 @@
+/* ==========================================================================
+   LẨU NƯỚNG VN - RESPONSIVE CSS
+   Mobile, Tablet, Laptop, Desktop Breakpoints
+   ========================================================================== */
+
+/* Laptop & Large Tablets (max-width: 1199px) */
+@media (max-width: 1199px) {
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1.2fr 1fr 1fr 1.1fr;
+    gap: 30px;
+  }
+}
+
+/* Tablets (max-width: 991px) */
+@media (max-width: 991px) {
+  .nav-menu {
+    display: none; /* Hidden on tablet & mobile; replaced with mobile-nav drawer */
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-banner-content {
+    padding: 60px 0;
+  }
+}
+
+/* Mobile Screens (max-width: 767px) */
+@media (max-width: 767px) {
+  :root {
+    --header-height: 70px;
+    --header-height-scrolled: 64px;
+  }
+
+  .top-bar {
+    display: none; /* Giấu top bar trên di động để tăng không gian hiển thị */
+  }
+
+  .section {
+    padding: 55px 0;
+  }
+
+  .section-header {
+    margin-bottom: 35px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-bottom .container {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .toolbar-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    min-width: 100%;
+  }
+
+  .sort-box {
+    width: 100%;
+  }
+
+  .sort-box select {
+    width: 100%;
+  }
+
+  .form-card {
+    padding: 24px 18px;
+  }
+
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    top: 78px;
+  }
+
+  .toast {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: 1rem;
+    width: 100%;
+  }
+}
+
+/* Small Mobile Screens (375px - 390px) */
+@media (max-width: 420px) {
+  .logo-title {
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+  }
+
+  .logo-tagline {
+    display: none;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-cta {
+    display: none; /* Ẩn nút đặt bàn ngoài navbar trên màn hình rất nhỏ, đã có trong hamburger drawer */
+  }
+
+  .card-body {
+    padding: 16px;
+  }
+
+  .card-title {
+    font-size: 1.05rem;
+  }
+
+  .card-price {
+    font-size: 1.15rem;
+  }
+}

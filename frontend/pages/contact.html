@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liên Hệ & Đóng Góp Ý Kiến - LẨU NƯỚNG VN</title>
+  <meta name="description" content="Liên hệ với LẨU NƯỚNG VN. Chúng tôi luôn lắng nghe mọi ý kiến đóng góp của quý khách để không ngừng hoàn thiện chất lượng dịch vụ.">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <aside class="top-bar" aria-label="Thông tin nhanh">
+    <div class="container">
+      <div class="top-bar-info">
+        <span>Hotline: <strong>1900 8888</strong></span>
+        <span>Giờ mở cửa: 10:00 - 23:00</span>
+      </div>
+      <div class="top-bar-auth" id="topBarAuth">
+        <a href="login.html">Đăng nhập</a>
+        <span style="color: rgba(201,166,107,0.4)">|</span>
+        <a href="register.html">Đăng ký</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <nav class="navbar" aria-label="Điều hướng chính">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg></div>
+          <div class="logo-text">
+            <div class="logo-title">LẨU NƯỚNG <span>VN</span></div>
+            <div class="logo-tagline">Hương vị Việt – Trọn vị sum vầy</div>
+          </div>
+        </a>
+
+        <ul class="nav-menu">
+          <li><a href="../index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="menu.html" class="nav-link">Thực đơn</a></li>
+          <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+          <li><a href="branches.html" class="nav-link">Chi nhánh</a></li>
+          <li><a href="reservation.html" class="nav-link">Đặt bàn</a></li>
+          <li><a href="contact.html" class="nav-link active">Liên hệ</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="reservation.html" class="btn btn-gold nav-cta">Đặt bàn ngay</a>
+          <button class="hamburger" id="hamburgerBtn" aria-label="Mở menu di động">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-links">
+      <a href="../index.html">Trang chủ</a>
+      <a href="menu.html">Thực đơn</a>
+      <a href="about.html">Giới thiệu</a>
+      <a href="branches.html">Chi nhánh</a>
+      <a href="reservation.html">Đặt bàn</a>
+      <a href="contact.html" class="active">Liên hệ</a>
+      <a href="login.html">Tài khoản</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Page Hero Banner -->
+    <section class="page-hero">
+      <div class="container">
+        <h1 class="page-hero-title">Liên Hệ & <span>Lắng Nghe</span></h1>
+        <p class="page-hero-subtitle">Mỗi phản hồi và ý kiến đóng góp của quý khách là nguồn động lực to lớn giúp LẨU NƯỚNG VN hoàn thiện hơn từng ngày.</p>
+        <div class="breadcrumb">
+          <a href="../index.html">Trang chủ</a>
+          <span>/</span>
+          <span>Liên hệ</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="grid-2" style="align-items: flex-start; gap: 40px;">
+          <!-- Form Left -->
+          <div class="form-card">
+            <h2 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 8px;">Gửi Tin Nhắn Cho Chúng Tôi</h2>
+            <p style="color: var(--color-gray-500); font-size: 0.9rem; margin-bottom: 24px;">Chúng tôi sẽ phản hồi lại quý khách qua Email hoặc Điện thoại trong vòng 24 giờ làm việc.</p>
+
+            <form id="contactForm" novalidate>
+              <div class="form-group">
+                <label for="contactFullName" class="form-label">Họ và tên của bạn <span class="required">*</span></label>
+                <input type="text" id="contactFullName" class="form-control" placeholder="Nguyễn Văn A" required>
+                <div class="form-error-msg" id="contactErrorName">Vui lòng nhập họ và tên.</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                  <label for="contactEmail" class="form-label">Email liên hệ <span class="required">*</span></label>
+                  <input type="email" id="contactEmail" class="form-control" placeholder="email@gmail.com" required>
+                  <div class="form-error-msg" id="contactErrorEmail">Vui lòng nhập đúng định dạng email.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="contactPhone" class="form-label">Số điện thoại <span class="required">*</span></label>
+                  <input type="tel" id="contactPhone" class="form-control" placeholder="0912 345 678" required>
+                  <div class="form-error-msg" id="contactErrorPhone">Vui lòng nhập số điện thoại hợp lệ.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contactSubject" class="form-label">Chủ đề liên hệ <span class="required">*</span></label>
+                <select id="contactSubject" class="form-control" required>
+                  <option value="">-- Chọn chủ đề liên hệ --</option>
+                  <option value="feedback">Đóng góp ý kiến dịch vụ / món ăn</option>
+                  <option value="party">Hợp tác tổ chức sự kiện / Tiệc đoàn</option>
+                  <option value="complaint">Khiếu nại thái độ phục vụ</option>
+                  <option value="recruitment">Ứng tuyển nhân sự</option>
+                  <option value="other">Chủ đề khác</option>
+                </select>
+                <div class="form-error-msg" id="contactErrorSubject">Vui lòng chọn chủ đề liên hệ.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage" class="form-label">Nội dung tin nhắn <span class="required">*</span></label>
+                <textarea id="contactMessage" class="form-control" rows="4" placeholder="Nhập chi tiết nội dung quý khách muốn gửi đến ban quản lý nhà hàng..." required></textarea>
+                <div class="form-error-msg" id="contactErrorMessage">Vui lòng nhập nội dung tin nhắn (tối thiểu 10 ký tự).</div>
+              </div>
+
+              <button type="submit" id="btnSubmitContact" class="btn btn-primary btn-lg" style="width: 100%;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                Gửi thông điệp ngay
+              </button>
+            </form>
+          </div>
+
+          <!-- Info Right -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div style="background: white; border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm); border: 1px solid var(--color-gray-200);">
+              <h3 style="color: var(--color-primary); font-size: 1.35rem; margin-bottom: 20px;">Trụ Sở Điều Hành Trung Tâm</h3>
+              
+              <div style="display: flex; flex-direction: column; gap: 18px;">
+                <div style="display: flex; gap: 14px;">
+                  <div style="width: 40px; height: 40px; border-radius: var(--radius-full); background: rgba(185,39,47,0.1); color: var(--color-brand); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  </div>
+                  <div>
+                    <strong style="color: var(--color-dark); font-size: 0.95rem;">Địa chỉ:</strong>
+                    <p style="margin: 2px 0 0; color: var(--color-gray-500); font-size: 0.9rem;">123 Phố Huế, Phường Hàng Bài, Quận Hai Bà Trưng, TP. Hà Nội</p>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 14px;">
+                  <div style="width: 40px; height: 40px; border-radius: var(--radius-full); background: rgba(185,39,47,0.1); color: var(--color-brand); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  </div>
+                  <div>
+                    <strong style="color: var(--color-dark); font-size: 0.95rem;">Tổng đài CSKH:</strong>
+                    <p style="margin: 2px 0 0; color: var(--color-brand); font-size: 1.15rem; font-weight: 700;">1900 8888</p>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 14px;">
+                  <div style="width: 40px; height: 40px; border-radius: var(--radius-full); background: rgba(185,39,47,0.1); color: var(--color-brand); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  </div>
+                  <div>
+                    <strong style="color: var(--color-dark); font-size: 0.95rem;">Hộp thư điện tử:</strong>
+                    <p style="margin: 2px 0 0; color: var(--color-gray-500); font-size: 0.9rem;">contact@launuongvn.vn / cskh@launuongvn.vn</p>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 14px;">
+                  <div style="width: 40px; height: 40px; border-radius: var(--radius-full); background: rgba(185,39,47,0.1); color: var(--color-brand); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </div>
+                  <div>
+                    <strong style="color: var(--color-dark); font-size: 0.95rem;">Thời gian phục vụ:</strong>
+                    <p style="margin: 2px 0 0; color: var(--color-gray-500); font-size: 0.9rem;">10:00 - 23:00 (Kể cả ngày Lễ & Tết)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map Embed -->
+            <div style="border-radius: var(--radius-lg); overflow: hidden; height: 280px; box-shadow: var(--shadow-sm); border: 1px solid var(--color-gray-300);">
+              <iframe src="https://maps.google.com/maps?q=123+Pho+Hue,+Hai+Ba+Trung,+Hanoi&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-about">
+          <div class="logo" style="margin-bottom: 18px;">
+            <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg></div>
+            <div class="logo-text">
+              <div class="logo-title" style="font-size: 1.25rem;">LẨU NƯỚNG <span style="color: var(--color-gold);">VN</span></div>
+              <div class="logo-tagline" style="color: var(--color-cream-dark);">Hương vị Việt – Trọn vị sum vầy</div>
+            </div>
+          </div>
+          <p>Hệ thống nhà hàng Lẩu Nướng cao cấp mang đậm hương vị ẩm thực Việt.</p>
+        </div>
+        <div class="footer-col footer-links">
+          <h4>Khám Phá</h4>
+          <ul>
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="menu.html">Thực đơn</a></li>
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="reservation.html">Đặt bàn</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-links">
+          <h4>Hỗ Trợ</h4>
+          <ul>
+            <li><a href="reservation.html">Chính sách đặt bàn</a></li>
+            <li><a href="contact.html">Liên hệ đóng góp ý kiến</a></li>
+            <li><a href="../admin/index.html">Cổng quản trị nhà hàng (Admin)</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Hotline Hỗ Trợ</h4>
+          <p style="color: var(--color-cream-dark);">Hotline: <strong style="color: var(--color-gold); font-size: 1.2rem;">1900 8888</strong></p>
+          <p style="color: var(--color-cream-dark);">Phục vụ: 10:00 - 23:00</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <div>© 2026 LẨU NƯỚNG VN. Tất cả quyền được bảo lưu.</div>
+          <div>Hương vị Việt – Trọn vị sum vầy</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/core/state.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/components/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('contactForm');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('contactFullName').value.trim();
+          const email = document.getElementById('contactEmail').value.trim();
+          const phone = document.getElementById('contactPhone').value.trim();
+          const subject = document.getElementById('contactSubject').value;
+          const message = document.getElementById('contactMessage').value.trim();
+
+          let isValid = true;
+          if (!name) { document.getElementById('contactErrorName').style.display = 'block'; isValid = false; }
+          else { document.getElementById('contactErrorName').style.display = 'none'; }
+
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('contactErrorEmail').style.display = 'block'; isValid = false; }
+          else { document.getElementById('contactErrorEmail').style.display = 'none'; }
+
+          if (!phone || phone.length < 10) { document.getElementById('contactErrorPhone').style.display = 'block'; isValid = false; }
+          else { document.getElementById('contactErrorPhone').style.display = 'none'; }
+
+          if (!subject) { document.getElementById('contactErrorSubject').style.display = 'block'; isValid = false; }
+          else { document.getElementById('contactErrorSubject').style.display = 'none'; }
+
+          if (!message || message.length < 10) { document.getElementById('contactErrorMessage').style.display = 'block'; isValid = false; }
+          else { document.getElementById('contactErrorMessage').style.display = 'none'; }
+
+          if (!isValid) return;
+
+          // Hiển thị thông báo Toast thành công
+          if (window.showToast) {
+            window.showToast('Cảm ơn bạn! Tin nhắn góp ý đã được gửi thành công đến ban quản lý LẨU NƯỚNG VN.', 'success', 'Gửi thành công');
+          } else {
+            alert('Cảm ơn bạn! Tin nhắn đã được gửi thành công.');
+          }
+          form.reset();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

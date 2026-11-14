@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LẨU NƯỚNG VN - Hương vị Việt – Trọn vị sum vầy</title>
+  <meta name="description" content="Nhà hàng LẨU NƯỚNG VN - Không gian ẩm thực lẩu nướng cao cấp, sang trọng và ấm cúng. Trải nghiệm vị lẩu tinh hoa cùng các món nướng ướp đậm đà bản sắc Việt.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <aside class="top-bar" aria-label="Thông tin nhanh">
+    <div class="container">
+      <div class="top-bar-info">
+        <span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          Hotline đặt bàn: <strong>1900 8888</strong>
+        </span>
+        <span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Giờ phục vụ: 10:00 - 23:00 (Hàng ngày)
+        </span>
+      </div>
+      <div class="top-bar-auth" id="topBarAuth">
+        <a href="pages/login.html" id="authLoginLink">Đăng nhập</a>
+        <span style="color: rgba(201,166,107,0.4)">|</span>
+        <a href="pages/register.html" id="authRegisterLink">Đăng ký</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Site Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <nav class="navbar" aria-label="Điều hướng chính">
+        <!-- Logo -->
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg>
+          </div>
+          <div class="logo-text">
+            <div class="logo-title">LẨU NƯỚNG <span>VN</span></div>
+            <div class="logo-tagline">Hương vị Việt – Trọn vị sum vầy</div>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link active">Trang chủ</a></li>
+          <li><a href="pages/menu.html" class="nav-link">Thực đơn</a></li>
+          <li><a href="pages/about.html" class="nav-link">Giới thiệu</a></li>
+          <li><a href="pages/branches.html" class="nav-link">Chi nhánh</a></li>
+          <li><a href="pages/reservation.html" class="nav-link">Đặt bàn</a></li>
+          <li><a href="pages/contact.html" class="nav-link">Liên hệ</a></li>
+        </ul>
+
+        <!-- Navigation Action Buttons -->
+        <div class="nav-actions">
+          <a href="pages/reservation.html" class="btn btn-gold nav-cta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Đặt bàn ngay
+          </a>
+          <button class="hamburger" id="hamburgerBtn" aria-label="Mở menu di động">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-links">
+      <a href="index.html" class="active">Trang chủ</a>
+      <a href="pages/menu.html">Thực đơn</a>
+      <a href="pages/about.html">Giới thiệu</a>
+      <a href="pages/branches.html">Chi nhánh</a>
+      <a href="pages/reservation.html">Đặt bàn trực tuyến</a>
+      <a href="pages/contact.html">Liên hệ</a>
+      <a href="pages/login.html">Tài khoản & Đăng nhập</a>
+    </div>
+    <div>
+      <a href="pages/reservation.html" class="btn btn-primary" style="width: 100%;">Đặt bàn ngay</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- HERO BANNER SECTION -->
+    <section class="hero-banner" style="position: relative; min-height: 85vh; display: flex; align-items: center; background: linear-gradient(to right, rgba(20,16,15,0.92) 0%, rgba(20,16,15,0.7) 50%, rgba(143,23,36,0.55) 100%), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; color: white;">
+      <div class="container hero-banner-content" style="position: relative; z-index: 2; padding: 80px 20px;">
+        <span class="section-tag" style="background: rgba(201,166,107,0.2); color: var(--color-gold); border: 1px solid var(--color-gold);">
+          ★ Đỉnh Cao Ẩm Thực Lẩu Nướng
+        </span>
+        <h1 style="color: var(--color-white); max-width: 780px; margin: 18px 0 24px; text-shadow: 0 3px 12px rgba(0,0,0,0.5);">
+          Hương Vị Việt <br>
+          <span style="color: var(--color-gold);">Trọn Vị Sum Vầy</span>
+        </h1>
+        <p style="color: var(--color-cream); font-size: 1.18rem; max-width: 600px; line-height: 1.8; margin-bottom: 34px;">
+          Đắm chìm trong hương thơm quyến rũ của các vị nước dùng lẩu gia truyền cùng thịt nướng tẩm ướp đậm đà, được phục vụ trong không gian sang trọng và chu đáo nhất.
+        </p>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="pages/reservation.html" class="btn btn-gold btn-lg">
+            Đặt bàn trực tuyến
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+          <a href="pages/menu.html" class="btn btn-outline-white btn-lg">
+            Khám phá thực đơn
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAND STORY / INTRO SECTION -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="grid-2" style="align-items: center;">
+          <div>
+            <span class="section-tag">Về chúng tôi</span>
+            <h2 class="section-title">Câu Chuyện Của <span>LẨU NƯỚNG VN</span></h2>
+            <div class="gold-divider" style="justify-content: flex-start;">
+              <div class="gold-divider-icon"></div>
+            </div>
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px;">
+              Lấy cảm hứng từ nét văn hóa sum vầy ấm cúng bên nồi lẩu nghi ngút khói của người Việt, chúng tôi kết hợp tinh hoa gia vị thảo mộc thiên nhiên cùng nguồn nguyên liệu thịt bò nhập khẩu và hải sản tươi rói trong ngày.
+            </p>
+            <p style="font-size: 1rem; color: var(--color-gray-500); line-height: 1.7; margin-bottom: 30px;">
+              Từng bát nước chấm, từng dĩa thịt nướng tẩm ướp đều mang trọn tâm huyết của đội ngũ đầu bếp giàu kinh nghiệm, mang đến cho bạn và gia đình những khoảnh khắc đáng nhớ nhất.
+            </p>
+            <div style="display: flex; gap: 30px;">
+              <div>
+                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;">100%</h3>
+                <p style="font-size: 0.88rem; font-weight: 600;">Thịt tươi trong ngày</p>
+              </div>
+              <div style="border-left: 2px solid var(--color-gold); padding-left: 30px;">
+                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;">12+</h3>
+                <p style="font-size: 0.88rem; font-weight: 600;">Vị nước lẩu & sốt ướp</p>
+              </div>
+              <div style="border-left: 2px solid var(--color-gold); padding-left: 30px;">
+                <h3 style="color: var(--color-brand); font-size: 2.2rem; margin-bottom: 2px;">05</h3>
+                <p style="font-size: 0.88rem; font-weight: 600;">Chi nhánh toàn quốc</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 4px solid var(--color-white);">
+              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Không gian nhà hàng Lẩu Nướng VN" style="width: 100%; height: 460px; object-fit: cover;">
+              <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(36,32,30,0.85); backdrop-filter: blur(8px); padding: 16px 24px; border-radius: var(--radius-md); border-left: 4px solid var(--color-gold);">
+                <p style="color: var(--color-gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin: 0;">Trải Nghiệm Chu Đáo</p>
+                <p style="color: white; font-size: 0.95rem; margin: 0; font-weight: 600;">Phục vụ tận tâm như gia đình</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED DISHES SECTION -->
+    <section class="section section-white">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Thực đơn đặc sắc</span>
+          <h2 class="section-title">Món Ăn Nổi Bật Được <span>Yêu Thích Nhất</span></h2>
+          <div class="gold-divider">
+            <div class="gold-divider-icon"></div>
+          </div>
+          <p class="section-desc">Những món ngon trứ danh làm nên tên tuổi của LẨU NƯỚNG VN, được hàng ngàn thực khách sành ăn đánh giá cao.</p>
+        </div>
+
+        <!-- Featured Products Grid (Dữ liệu hiển thị) -->
+        <div class="grid-4" id="homeFeaturedList">
+          <!-- Card 1: Lẩu riêu cua -->
+          <article class="product-card">
+            <div class="card-img-wrap">
+              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80" alt="Lẩu Riêu Cua Bắp Bò Sườn Sụn" loading="lazy">
+              <div class="card-badges">
+                <span class="badge badge-hot">Bán Chạy</span>
+              </div>
+              <button class="btn-favorite" title="Yêu thích món này" aria-label="Yêu thích món">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Món Lẩu</span>
+              <h3 class="card-title">Lẩu Riêu Cua Bắp Bò Sườn Sụn</h3>
+              <p class="card-desc">Nước lẩu riêu cua đồng thanh ngọt tự nhiên, giấm bỗng nếp thơm dịu, kèm bắp bò hoa và sườn sụn non giòn sần sật.</p>
+              <div class="card-footer">
+                <div class="card-price">399.000 <span>đ</span></div>
+                <button class="btn btn-sm btn-primary view-detail-btn" data-id="1">Chi tiết</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Dẻ sườn bò nướng -->
+          <article class="product-card">
+            <div class="card-img-wrap">
+              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Dẻ Sườn Bò Nướng Sốt Tiêu Đen" loading="lazy">
+              <div class="card-badges">
+                <span class="badge badge-hot">Đặc Biệt</span>
+              </div>
+              <button class="btn-favorite" title="Yêu thích món này" aria-label="Yêu thích món">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Đồ Nướng</span>
+              <h3 class="card-title">Dẻ Sườn Bò Sốt Tiêu Đen Phú Quốc</h3>
+              <p class="card-desc">Dẻ sườn bò Mỹ chọn lọc với vân mỡ đan xen đều đặn, tẩm ướp cùng sốt tiêu đen nguyên hạt nướng xèo xèo thơm nức mũi.</p>
+              <div class="card-footer">
+                <div class="card-price">249.000 <span>đ</span></div>
+                <button class="btn btn-sm btn-primary view-detail-btn" data-id="2">Chi tiết</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Lẩu Nấm Thượng Hạng -->
+          <article class="product-card">
+            <div class="card-img-wrap">
+              <img src="https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=600&q=80" alt="Lẩu Nấm Chim Câu Thượng Hạng" loading="lazy">
+              <div class="card-badges">
+                <span class="badge badge-new">Mới</span>
+              </div>
+              <button class="btn-favorite" title="Yêu thích món này" aria-label="Yêu thích món">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Món Lẩu</span>
+              <h3 class="card-title">Lẩu Nấm Chim Câu Bổ Dưỡng</h3>
+              <p class="card-desc">Nước dùng hầm từ xương gà ta và thảo mộc hơn 8 giờ, kết hợp 6 loại nấm quý và chim bồ câu béo ngậy ngọt thanh.</p>
+              <div class="card-footer">
+                <div class="card-price">450.000 <span>đ</span></div>
+                <button class="btn btn-sm btn-primary view-detail-btn" data-id="3">Chi tiết</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: Tôm Sú Nướng Phô Mai -->
+          <article class="product-card">
+            <div class="card-img-wrap">
+              <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" alt="Tôm Sú Nướng Bơ Tỏi Phô Mai" loading="lazy">
+              <div class="card-badges">
+                <span class="badge badge-hot">Ưa Chuộng</span>
+              </div>
+              <button class="btn-favorite" title="Yêu thích món này" aria-label="Yêu thích món">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Hải Sản Nướng</span>
+              <h3 class="card-title">Tôm Sú Nướng Sốt Bơ Tỏi Phô Mai</h3>
+              <p class="card-desc">Tôm sú tươi sống size lớn, rưới đẫm sốt bơ tỏi vàng óng phủ phô mai Mozzarella kéo sợi béo ngậy tan chảy.</p>
+              <div class="card-footer">
+                <div class="card-price">219.000 <span>đ</span></div>
+                <button class="btn btn-sm btn-primary view-detail-btn" data-id="4">Chi tiết</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div style="text-align: center; margin-top: 45px;">
+          <a href="pages/menu.html" class="btn btn-primary btn-lg">
+            Xem toàn bộ hơn 80+ món ngon
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMBOS & PROMOTIONS SECTION -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Tiết kiệm & Đa dạng</span>
+          <h2 class="section-title">Combo Trọn Vị <span>Ưu Đãi Đặc Biệt</span></h2>
+          <div class="gold-divider">
+            <div class="gold-divider-icon"></div>
+          </div>
+          <p class="section-desc">Lựa chọn hoàn hảo cho các buổi tụ họp bạn bè, liên hoan công ty hay bữa tiệc gia đình sum vầy.</p>
+        </div>
+
+        <div class="grid-3">
+          <!-- Combo 1 -->
+          <div style="background: white; border-radius: var(--radius-lg); overflow: hidden; border: 2px solid var(--color-gold); box-shadow: var(--shadow-md); display: flex; flex-direction: column;">
+            <div style="background: var(--color-primary); color: white; padding: 20px; text-align: center;">
+              <span style="color: var(--color-gold); font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Dành cho 2 - 3 người</span>
+              <h3 style="color: white; margin: 6px 0; font-size: 1.5rem;">Combo Hẹn Hò Ấm Áp</h3>
+              <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-gold);">599.000 đ <span style="font-size: 0.95rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">750.000 đ</span></div>
+            </div>
+            <div style="padding: 24px; flex-grow: 1;">
+              <ul style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Nồi lẩu 2 ngăn tùy chọn vị</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Đĩa ba chỉ bò Mỹ & bắp hoa (350g)</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Đĩa dẻ sườn ướp sốt cay Hàn Quốc</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Rau tổng hợp, nấm tươi & mỳ nhúng</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 02 Đồ uống trái cây thanh nhiệt</li>
+              </ul>
+              <a href="pages/reservation.html" class="btn btn-primary" style="width: 100%;">Đặt bàn combo này</a>
+            </div>
+          </div>
+
+          <!-- Combo 2 (Best Seller) -->
+          <div style="background: white; border-radius: var(--radius-lg); overflow: hidden; border: 3px solid var(--color-brand); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; position: relative;">
+            <div style="position: absolute; top: 12px; right: 12px; background: var(--color-brand); color: white; padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Phổ biến nhất</div>
+            <div style="background: var(--color-dark); color: white; padding: 20px; text-align: center;">
+              <span style="color: var(--color-gold); font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Dành cho 4 - 6 người</span>
+              <h3 style="color: white; margin: 6px 0; font-size: 1.5rem;">Combo Sum Vầy Đoàn Viên</h3>
+              <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-gold);">1.199.000 đ <span style="font-size: 0.95rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">1.550.000 đ</span></div>
+            </div>
+            <div style="padding: 24px; flex-grow: 1;">
+              <ul style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Nồi lẩu 4 ngăn đại tiệc</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Thăn ngoại bò Black Angus thượng hạng</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Hải sản tổng hợp (Tôm sú, mực nang, ngao)</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Nọng heo nướng mè & dẻ sườn bò sốt tiêu</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Set rau củ quả hữu cơ không giới hạn</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Tráng miệng chè dưỡng nhan tuyết yến</li>
+              </ul>
+              <a href="pages/reservation.html" class="btn btn-gold" style="width: 100%;">Đặt bàn combo này</a>
+            </div>
+          </div>
+
+          <!-- Combo 3 -->
+          <div style="background: white; border-radius: var(--radius-lg); overflow: hidden; border: 2px solid var(--color-gold); box-shadow: var(--shadow-md); display: flex; flex-direction: column;">
+            <div style="background: var(--color-primary); color: white; padding: 20px; text-align: center;">
+              <span style="color: var(--color-gold); font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Dành cho 6 - 8 người</span>
+              <h3 style="color: white; margin: 6px 0; font-size: 1.5rem;">Combo Tiệc Tùng Thịnh Soạn</h3>
+              <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-gold);">1.890.000 đ <span style="font-size: 0.95rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">2.400.000 đ</span></div>
+            </div>
+            <div style="padding: 24px; flex-grow: 1;">
+              <ul style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Nồi lẩu 4 vị tự chọn cao cấp</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Bò Wagyu A5 cắt lát mỏng nhúng lẩu</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Đĩa hải sản cao cấp: Bào ngư & tôm hùm baby</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Khay nướng tổng hợp 6 loại sốt đặc chế</li>
+                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Tặng kèm 01 chai vang đỏ Chile hảo hạng</li>
+              </ul>
+              <a href="pages/reservation.html" class="btn btn-primary" style="width: 100%;">Đặt bàn combo này</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DINING SPACE & ATMOSPHERE -->
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Không gian nhà hàng</span>
+          <h2 class="section-title">Sang Trọng, Ấm Cúng & <span>Đẳng Cấp</span></h2>
+          <div class="gold-divider">
+            <div class="gold-divider-icon"></div>
+          </div>
+          <p class="section-desc">Hệ thống hút khói âm hiện đại không ám mùi, nội thất gỗ ấm áp cùng hệ thống phòng riêng VIP sang trọng cho mọi dịp kỷ niệm.</p>
+        </div>
+
+        <div class="grid-3">
+          <div style="border-radius: var(--radius-md); overflow: hidden; position: relative; height: 280px; box-shadow: var(--shadow-md);">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80" alt="Không gian sảnh tiệc" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 20px;">
+              <h4 style="color: white; margin: 0;">Sảnh Tiệc Sum Vầy Thoáng Đãng</h4>
+            </div>
+          </div>
+
+          <div style="border-radius: var(--radius-md); overflow: hidden; position: relative; height: 280px; box-shadow: var(--shadow-md);">
+            <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=700&q=80" alt="Phòng tiệc riêng tư" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 20px;">
+              <h4 style="color: white; margin: 0;">Phòng VIP Riêng Tư Cách Âm</h4>
+            </div>
+          </div>
+
+          <div style="border-radius: var(--radius-md); overflow: hidden; position: relative; height: 280px; box-shadow: var(--shadow-md);">
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=80" alt="Quầy bar nước sốt" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 20px;">
+              <h4 style="color: white; margin: 0;">Quầy Nước Sốt Tự Pha Sáng Tạo</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS / REVIEWS -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Cảm nhận khách hàng</span>
+          <h2 class="section-title">Khách Hàng Nói Gì Về <span>LẨU NƯỚNG VN</span></h2>
+          <div class="gold-divider">
+            <div class="gold-divider-icon"></div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"Nước lẩu riêu cua ở đây ngon đỉnh chóp, riêu đóng tảng chắc nịch, bắp bò tươi ngọt. Nhân viên phục vụ liên tục gạt bọt và thêm nước dùng cực kỳ lễ phép."</p>
+            <div class="review-author">
+              <div class="review-avatar">H</div>
+              <div>
+                <div class="review-name">Hoàng Mai Anh</div>
+                <div class="review-role">Khách hàng thân thiết tại Hà Nội</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"Tổ chức sinh nhật cho công ty tại chi nhánh Landmark 81 cực kỳ ưng ý. Không gian decor sang xịn, thịt bò nướng sốt tiêu ngon tuyệt cú mèo, phòng VIP ấm cúng."</p>
+            <div class="review-author">
+              <div class="review-avatar">T</div>
+              <div>
+                <div class="review-name">Trần Quang Huy</div>
+                <div class="review-role">Quản lý đối ngoại doanh nghiệp</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"Quy trình đặt bàn trên website rất tiện, vừa gửi form xong là có nhân viên gọi xác nhận lịch ngay. Nồi lẩu 4 ngăn chiều lòng được cả người thích ăn cay lẫn thanh đạm."</p>
+            <div class="review-author">
+              <div class="review-avatar">N</div>
+              <div>
+                <div class="review-name">Nguyễn Thùy Linh</div>
+                <div class="review-role">Thực khách tại Đà Nẵng</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAST RESERVATION CALL TO ACTION -->
+    <section class="section" style="background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-brand) 100%); color: white; text-align: center; border-top: 2px solid var(--color-gold);">
+      <div class="container">
+        <h2 style="color: white; margin-bottom: 16px;">Sẵn Sàng Cho Bữa Tiệc Sum Vầy Ấm Cúng?</h2>
+        <p style="color: var(--color-cream); font-size: 1.15rem; max-width: 600px; margin: 0 auto 30px;">
+          Đặt bàn trước để nhận ngay ưu đãi giảm 10% trên tổng hóa đơn và được chuẩn bị vị trí bàn đẹp nhất!
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="pages/reservation.html" class="btn btn-gold btn-lg">
+            Đặt bàn trực tuyến ngay
+          </a>
+          <a href="tel:19008888" class="btn btn-outline-white btn-lg">
+            Gọi Hotline: 1900 8888
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- QUICK PRODUCT DETAIL MODAL -->
+  <div class="modal-overlay" id="productModalOverlay" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Đóng popup">&times;</button>
+      <div id="modalBodyContent" style="padding: 24px;">
+        <!-- Nội dung chi tiết món ăn được render bằng JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Main Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: About -->
+        <div class="footer-col footer-about">
+          <div class="logo" style="margin-bottom: 18px;">
+            <div class="logo-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg>
+            </div>
+            <div class="logo-text">
+              <div class="logo-title" style="font-size: 1.25rem;">LẨU NƯỚNG <span style="color: var(--color-gold);">VN</span></div>
+              <div class="logo-tagline" style="color: var(--color-cream-dark);">Hương vị Việt – Trọn vị sum vầy</div>
+            </div>
+          </div>
+          <p>Hệ thống nhà hàng Lẩu Nướng cao cấp mang đậm hương vị ẩm thực Việt. Nơi lưu giữ những khoảnh khắc ấm áp và gắn kết tình thân gia đình, bạn bè.</p>
+          <div class="social-links">
+            <a href="#" class="social-btn" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+            <a href="#" class="social-btn" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+            <a href="#" class="social-btn" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div class="footer-col footer-links">
+          <h4>Khám Phá</h4>
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="pages/menu.html">Thực đơn nhà hàng</a></li>
+            <li><a href="pages/about.html">Về thương hiệu chúng tôi</a></li>
+            <li><a href="pages/branches.html">Danh sách chi nhánh</a></li>
+            <li><a href="pages/reservation.html">Đặt bàn trực tuyến</a></li>
+            <li><a href="pages/contact.html">Liên hệ & Góp ý</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Policy Links -->
+        <div class="footer-col footer-links">
+          <h4>Chính Sách & Hỗ Trợ</h4>
+          <ul>
+            <li><a href="pages/reservation.html">Chính sách đặt bàn & hoàn cọc</a></li>
+            <li><a href="pages/contact.html">Chính sách bảo mật thông tin</a></li>
+            <li><a href="pages/about.html">Tiêu chuẩn an toàn thực phẩm</a></li>
+            <li><a href="admin/index.html">Cổng quản trị nhà hàng (Admin)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact -->
+        <div class="footer-col">
+          <h4>Thông Tin Liên Hệ</h4>
+          <div class="footer-contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Trụ sở: 123 Phố Huế, Quận Hai Bà Trưng, TP. Hà Nội</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>Hotline: 1900 8888 (10h00 - 23h00)</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span>Email: contact@launuongvn.vn</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="container">
+          <div>© 2026 LẨU NƯỚNG VN. Tất cả quyền được bảo lưu. Thiết kế cho bài tập lớn ứng dụng Web.</div>
+          <div>Hương vị Việt – Trọn vị sum vầy</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/core/state.js"></script>
+  <script src="js/components/toast.js"></script>
+  <script src="js/components/navbar.js"></script>
+  <script src="js/components/modal.js"></script>
+  <script src="js/features/home/home.js"></script>
+</body>
+</html>
