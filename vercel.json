@@ -1,7 +1,10 @@
 {
-  "version": 2,
-  "cleanUrls": true,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "",
+  "installCommand": "",
   "outputDirectory": "frontend",
+  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/",
