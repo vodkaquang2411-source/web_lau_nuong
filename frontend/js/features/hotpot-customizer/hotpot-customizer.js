@@ -174,9 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="container">
         <!-- Section Header (Không chứa tag kỹ thuật) -->
         <div class="section-header" style="margin-bottom: 26px;">
-          <h2 class="section-title">Tự phối nồi lẩu theo <span>khẩu vị bàn tiệc</span></h2>
+          <h2 class="section-title">Sáng tạo nồi lẩu theo <span>phong vị riêng</span></h2>
           <div class="gold-divider"><div class="gold-divider-icon"></div></div>
-          <p class="section-desc">Chọn kiểu nồi (1 ngăn, 2 ngăn Uyên Ương hoặc 4 ngăn Tứ Quý), nhấp vào từng ngăn nồi và gán vị nước lẩu yêu thích, kết hợp topping đồ nhúng tươi ngon để tính giá tự động.</p>
+          <p class="section-desc">Tùy biến kiểu nồi 1 ngăn, 2 ngăn Uyên Ương hoặc 4 ngăn Tứ Quý, tự do kết hợp các vị nước cốt gia truyền và topping nhúng lẩu tươi ngon cho bàn tiệc của bạn.</p>
         </div>
 
         <!-- Pot Type Selector Tabs -->
@@ -380,9 +380,11 @@ document.addEventListener('DOMContentLoaded', () => {
       potContainer.innerHTML = `
         <div class="pot-layout-1">
           <div class="pot-compartment ${broth.colorClass} active-compartment" data-slot="0">
-            <span class="compartment-num-tag">Ngăn đơn duy nhất</span>
-            <div class="compartment-broth-title">${broth.name}</div>
-            <div class="compartment-hint">${broth.desc}</div>
+            <div class="compartment-info-card">
+              <span class="compartment-num-tag">Ngăn đơn</span>
+              <div class="compartment-broth-title">${broth.name}</div>
+              <div class="compartment-hint">${broth.spice} • ${broth.desc}</div>
+            </div>
           </div>
         </div>
       `;
@@ -392,15 +394,19 @@ document.addEventListener('DOMContentLoaded', () => {
       potContainer.innerHTML = `
         <div class="pot-layout-2">
           <div class="pot-compartment ${b0.colorClass} ${activeSlotIndex === 0 ? 'active-compartment' : ''}" data-slot="0">
-            <span class="compartment-num-tag">Ngăn 1</span>
-            <div class="compartment-broth-title">${b0.name}</div>
-            <div class="compartment-hint">${b0.spice}</div>
+            <div class="compartment-info-card">
+              <span class="compartment-num-tag">Ngăn 1</span>
+              <div class="compartment-broth-title">${b0.name}</div>
+              <div class="compartment-hint">${b0.spice}</div>
+            </div>
           </div>
           <div class="divider-bar"></div>
           <div class="pot-compartment ${b1.colorClass} ${activeSlotIndex === 1 ? 'active-compartment' : ''}" data-slot="1">
-            <span class="compartment-num-tag">Ngăn 2</span>
-            <div class="compartment-broth-title">${b1.name}</div>
-            <div class="compartment-hint">${b1.spice}</div>
+            <div class="compartment-info-card">
+              <span class="compartment-num-tag">Ngăn 2</span>
+              <div class="compartment-broth-title">${b1.name}</div>
+              <div class="compartment-hint">${b1.spice}</div>
+            </div>
           </div>
         </div>
       `;
@@ -412,22 +418,30 @@ document.addEventListener('DOMContentLoaded', () => {
       potContainer.innerHTML = `
         <div class="pot-layout-4">
           <div class="pot-compartment ${b0.colorClass} ${activeSlotIndex === 0 ? 'active-compartment' : ''}" data-slot="0">
-            <span class="compartment-num-tag">Ngăn 1</span>
-            <div class="compartment-broth-title" style="font-size: 0.8rem;">${b0.name}</div>
+            <div class="compartment-info-card">
+              <span class="compartment-num-tag">Ngăn 1</span>
+              <div class="compartment-broth-title">${b0.name}</div>
+            </div>
           </div>
           <div class="pot-compartment ${b1.colorClass} ${activeSlotIndex === 1 ? 'active-compartment' : ''}" data-slot="1">
-            <span class="compartment-num-tag">Ngăn 2</span>
-            <div class="compartment-broth-title" style="font-size: 0.8rem;">${b1.name}</div>
+            <div class="compartment-info-card">
+              <span class="compartment-num-tag">Ngăn 2</span>
+              <div class="compartment-broth-title">${b1.name}</div>
+            </div>
           </div>
           <div class="divider-h"></div>
           <div class="divider-v"></div>
           <div class="pot-compartment ${b2.colorClass} ${activeSlotIndex === 2 ? 'active-compartment' : ''}" data-slot="2">
-            <span class="compartment-num-tag">Ngăn 3</span>
-            <div class="compartment-broth-title" style="font-size: 0.8rem;">${b2.name}</div>
+            <div class="compartment-info-card">
+              <span class="compartment-num-tag">Ngăn 3</span>
+              <div class="compartment-broth-title">${b2.name}</div>
+            </div>
           </div>
           <div class="pot-compartment ${b3.colorClass} ${activeSlotIndex === 3 ? 'active-compartment' : ''}" data-slot="3">
-            <span class="compartment-num-tag">Ngăn 4</span>
-            <div class="compartment-broth-title" style="font-size: 0.8rem;">${b3.name}</div>
+            <div class="compartment-info-card">
+              <span class="compartment-num-tag">Ngăn 4</span>
+              <div class="compartment-broth-title">${b3.name}</div>
+            </div>
           </div>
         </div>
       `;

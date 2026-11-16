@@ -257,7 +257,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 16px;
+  padding: 12px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
@@ -270,24 +270,23 @@
 }
 
 .pot-compartment.active-compartment {
-  box-shadow: inset 0 0 0 4px #FFD700, inset 0 0 30px rgba(255, 215, 0, 0.7);
-  filter: brightness(1.12);
+  box-shadow: inset 0 0 0 4px #FFD700, inset 0 0 30px rgba(255, 215, 0, 0.75);
 }
 
 .pot-compartment.active-compartment::after {
   content: "Đang chọn";
   position: absolute;
-  top: 10px;
-  background: linear-gradient(135deg, #D4AF37, #AA7C11);
+  top: 8px;
+  background: linear-gradient(135deg, #FFD700, #B8860B);
   color: #1A1614;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 800;
-  padding: 2px 10px;
+  padding: 2px 8px;
   border-radius: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   z-index: 8;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   animation: pulseBadge 1.5s infinite;
 }
 
@@ -297,31 +296,80 @@
   100% { transform: scale(1); }
 }
 
+/* Glassmorphism Dark Card Inside Each Pot Compartment to Prevent Color Clashing */
+.compartment-info-card {
+  background: rgba(14, 10, 8, 0.86);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255, 215, 0, 0.55);
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+  max-width: 90%;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  z-index: 5;
+}
+
+.pot-layout-4 .compartment-info-card {
+  padding: 4px 6px;
+  border-radius: 8px;
+  max-width: 94%;
+}
+
+.pot-compartment.active-compartment .compartment-info-card {
+  border-color: #FFD700;
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.8);
+  background: rgba(10, 8, 6, 0.92);
+}
+
 .compartment-num-tag {
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  background: rgba(0, 0, 0, 0.55);
-  color: #FFF;
-  padding: 3px 9px;
-  border-radius: 6px;
-  margin-bottom: 6px;
+  background: linear-gradient(135deg, #FFD700, #B8860B);
+  color: #1A1614;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 4px;
   letter-spacing: 0.5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.pot-layout-4 .compartment-num-tag {
+  font-size: 0.62rem;
+  padding: 1px 5px;
+  margin-bottom: 2px;
 }
 
 .compartment-broth-title {
   font-size: 0.95rem;
   font-weight: 800;
-  color: white;
+  color: #FFFFFF;
   line-height: 1.25;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
-  margin-bottom: 4px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.pot-layout-4 .compartment-broth-title {
+  font-size: 0.75rem;
+  line-height: 1.15;
 }
 
 .compartment-hint {
-  font-size: 0.76rem;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.74rem;
+  color: #FFE082;
+  font-weight: 700;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.pot-layout-4 .compartment-hint {
+  display: none;
 }
 
 /* Broth Color Themes (Gradient sinh động, màu sắc chuẩn ẩm thực) */
