@@ -156,11 +156,18 @@
       '.contact-card',
       '.contact-info-card',
       '.stats-card',
-      '.faq-item'
+      '.faq-item',
+      '.pot-type-selector',
+      '.pot-stage-wrapper',
+      '.pot-controls-wrapper',
+      '.pot-summary-box',
+      '.broth-choice-card',
+      '[class*="reveal-3d-"]',
+      '.reveal-init'
     ];
 
     // Tự động gán stagger-parent cho các container dạng lưới
-    const gridContainers = document.querySelectorAll('.grid-2, .grid-3, .grid-4, .product-grid, .branches-grid, .reviews-grid, .features-grid');
+    const gridContainers = document.querySelectorAll('.grid-2, .grid-3, .grid-4, .product-grid, .branches-grid, .reviews-grid, .features-grid, .broth-options-grid, .pot-customizer-grid');
     gridContainers.forEach(container => {
       if (!container.classList.contains('stagger-parent')) {
         container.classList.add('stagger-parent');
@@ -182,9 +189,13 @@
             !el.classList.contains('reveal-3d-flip')) {
           
           // Phân loại hướng chuyển động sinh động
-          if (el.classList.contains('section-header') || el.classList.contains('quick-booking-bar')) {
+          if (el.classList.contains('section-header') || el.classList.contains('quick-booking-bar') || el.classList.contains('pot-type-selector')) {
             el.classList.add('reveal-3d-flip');
-          } else if (el.classList.contains('product-card') || el.classList.contains('branch-card') || el.classList.contains('review-card')) {
+          } else if (el.classList.contains('pot-stage-wrapper')) {
+            el.classList.add('reveal-3d-left');
+          } else if (el.classList.contains('pot-controls-wrapper')) {
+            el.classList.add('reveal-3d-right');
+          } else if (el.classList.contains('pot-summary-box') || el.classList.contains('broth-choice-card') || el.classList.contains('product-card') || el.classList.contains('branch-card') || el.classList.contains('review-card')) {
             el.classList.add('reveal-3d-up');
           } else if (index % 2 === 0 && (el.matches('.grid-2 > div:first-child') || el.matches('.grid-3 > div:first-child'))) {
             el.classList.add('reveal-3d-left');
@@ -212,7 +223,7 @@
     // Chỉ kích hoạt trên thiết bị có chuột (pointer: fine) và không bật reduced-motion
     if (!isPointerFine || prefersReducedMotion) return;
 
-    const tiltCards = document.querySelectorAll('.product-card, .branch-card, .review-card, .feature-card, .chef-card');
+    const tiltCards = document.querySelectorAll('.product-card, .branch-card, .review-card, .feature-card, .chef-card, .broth-choice-card');
 
     tiltCards.forEach(card => {
       if (card.dataset.tiltInitialized) return;

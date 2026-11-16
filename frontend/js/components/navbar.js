@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LẨU RESTAURANT - NAVBAR & NAVIGATION COMPONENT
  * Xử lý hiệu ứng Header cuộn trang, Menu Hamburger di động, và Trạng thái Đăng nhập
  */

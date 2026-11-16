@@ -439,14 +439,14 @@ document.addEventListener('DOMContentLoaded', () => {
     container.innerHTML = `
       <div class="container">
         <!-- Section Header -->
-        <div class="section-header" style="margin-bottom: 26px;">
+        <div class="section-header reveal-3d-flip" style="margin-bottom: 26px;">
           <h2 class="section-title">Sáng tạo nồi lẩu theo <span>phong vị riêng</span></h2>
           <div class="gold-divider"><div class="gold-divider-icon"></div></div>
           <p class="section-desc">Tùy biến kiểu nồi 1 ngăn, 2 ngăn Uyên Ương hoặc 4 ngăn Tứ Quý, tự do kết hợp các vị nước cốt gia truyền và topping nhúng lẩu tươi ngon cho bàn tiệc của bạn.</p>
         </div>
 
         <!-- Pot Type Selector Tabs -->
-        <div class="pot-type-selector">
+        <div class="pot-type-selector stagger-parent reveal-3d-flip">
           <button type="button" class="pot-type-btn ${currentPotTypeId === 1 ? 'active' : ''}" data-type="1">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect></svg>
             Nồi vuông 1 ngăn
@@ -465,10 +465,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <!-- Interactive Grid: Left Pot Visual + Right Controls -->
-        <div class="pot-customizer-grid">
+        <div class="pot-customizer-grid has-3d-scene">
           
           <!-- Left Column: Square Rounded Luxury Hotpot Visual Vessel -->
-          <div class="pot-stage-wrapper">
+          <div class="pot-stage-wrapper reveal-3d-left">
             <div class="pot-handles-wrap">
               <div class="pot-handle-left"></div>
               
@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <!-- Right Column: Sub-Tabs & Controls -->
-          <div class="pot-controls-wrapper">
+          <div class="pot-controls-wrapper reveal-3d-right">
             
             <!-- Sub-Tabs: 1. Nước lẩu cốt | 2. Topping đồ nhúng -->
             <div class="customizer-subtabs">
@@ -529,9 +529,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </span>
               </div>
 
-              <div class="broth-options-grid" id="brothOptionsList">
+              <div class="broth-options-grid stagger-parent" id="brothOptionsList">
                 ${brothList.map(broth => `
-                  <div class="broth-choice-card" data-broth-id="${broth.id}">
+                  <div class="broth-choice-card reveal-3d-up" data-broth-id="${broth.id}">
                     <div class="broth-color-dot" style="background-color: ${broth.dotColor};">
                       <svg class="broth-dot-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
@@ -581,7 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <!-- Real-time Live Price Calculator Box -->
-            <div class="pot-summary-box">
+            <div class="pot-summary-box reveal-3d-up">
               <div class="pot-summary-row">
                 <span>Kiểu nồi cốt đã chọn:</span>
                 <strong id="summaryPotTypeName" style="color: var(--color-primary);">Nồi vuông 2 ngăn Uyên Ương (239.000 đ)</strong>
@@ -632,6 +632,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderToppingsList();
     renderPotCompartments();
     updateSummaryCalculation();
+
+    // Kích hoạt hiệu ứng cuộn trang 3D & rê chuột nghiêng 3D
+    if (typeof window.initScrollReveal === 'function') {
+      window.initScrollReveal();
+    }
+    if (typeof window.initCardTilt3D === 'function') {
+      window.initCardTilt3D();
+    }
   }
 
   // 6. Vẽ danh sách Topping theo bộ lọc chuyên mục
