@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnSubmitReservation.style.cursor = 'pointer';
       btnSubmitReservation.innerHTML = `
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        Xác nhận đặt bàn ngay
+        Xác nhận đặt bàn & thanh toán ngay
       `;
     }
 
@@ -404,7 +404,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!isValid) {
       if (window.showToast) {
-        window.showToast('Vui lòng kiểm tra lại các trường thông tin báo đỏ.', 'error', 'Thông tin chưa hợp lệ');
+        window.showToast('Vui lòng kiểm tra lại các trường thông tin báo đỏ còn thiếu.', 'error', 'Thông tin chưa hợp lệ');
+      }
+      const firstInvalid = form.querySelector('.form-error-msg[style*="display: block"]');
+      if (firstInvalid && firstInvalid.parentElement) {
+        firstInvalid.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const input = firstInvalid.parentElement.querySelector('input, select, textarea');
+        if (input) input.focus();
       }
       return;
     }
@@ -415,14 +421,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Tính tổng tiền món ăn hoặc tiền cọc giữ bàn
     let preselectedGrandTotal = 0;
+    let preselectedComboData = null;
     try {
       const stored = sessionStorage.getItem('launuong_preselected_combo');
       if (stored) {
-        const comboData = JSON.parse(stored);
-        if (comboData && comboData.productId) {
-          const addOnList = (comboData.addOns || []).filter(a => a.quantity > 0);
+        preselectedComboData = JSON.parse(stored);
+        if (preselectedComboData && preselectedComboData.productId) {
+          const addOnList = (preselectedComboData.addOns || []).filter(a => a.quantity > 0);
           const addOnsTotal = addOnList.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-          preselectedGrandTotal = (comboData.price || 0) + addOnsTotal;
+          preselectedGrandTotal = (preselectedComboData.price || 0) + addOnsTotal;
         }
       }
     } catch (e) {}
@@ -460,114 +467,54 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    // 7. Tự động gắn set lẩu và món nhúng đã chọn trước vào đơn đặt bàn
+    // 7. Gắn set lẩu và món nhúng đã chọn trước vào đơn đặt bàn
     let preselectedSummaryHtml = '';
-    try {
-      const stored = sessionStorage.getItem('launuong_preselected_combo');
-      if (stored) {
-        const comboData = JSON.parse(stored);
-        if (comboData && comboData.productId) {
-          window.AppState.addDishToReservation(savedRecord.id, comboData.productId, 1, comboData.price, comboData.productName);
+    if (preselectedComboData && preselectedComboData.productId) {
+      window.AppState.addDishToReservation(savedRecord.id, preselectedComboData.productId, 1, preselectedComboData.price, preselectedComboData.productName);
 
-          if (Array.isArray(comboData.addOns)) {
-            comboData.addOns.forEach(addon => {
-              if (addon.quantity > 0) {
-                window.AppState.addDishToReservation(savedRecord.id, addon.id, addon.quantity, addon.price, addon.name);
-              }
-            });
+      if (Array.isArray(preselectedComboData.addOns)) {
+        preselectedComboData.addOns.forEach(addon => {
+          if (addon.quantity > 0) {
+            window.AppState.addDishToReservation(savedRecord.id, addon.id, addon.quantity, addon.price, addon.name);
           }
-
-          const addOnList = (comboData.addOns || []).filter(a => a.quantity > 0);
-          const addOnsTotal = addOnList.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-          const comboGrandTotal = (comboData.price || 0) + addOnsTotal;
-
-          preselectedSummaryHtml = `
-            <div style="background: #FFFDF9; border: 1px solid var(--color-gold); border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 12px; margin-bottom: 8px;">
-              <div style="font-size: 0.85rem; font-weight: 700; color: var(--color-primary); margin-bottom: 4px;">
-                Món đặt trước: <span style="color: var(--color-brand);">${comboData.productName}</span>
-              </div>
-              <div style="font-size: 0.8rem; color: var(--color-gray-600);">
-                Khẩu phần: ${comboData.servingSize || 'Tiêu chuẩn'} • Giá set: ${formatPrice(comboData.price)}
-              </div>
-              ${addOnList.length > 0 ? `
-                <div style="font-size: 0.8rem; color: var(--color-gray-700); margin-top: 4px;">
-                  Món nhúng thêm: ${addOnList.map(a => `${a.name} x${a.quantity}`).join(', ')}
-                </div>
-              ` : ''}
-              <div style="font-size: 0.85rem; font-weight: 700; color: var(--color-brand); margin-top: 6px; border-top: 1px dashed #E5D8C3; padding-top: 4px;">
-                Tạm tính món ăn: ${formatPrice(comboGrandTotal)}
-              </div>
-            </div>
-          `;
-
-          // Xóa sau khi đã lưu thành công vào đơn
-          sessionStorage.removeItem('launuong_preselected_combo');
-          if (preselectedContainer) {
-            preselectedContainer.style.display = 'none';
-            preselectedContainer.innerHTML = '';
-          }
-        }
+        });
       }
-    } catch (err) {}
 
-    // Hàm hiển thị phiếu đặt bàn (Receipt Modal)
-    function showReceiptModal(record) {
-      if (!receiptDetails || !receiptModal) return;
+      const addOnList = (preselectedComboData.addOns || []).filter(a => a.quantity > 0);
+      const addOnsTotal = addOnList.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const comboGrandTotal = (preselectedComboData.price || 0) + addOnsTotal;
 
-      const isPaidDirect = record.paymentStatus === 'paid';
-      const isPayNowMethod = record.paymentMethod === 'pay_now';
-
-      const paymentBadgeHtml = isPaidDirect
-        ? `<span class="badge" style="background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;">Đã thanh toán trước qua VietQR</span>`
-        : (isPayNowMethod 
-            ? `<span class="badge" style="background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A;">Thanh toán trước (Chưa chuyển khoản)</span>`
-            : `<span class="badge" style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A;">Thanh toán sau tại nhà hàng</span>`);
-
-      receiptDetails.innerHTML = `
-        <div style="border-bottom: 1px dashed var(--color-gray-300); padding-bottom: 10px; margin-bottom: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <div>Mã đặt bàn: <strong style="color: var(--color-brand); font-size: 1.15rem;">${record.code}</strong></div>
-            <span class="badge" style="background: #FEF3C7; color: #92400E;">Chờ xác nhận</span>
+      preselectedSummaryHtml = `
+        <div style="background: #FFFDF9; border: 1px solid var(--color-gold); border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 12px; margin-bottom: 8px;">
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--color-primary); margin-bottom: 4px;">
+            Món đặt trước: <span style="color: var(--color-brand);">${preselectedComboData.productName}</span>
           </div>
-          <div style="font-size: 0.84rem; display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-            <span>Hình thức thanh toán:</span>
-            ${paymentBadgeHtml}
+          <div style="font-size: 0.82rem; color: var(--color-gray-600);">
+            Khẩu phần: ${preselectedComboData.servingSize || 'Tiêu chuẩn'} • Giá set: ${formatPrice(preselectedComboData.price)}
           </div>
-          ${record.paymentAmount > 0 ? `
-            <div style="font-size: 0.84rem; display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-              <span>Số tiền thanh toán:</span>
-              <strong style="color: var(--color-brand); font-size: 0.95rem;">${formatPrice(record.paymentAmount)}</strong>
+          ${addOnList.length > 0 ? `
+            <div style="font-size: 0.82rem; color: var(--color-gray-700); margin-top: 4px;">
+              Món nhúng thêm: ${addOnList.map(a => `${a.name} x${a.quantity}`).join(', ')}
             </div>
           ` : ''}
-        </div>
-        <div>Khách hàng: <strong>${record.customerName}</strong></div>
-        <div>Số điện thoại: <strong>${record.customerPhone}</strong></div>
-        <div>Chi nhánh: <strong>${record.branchName}</strong></div>
-        <div>Thời gian: <strong>${record.time} - Ngày ${record.date}</strong></div>
-        <div>Số lượng khách: <strong>${record.guestCount} người</strong></div>
-        ${preselectedSummaryHtml}
-        ${record.note ? `<div style="margin-top: 6px;">Ghi chú: <em>${record.note}</em></div>` : ''}
-        <div style="margin-top: 12px; font-size: 0.8rem; color: var(--color-gray-500); border-top: 1px solid var(--color-gray-200); padding-top: 8px;">
-          Lưu ý: Nhà hàng sẽ liên hệ xác nhận trong vòng 10 phút. Bàn được giữ tối đa 15 phút so với giờ hẹn.
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--color-brand); margin-top: 6px; border-top: 1px dashed #E5D8C3; padding-top: 6px; display: flex; justify-content: space-between;">
+            <span>Tổng tiền món ăn dự kiến:</span>
+            <span>${formatPrice(comboGrandTotal)}</span>
+          </div>
         </div>
       `;
-
-      receiptModal.classList.add('active');
     }
 
-    // 8. Điều hướng theo hình thức thanh toán (Thanh toán trước hoặc Thanh toán sau)
+    // 8. Định nghĩa mở Modal VietQR và Modal Phiếu xác nhận
     const directPayModal = document.getElementById('directPaymentModalOverlay');
 
-    if (selectedPaymentMethod === 'pay_now' && directPayModal) {
-      // Thông báo đặt bàn thành công ngay lập tức
-      if (window.showToast) {
-        window.showToast(`Đặt bàn thành công! Mã đơn ${savedRecord.code}. Vui lòng quét mã VietQR để thanh toán trước.`, 'success', 'Đặt bàn thành công', 6000);
-      }
+    function openDirectPayModal(record) {
+      if (!directPayModal) return;
+      document.body.style.overflow = 'hidden';
 
-      // Trường hợp 1: Khách chọn Thanh toán trước -> Mở cổng VietQR
-      const cleanPhone = phone.replace(/\s+/g, '');
-      const qrContent = `LAU ${savedRecord.code.replace(/[^A-Za-z0-9]/g, '')} ${cleanPhone.slice(-4)}`;
-      const qrAmount = finalPaymentAmount > 0 ? finalPaymentAmount : 100000;
+      const cleanPhone = (record.customerPhone || '').replace(/\s+/g, '');
+      const qrContent = `LAU ${record.code.replace(/[^A-Za-z0-9]/g, '')} ${cleanPhone.slice(-4)}`;
+      const qrAmount = record.paymentAmount > 0 ? record.paymentAmount : 100000;
       const qrUrl = `https://img.vietqr.io/image/MB-0345662169-compact2.png?amount=${qrAmount}&addInfo=${encodeURIComponent(qrContent)}&accountName=LAU%20RESTAURANT`;
 
       const qrImg = document.getElementById('directPaymentQrImg');
@@ -585,89 +532,201 @@ document.addEventListener('DOMContentLoaded', () => {
       const btnCopyCnt = document.getElementById('btnCopyContent');
       if (btnCopyCnt) btnCopyCnt.setAttribute('data-copy', qrContent);
 
+      if (receiptModal) receiptModal.classList.remove('active');
       directPayModal.classList.add('active');
+      directPayModal.scrollTop = 0;
+
+      if (window.showToast) {
+        window.showToast(`Đặt bàn thành công! Mã đơn ${record.code}. Vui lòng quét mã VietQR để thanh toán trước.`, 'success', 'Thanh toán trước', 6000);
+      }
 
       // Hook nút "Tôi đã chuyển khoản thành công"
       const btnConfirmPaid = document.getElementById('btnConfirmDirectPaid');
-      const confirmPaidHandler = () => {
-        window.AppState.updateReservationPayment(savedRecord.id, {
-          paymentStatus: 'paid',
-          paymentMethod: 'pay_now',
-          paymentAmount: qrAmount
-        });
-
-        directPayModal.classList.remove('active');
-        savedRecord.paymentStatus = 'paid';
-        savedRecord.paymentAmount = qrAmount;
-
-        if (window.showToast) {
-          window.showToast(`Xác nhận thanh toán trước thành công cho đơn ${savedRecord.code}!`, 'success', 'Thanh toán thành công', 5000);
-        }
-
-        showReceiptModal(savedRecord);
-        btnConfirmPaid.removeEventListener('click', confirmPaidHandler);
-      };
       if (btnConfirmPaid) {
-        btnConfirmPaid.addEventListener('click', confirmPaidHandler);
+        btnConfirmPaid.onclick = () => {
+          window.AppState.updateReservationPayment(record.id, {
+            paymentStatus: 'paid',
+            paymentMethod: 'pay_now',
+            paymentAmount: qrAmount
+          });
+          record.paymentStatus = 'paid';
+          record.paymentAmount = qrAmount;
+          directPayModal.classList.remove('active');
+
+          if (window.showToast) {
+            window.showToast(`Xác nhận thanh toán trước thành công cho đơn ${record.code}!`, 'success', 'Thanh toán thành công', 5000);
+          }
+          showReceiptModal(record);
+        };
       }
 
       // Hook nút "Đổi sang thanh toán sau tại nhà hàng"
       const btnSwitchPayLater = document.getElementById('btnSwitchToPayLater');
-      const switchHandler = () => {
-        window.AppState.updateReservationPayment(savedRecord.id, {
-          paymentStatus: 'unpaid',
-          paymentMethod: 'pay_later',
-          paymentAmount: finalPaymentAmount
-        });
-
-        directPayModal.classList.remove('active');
-        savedRecord.paymentStatus = 'unpaid';
-        savedRecord.paymentMethod = 'pay_later';
-
-        if (window.showToast) {
-          window.showToast(`Đã chuyển sang hình thức thanh toán sau tại nhà hàng.`, 'info', 'Thanh toán sau', 4000);
-        }
-
-        showReceiptModal(savedRecord);
-        btnSwitchPayLater.removeEventListener('click', switchHandler);
-      };
       if (btnSwitchPayLater) {
-        btnSwitchPayLater.addEventListener('click', switchHandler);
+        btnSwitchPayLater.onclick = () => {
+          window.AppState.updateReservationPayment(record.id, {
+            paymentStatus: 'unpaid',
+            paymentMethod: 'pay_later',
+            paymentAmount: Number(record.paymentAmount || finalPaymentAmount || 0)
+          });
+          record.paymentStatus = 'unpaid';
+          record.paymentMethod = 'pay_later';
+          directPayModal.classList.remove('active');
+
+          if (window.showToast) {
+            window.showToast(`Đã chuyển sang hình thức thanh toán sau tại nhà hàng.`, 'info', 'Thanh toán sau', 4000);
+          }
+          showReceiptModal(record);
+        };
       }
 
       // Hook đóng modal VietQR
       const closeDirectPayBtn = document.getElementById('directPaymentModalCloseBtn');
       if (closeDirectPayBtn) {
-        closeDirectPayBtn.addEventListener('click', () => {
+        closeDirectPayBtn.onclick = () => {
           directPayModal.classList.remove('active');
-          showReceiptModal(savedRecord);
-        });
+          showReceiptModal(record);
+        };
       }
 
+      directPayModal.onclick = (e) => {
+        if (e.target === directPayModal) {
+          directPayModal.classList.remove('active');
+          showReceiptModal(record);
+        }
+      };
+    }
+
+    function showReceiptModal(record) {
+      if (!receiptDetails || !receiptModal) return;
+      document.body.style.overflow = 'hidden';
+
+      const isPaidDirect = record.paymentStatus === 'paid';
+      const isPayNowMethod = record.paymentMethod === 'pay_now';
+
+      const modalTitle = document.getElementById('receiptModalTitle');
+      const modalSubtitle = document.getElementById('receiptModalSubtitle');
+      const modalIcon = document.getElementById('receiptModalIcon');
+
+      if (isPaidDirect) {
+        if (modalTitle) modalTitle.textContent = 'Đặt bàn & thanh toán trước thành công!';
+        if (modalSubtitle) modalSubtitle.textContent = 'Đơn của quý khách đã được xác thực thanh toán qua VietQR. Nhà hàng sẵn sàng đón tiếp!';
+        if (modalIcon) {
+          modalIcon.style.background = '#DCFCE7';
+          modalIcon.style.color = '#166534';
+          modalIcon.textContent = '✓';
+        }
+      } else {
+        if (modalTitle) modalTitle.textContent = 'Đặt bàn thành công - Xác nhận thanh toán sau!';
+        if (modalSubtitle) modalSubtitle.textContent = 'Mã đặt bàn đã được ghi nhận. Quý khách thanh toán tại quầy khi dùng bữa xong.';
+        if (modalIcon) {
+          modalIcon.style.background = 'var(--color-success-bg)';
+          modalIcon.style.color = 'var(--color-success)';
+          modalIcon.textContent = '✓';
+        }
+      }
+
+      const paymentBannerHtml = isPaidDirect
+        ? `
+          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div style="font-weight: 700; color: #166534; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Đã thanh toán trước qua VietQR MB Bank
+            </div>
+            <strong style="color: #166534; font-size: 1rem;">${formatPrice(record.paymentAmount)}</strong>
+          </div>
+        `
+        : `
+          <div style="background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div style="font-weight: 700; color: #92400E; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+                Hình thức: Thanh toán sau tại quầy khi dùng bữa
+              </div>
+              <span class="badge" style="background: #FEF3C7; color: #92400E; font-weight: 700;">Chưa thanh toán</span>
+            </div>
+            <p style="margin: 0; font-size: 0.82rem; color: #78350F; line-height: 1.5;">Quý khách vui lòng thanh toán bằng tiền mặt hoặc quẹt thẻ tại quầy lễ tân sau khi dùng bữa xong.</p>
+            <button type="button" id="btnReceiptSwitchPayNow" class="btn btn-sm btn-gold" style="margin-top: 10px; width: 100%; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              Quét mã VietQR chuyển khoản trước ngay (Giữ chỗ ưu tiên)
+            </button>
+          </div>
+        `;
+
+      receiptDetails.innerHTML = `
+        ${paymentBannerHtml}
+        <div style="border-bottom: 1px dashed var(--color-gray-300); padding-bottom: 10px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>Mã đặt bàn: <strong style="color: var(--color-brand); font-size: 1.2rem;">${record.code}</strong></div>
+            <span class="badge" style="background: #DCFCE7; color: #166534; font-weight: 700;">Đã ghi nhận</span>
+          </div>
+        </div>
+        <div>Khách hàng: <strong>${record.customerName}</strong></div>
+        <div>Số điện thoại: <strong>${record.customerPhone}</strong></div>
+        <div>Chi nhánh: <strong>${record.branchName}</strong></div>
+        <div>Thời gian: <strong>${record.time} - Ngày ${record.date}</strong></div>
+        <div>Số lượng khách: <strong>${record.guestCount} người</strong></div>
+        ${preselectedSummaryHtml}
+        ${record.note ? `<div style="margin-top: 6px;">Ghi chú: <em>${record.note}</em></div>` : ''}
+        <div style="margin-top: 12px; font-size: 0.82rem; color: var(--color-gray-500); border-top: 1px solid var(--color-gray-200); padding-top: 8px;">
+          Lưu ý: Nhà hàng sẽ liên hệ xác nhận trong vòng 10 phút. Bàn được giữ tối đa 15 phút so với giờ hẹn.
+        </div>
+      `;
+
+      receiptModal.classList.add('active');
+      receiptModal.scrollTop = 0;
+
+      // Hook nút "Quét mã VietQR chuyển khoản trước ngay" từ trong Receipt Modal
+      const btnSwitchNowInReceipt = document.getElementById('btnReceiptSwitchPayNow');
+      if (btnSwitchNowInReceipt) {
+        btnSwitchNowInReceipt.onclick = () => {
+          openDirectPayModal(record);
+        };
+      }
+    }
+
+    // 9. Điều hướng mở modal theo lựa chọn ban đầu
+    if (selectedPaymentMethod === 'pay_now' && directPayModal) {
+      openDirectPayModal(savedRecord);
     } else {
-      // Trường hợp 2: Khách chọn Thanh toán sau tại nhà hàng
       if (window.showToast) {
         window.showToast(`Đặt bàn thành công! Mã số đặt bàn của bạn là ${savedRecord.code}. Quý khách thanh toán sau khi dùng bữa xong.`, 'success', 'Đặt bàn thành công', 6000);
       }
       showReceiptModal(savedRecord);
     }
 
-    form.reset();
-    initReservationAuthGuard();
     if (window.updateReservationsBadge) {
       window.updateReservationsBadge();
     }
   });
 
-  // Modal close handlers
+  // ========================================================
+  // 5. DỌN DẸP VÀ ĐÓNG MODAL AN TOÀN
+  // ========================================================
+  function cleanupAfterModal() {
+    document.body.style.overflow = '';
+    sessionStorage.removeItem('launuong_preselected_combo');
+    if (preselectedContainer) {
+      preselectedContainer.style.display = 'none';
+      preselectedContainer.innerHTML = '';
+    }
+    form.reset();
+    initReservationAuthGuard();
+    if (window.updateReservationsBadge) {
+      window.updateReservationsBadge();
+    }
+  }
+
   if (receiptCloseBtn) {
     receiptCloseBtn.addEventListener('click', () => {
       receiptModal.classList.remove('active');
+      cleanupAfterModal();
     });
   }
 
   if (btnContinueMenu) {
     btnContinueMenu.addEventListener('click', () => {
+      cleanupAfterModal();
       window.location.href = 'menu.html';
     });
   }
@@ -676,6 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
     receiptModal.addEventListener('click', (e) => {
       if (e.target === receiptModal) {
         receiptModal.classList.remove('active');
+        cleanupAfterModal();
       }
     });
   }

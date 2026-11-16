@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LẨU RESTAURANT - CENTRALIZED STATE MANAGEMENT
  * Quản lý trạng thái dữ liệu (Thực đơn, Chi nhánh, Đặt bàn, Khách hàng, Xác thực)
  * Hỗ trợ lưu trữ cục bộ (localStorage) và sẵn sàng đồng bộ REST API Backend.
@@ -882,9 +882,18 @@ const AppState = {
       return { success: false, message: 'Đơn đặt bàn này đã được quản trị viên xử lý, không thể thêm món.' };
     }
 
-    const product = this.getProductById(productId);
+    let product = this.getProductById(productId);
     if (!product) {
-      return { success: false, message: 'Món ăn không tồn tại trong thực đơn.' };
+      if (customName) {
+        product = {
+          id: Number(productId),
+          name: customName,
+          price: Number(customPrice || 0),
+          imageUrl: '../img/products/default.jpg'
+        };
+      } else {
+        return { success: false, message: 'Món ăn không tồn tại trong thực đơn.' };
+      }
     }
 
     if (!Array.isArray(reservations[resIdx].orderedDishes)) {
