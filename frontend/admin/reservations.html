@@ -104,6 +104,7 @@
                   <th>Ngày dùng bữa</th>
                   <th>Giờ đến</th>
                   <th>Số khách</th>
+                  <th>Thanh toán</th>
                   <th>Trạng thái</th>
                   <th style="width: 140px; text-align: right;">Thao tác</th>
                 </tr>
@@ -139,6 +140,14 @@
               <option value="confirmed">Đã xác nhận (Đã gọi điện cho khách)</option>
               <option value="completed">Đã hoàn thành (Khách đã đến dùng bữa)</option>
               <option value="cancelled">Hủy đặt bàn</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="modalResPaymentSelect" class="form-label">Cập nhật thanh toán:</label>
+            <select id="modalResPaymentSelect" class="form-control" style="font-weight: 600;">
+              <option value="unpaid">Chưa thanh toán (Thanh toán sau tại quầy)</option>
+              <option value="paid">Đã thanh toán (Chuyển khoản trực tiếp / Tiền mặt)</option>
             </select>
           </div>
 

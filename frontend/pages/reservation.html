@@ -109,9 +109,6 @@
             <!-- Khối thông báo set lẩu chọn trước (nếu có) -->
             <div id="reservationPreselectedCombo" style="display: none; margin-bottom: 20px;"></div>
 
-            <!-- Khối kiểm tra và xác thực đăng nhập tài khoản -->
-            <div id="reservationAuthNotice" style="display: none; margin-bottom: 24px;"></div>
-
             <form id="reservationForm" novalidate>
               <!-- Chọn trước set lẩu / combo ưu đãi (Tùy chọn) -->
               <div class="form-group" style="background: #FFFDF9; border: 1.5px solid var(--color-gold); border-radius: var(--radius-md); padding: 16px; margin-bottom: 22px;">
@@ -223,6 +220,60 @@
                 <span class="form-hint">Nhà hàng sẽ cố gắng sắp xếp theo đúng nguyện vọng của quý khách.</span>
               </div>
 
+              <!-- Payment Method Selection (Thanh toán trước hoặc Thanh toán sau) -->
+              <div class="form-group" style="background: #FFFDF9; border: 1.5px solid var(--color-gold); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                  <label class="form-label" style="margin: 0; font-weight: 700; color: var(--color-primary); font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                    Hình thức thanh toán (Thanh toán trước hoặc thanh toán sau) <span class="required">*</span>
+                  </label>
+                  <span style="font-size: 0.78rem; font-weight: 700; color: #166534; background: #DCFCE7; padding: 3px 10px; border-radius: 12px;">Linh hoạt & an tâm</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;" class="payment-method-grid">
+                  <!-- Option 1: Thanh toán trước -->
+                  <label class="payment-option-card" id="payOptionNowCard" style="display: block; cursor: pointer; border: 1.5px solid #E2D7C5; background: #FCFAF6; border-radius: 10px; padding: 14px 16px; position: relative; transition: all 0.25s ease;">
+                    <input type="radio" name="paymentMethod" value="pay_now" style="position: absolute; top: 14px; right: 14px; accent-color: var(--color-brand); width: 18px; height: 18px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                      <div style="width: 38px; height: 38px; border-radius: 8px; background: #DCFCE7; color: #166534; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                      </div>
+                      <div>
+                        <div style="font-weight: 700; font-size: 0.98rem; color: var(--color-primary);">Thanh toán trước</div>
+                        <span style="font-size: 0.74rem; color: #166534; font-weight: 700;">Chuyển khoản VietQR 24/7</span>
+                      </div>
+                    </div>
+                    <p style="margin: 0; font-size: 0.82rem; color: var(--color-gray-500); line-height: 1.45;">Quét mã VietQR chuyển khoản nhanh 24/7, xác nhận tức thì, giữ chỗ ưu tiên tuyệt đối.</p>
+                  </label>
+
+                  <!-- Option 2: Thanh toán sau -->
+                  <label class="payment-option-card active" id="payOptionLaterCard" style="display: block; cursor: pointer; border: 2px solid var(--color-gold); background: #FFFFFF; border-radius: 10px; padding: 14px 16px; position: relative; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(201, 166, 107, 0.15);">
+                    <input type="radio" name="paymentMethod" value="pay_later" checked style="position: absolute; top: 14px; right: 14px; accent-color: var(--color-brand); width: 18px; height: 18px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                      <div style="width: 38px; height: 38px; border-radius: 8px; background: #FDF4E7; color: #B45309; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+                      </div>
+                      <div>
+                        <div style="font-weight: 700; font-size: 0.98rem; color: var(--color-primary);">Thanh toán sau</div>
+                        <span style="font-size: 0.74rem; color: #B45309; font-weight: 700;">Tại quầy khi dùng bữa</span>
+                      </div>
+                    </div>
+                    <p style="margin: 0; font-size: 0.82rem; color: var(--color-gray-500); line-height: 1.45;">Quý khách thanh toán bằng tiền mặt hoặc quẹt thẻ ngân hàng tại nhà hàng sau khi dùng bữa xong.</p>
+                  </label>
+                </div>
+
+                <!-- Khối thông báo khi chọn Thanh toán trước -->
+                <div id="directPaymentNoticeBox" style="display: none; margin-top: 14px; background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 8px; padding: 12px 16px; font-size: 0.84rem; color: #166534;">
+                  <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Quý khách đã chọn: Thanh toán trước qua quét mã VietQR ngân hàng
+                  </div>
+                  <div style="line-height: 1.5; color: #15803D;">
+                    Sau khi bấm xác nhận đặt bàn, hệ thống sẽ mở cổng quét mã QR ngân hàng hiển thị số tiền chính xác và tự động xác nhận tức thì.
+                  </div>
+                </div>
+              </div>
+
               <!-- Submit button -->
               <div style="margin-top: 28px;">
                 <button type="submit" id="btnSubmitReservation" class="btn btn-primary btn-lg" style="width: 100%;">
@@ -275,6 +326,77 @@
       </div>
     </section>
   </main>
+
+  <!-- Direct Payment Modal (Cổng thanh toán trước qua VietQR) -->
+  <div class="modal-overlay" id="directPaymentModalOverlay" aria-hidden="true" role="dialog">
+    <div class="modal-content" style="max-width: 520px; border: 2px solid var(--color-gold);">
+      <button class="modal-close" id="directPaymentModalCloseBtn" aria-label="Đóng popup">&times;</button>
+      <div style="padding: 28px 24px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="width: 52px; height: 52px; background: #DCFCE7; color: #166534; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          </div>
+          <h3 style="color: var(--color-primary); margin-bottom: 6px; font-size: 1.35rem;">Thanh toán trước qua VietQR</h3>
+          <p style="color: var(--color-gray-500); font-size: 0.88rem; margin: 0;">Quét mã QR từ ứng dụng ngân hàng hoặc ví điện tử bất kỳ để hoàn tất thanh toán trước.</p>
+        </div>
+
+        <!-- Khối hiển thị ảnh mã QR -->
+        <div style="background: #FFFDF9; border: 1.5px solid #E6D8C3; border-radius: 12px; padding: 18px; text-align: center; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+          <div style="display: inline-block; background: white; padding: 10px; border-radius: 8px; border: 1px solid #E2D7C5; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <img id="directPaymentQrImg" src="" alt="Mã VietQR thanh toán" style="width: 220px; height: 220px; object-fit: contain; display: block;">
+          </div>
+          <div style="margin-top: 10px; font-size: 0.78rem; color: #166534; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Tự động điền đúng số tiền & nội dung chuyển khoản
+          </div>
+        </div>
+
+        <!-- Bảng thông tin chuyển khoản ngân hàng có nút sao chép -->
+        <div style="background: #FDFBF8; border-radius: 10px; border: 1px solid #EBE4D8; padding: 14px 16px; margin-bottom: 20px; font-size: 0.88rem; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--color-gray-600);">Ngân hàng thụ hưởng:</span>
+            <strong style="color: var(--color-primary);">MB Bank (Ngân hàng Quân Đội)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--color-gray-600);">Chủ tài khoản:</span>
+            <strong style="color: var(--color-brand); font-size: 0.92rem;">LAU RESTAURANT - NGUYEN VAN KIM</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--color-gray-600);">Số tài khoản:</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: var(--color-primary); font-size: 1.05rem;" id="qrBankNumber">0345662169</strong>
+              <button type="button" class="btn btn-sm btn-secondary btn-copy-field" data-copy="0345662169" style="padding: 2px 8px; font-size: 0.74rem;">Sao chép</button>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--color-gray-600);">Số tiền thanh toán:</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: #166534; font-size: 1.15rem;" id="qrAmountDisplay">0 đ</strong>
+              <button type="button" class="btn btn-sm btn-secondary btn-copy-field" id="btnCopyAmount" data-copy="" style="padding: 2px 8px; font-size: 0.74rem;">Sao chép</button>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #E2D7C5; padding-top: 8px;">
+            <span style="color: var(--color-gray-600);">Nội dung chuyển khoản:</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: var(--color-brand); font-family: monospace; font-size: 0.95rem;" id="qrContentDisplay">LAU...</strong>
+              <button type="button" class="btn btn-sm btn-secondary btn-copy-field" id="btnCopyContent" data-copy="" style="padding: 2px 8px; font-size: 0.74rem;">Sao chép</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nút hành động xác nhận -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <button type="button" id="btnConfirmDirectPaid" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Tôi đã chuyển khoản thành công
+          </button>
+          <button type="button" id="btnSwitchToPayLater" class="btn btn-secondary" style="width: 100%; padding: 10px; font-size: 0.86rem;">
+            Đổi sang thanh toán sau tại nhà hàng
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Reservation Success Receipt Modal -->
   <div class="modal-overlay" id="receiptModalOverlay" aria-hidden="true" role="dialog">

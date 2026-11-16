@@ -604,6 +604,9 @@ const INITIAL_RESERVATIONS = [
     guestCount: 4,
     note: 'Bàn cạnh cửa sổ thoáng, chuẩn bị ghế trẻ em',
     status: 'pending',
+    paymentMethod: 'pay_later',
+    paymentStatus: 'unpaid',
+    paymentAmount: 0,
     createdAt: '2026-11-14 09:30'
   },
   {
@@ -619,6 +622,10 @@ const INITIAL_RESERVATIONS = [
     guestCount: 8,
     note: 'Tiệc kỷ niệm thành lập công ty, cần phòng VIP',
     status: 'confirmed',
+    paymentMethod: 'pay_now',
+    paymentStatus: 'paid',
+    paymentAmount: 1199000,
+    paidAt: '2026-11-14 08:20',
     createdAt: '2026-11-14 08:15'
   },
   {
@@ -634,6 +641,9 @@ const INITIAL_RESERVATIONS = [
     guestCount: 2,
     note: 'Hẹn hò sinh nhật bạn gái',
     status: 'pending',
+    paymentMethod: 'pay_later',
+    paymentStatus: 'unpaid',
+    paymentAmount: 0,
     createdAt: '2026-11-14 10:05'
   }
 ];
@@ -778,12 +788,20 @@ const AppState = {
     const branch = this.getBranchById(resData.branchId);
     const branchName = branch ? branch.name : 'Chi nhánh chính';
 
+    const paymentMethod = resData.paymentMethod || 'pay_later'; // 'pay_later' (thanh toán sau) hoặc 'pay_now' (thanh toán trực tiếp)
+    const paymentStatus = resData.paymentStatus || (paymentMethod === 'pay_now' ? 'paid' : 'unpaid');
+    const paymentAmount = Number(resData.paymentAmount || 0);
+
     const newReservation = {
       ...resData,
       id: newId,
       code: randomCode,
       branchName: branchName,
       status: 'pending',
+      paymentMethod: paymentMethod,
+      paymentStatus: paymentStatus,
+      paymentAmount: paymentAmount,
+      paidAt: paymentStatus === 'paid' ? new Date().toISOString().slice(0, 16).replace('T', ' ') : null,
       createdAt: new Date().toISOString().slice(0, 16).replace('T', ' ')
     };
 
@@ -792,15 +810,37 @@ const AppState = {
     return newReservation;
   },
 
-  updateReservationStatus(id, newStatus) {
+  updateReservationStatus(id, newStatus, newPaymentStatus = null) {
     const reservations = this.getReservations();
     const target = reservations.find(r => r.id === Number(id));
     if (target) {
       target.status = newStatus;
+      if (newPaymentStatus) {
+        target.paymentStatus = newPaymentStatus;
+        if (newPaymentStatus === 'paid' && !target.paidAt) {
+          target.paidAt = new Date().toISOString().slice(0, 16).replace('T', ' ');
+        }
+      }
       localStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
       return true;
     }
     return false;
+  },
+
+  updateReservationPayment(id, { paymentStatus, paymentMethod, paymentAmount }) {
+    const reservations = this.getReservations();
+    const target = reservations.find(r => r.id === Number(id));
+    if (target) {
+      if (paymentStatus) target.paymentStatus = paymentStatus;
+      if (paymentMethod) target.paymentMethod = paymentMethod;
+      if (paymentAmount !== undefined) target.paymentAmount = Number(paymentAmount);
+      if (paymentStatus === 'paid' && !target.paidAt) {
+        target.paidAt = new Date().toISOString().slice(0, 16).replace('T', ' ');
+      }
+      localStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+      return { success: true, reservation: target };
+    }
+    return { success: false, message: 'Không tìm thấy đơn đặt bàn.' };
   },
 
   updateReservation(id, updatedData) {
@@ -986,7 +1026,16 @@ const AppState = {
 
   getUserReservations(user) {
     if (!user) user = this.getCurrentUser();
-    if (!user) return [];
+    if (!user) {
+      try {
+        const guestCodes = JSON.parse(localStorage.getItem('launuong_guest_reservation_codes') || '[]');
+        if (guestCodes && guestCodes.length > 0) {
+          const reservations = this.getReservations();
+          return reservations.filter(r => guestCodes.includes(r.code));
+        }
+      } catch (e) {}
+      return [];
+    }
 
     const reservations = this.getReservations();
     const userEmail = (user.email || '').toLowerCase().trim();

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LẨU RESTAURANT - SCROLL REVEAL & 3D INTERACTION SYSTEM
  * 1. Hiệu ứng cuộn trang 3D mượt mà (3D Scroll Reveal)
  * 2. Hiệu ứng rê chuột nghiêng 3D phản quang ánh kim (3D Interactive Card Tilt & Specular Glare)

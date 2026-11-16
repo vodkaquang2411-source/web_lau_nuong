@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let searchQuery = '';
   let selectedStatus = 'all';
 
+  const formatPrice = (num) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num || 0);
+  };
+
   function renderReservationsTable() {
     let list = window.AppState.getReservations();
 
@@ -35,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (list.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 24px; color: #888;">Không tìm thấy lịch đặt bàn nào.</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 24px; color: #888;">Không tìm thấy lịch đặt bàn nào.</td></tr>`;
       return;
     }
 
@@ -55,6 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${item.date}</td>
         <td><strong>${item.time}</strong></td>
         <td>${item.guestCount} khách</td>
+        <td>
+          ${item.paymentStatus === 'paid' ? `
+            <span class="badge" style="background: #DCFCE7; color: #166534; padding: 3px 8px; border-radius: 10px; font-size: 0.74rem; font-weight: 700; white-space: nowrap;">
+              ✓ Đã TT (${formatPrice(item.paymentAmount || 0)})
+            </span>
+          ` : `
+            <span class="badge" style="background: #FEF3C7; color: #92400E; padding: 3px 8px; border-radius: 10px; font-size: 0.74rem; font-weight: 700; white-space: nowrap;">
+              Chưa TT (TT sau)
+            </span>
+          `}
+        </td>
         <td>${statusPillMap[item.status] || item.status}</td>
         <td style="text-align: right;">
           <div class="action-btns" style="justify-content: flex-end;">
@@ -96,6 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modalResCode').textContent = res.code || '#' + res.id;
     document.getElementById('modalResStatusSelect').value = res.status;
 
+    const paymentSelect = document.getElementById('modalResPaymentSelect');
+    if (paymentSelect) {
+      paymentSelect.value = res.paymentStatus || 'unpaid';
+    }
+
+    const isPaid = res.paymentStatus === 'paid';
+    const isDirect = res.paymentMethod === 'pay_now';
+
     const detailsBox = document.getElementById('modalResDetailsContent');
     detailsBox.innerHTML = `
       <div>Khách hàng: <strong>${res.customerName}</strong></div>
@@ -104,7 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
       <div>Địa điểm: <strong>${res.branchName}</strong></div>
       <div>Thời gian đặt: <strong>${res.time} ngày ${res.date}</strong></div>
       <div>Số khách tham dự: <strong>${res.guestCount} người</strong></div>
-      <div>Ghi chú của khách: <em>${res.note || 'Không có yêu cầu đặc biệt'}</em></div>
+      <div style="border-top: 1px dashed #dcd0bc; padding-top: 6px; margin-top: 6px;">
+        <div>Hình thức thanh toán: <strong>${isDirect ? 'Thanh toán trước (VietQR)' : 'Thanh toán sau tại nhà hàng'}</strong></div>
+        <div>Trạng thái thanh toán: <strong style="color: ${isPaid ? '#166534' : '#92400E'};">${isPaid ? '✓ Đã thanh toán' : 'Chưa thanh toán (Thanh toán sau)'}</strong></div>
+        ${res.paymentAmount ? `<div>Số tiền thanh toán: <strong style="color: var(--color-brand);">${formatPrice(res.paymentAmount)}</strong></div>` : ''}
+        ${res.paidAt ? `<div style="font-size: 0.8rem; color: #166534;">Thời điểm thanh toán: ${res.paidAt}</div>` : ''}
+      </div>
+      <div style="margin-top: 6px;">Ghi chú của khách: <em>${res.note || 'Không có yêu cầu đặc biệt'}</em></div>
       <div style="margin-top: 8px; font-size: 0.8rem; color: #888;">Thời điểm tạo yêu cầu: ${res.createdAt || 'Vừa xong'}</div>
     `;
 
@@ -123,8 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const id = document.getElementById('modalResId').value;
       const newStatus = document.getElementById('modalResStatusSelect').value;
+      const paymentSelect = document.getElementById('modalResPaymentSelect');
+      const newPaymentStatus = paymentSelect ? paymentSelect.value : null;
 
-      window.AppState.updateReservationStatus(id, newStatus);
+      window.AppState.updateReservationStatus(id, newStatus, newPaymentStatus);
       if (window.showToast) {
         window.showToast(`Đã cập nhật trạng thái đơn đặt bàn #${id} thành công!`, 'success');
       }

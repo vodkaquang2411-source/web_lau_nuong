@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // ========================================================
-  // 1. KIỂM TRA ĐĂNG NHẬP BẮT BUỘC ĐỂ ĐẶT BÀN (AUTH GUARD)
+  // 1. TỰ ĐỘNG ĐIỀN THÔNG TIN TÀI KHOẢN NẾU ĐÃ ĐĂNG NHẬP
   // ========================================================
   function initReservationAuthGuard() {
     const currentUser = window.AppState.getCurrentUser();
@@ -43,75 +43,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const phoneInput = document.getElementById('customerPhone');
     const emailInput = document.getElementById('customerEmail');
 
-    if (!currentUser) {
-      // Chưa đăng nhập: Khóa form, đổi nút submit, hiển thị thông báo trang trọng
-      if (authNoticeContainer) {
-        authNoticeContainer.style.display = 'block';
-        authNoticeContainer.innerHTML = `
-          <div style="background: #FFFBEB; border: 1.5px solid #F59E0B; border-radius: var(--radius-md); padding: 18px 20px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);">
-            <div style="display: flex; align-items: flex-start; gap: 14px;">
-              <div style="width: 40px; height: 40px; border-radius: 50%; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              </div>
-              <div style="flex: 1;">
-                <h4 style="margin: 0 0 4px 0; font-size: 1.05rem; color: #92400E; font-weight: 700;">Yêu cầu đăng nhập để đặt bàn</h4>
-                <p style="margin: 0 0 12px 0; font-size: 0.88rem; color: #78350F; line-height: 1.5;">
-                  Để bảo vệ quyền lợi tích điểm hội viên, áp dụng ưu đãi giảm 10% và xác nhận giữ chỗ chính xác, quý khách vui lòng đăng nhập hoặc tạo tài khoản mới trước khi gửi phiếu đặt bàn.
-                </p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                  <a href="login.html?redirect=reservation.html" class="btn btn-primary btn-sm" style="font-size: 0.85rem; padding: 8px 18px; display: inline-flex; align-items: center; gap: 6px;">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
-                    Đăng nhập ngay
-                  </a>
-                  <a href="register.html?redirect=reservation.html" class="btn btn-secondary btn-sm" style="font-size: 0.85rem; padding: 8px 18px;">
-                    Đăng ký tài khoản mới
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }
+    // Luôn mở khóa form hoàn toàn để khách hàng đặt bàn thuận tiện nhất (không bắt buộc đăng nhập)
+    form.style.opacity = '1';
+    form.style.pointerEvents = 'auto';
+    form.style.userSelect = 'auto';
 
-      // Khóa tương tác của form
-      form.style.opacity = '0.55';
-      form.style.pointerEvents = 'none';
-      form.style.userSelect = 'none';
+    if (btnSubmitReservation) {
+      btnSubmitReservation.disabled = false;
+      btnSubmitReservation.style.background = '';
+      btnSubmitReservation.style.borderColor = '';
+      btnSubmitReservation.style.cursor = 'pointer';
+      btnSubmitReservation.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Xác nhận đặt bàn ngay
+      `;
+    }
 
-      if (btnSubmitReservation) {
-        btnSubmitReservation.disabled = true;
-        btnSubmitReservation.style.background = '#9CA3AF';
-        btnSubmitReservation.style.borderColor = '#9CA3AF';
-        btnSubmitReservation.style.cursor = 'not-allowed';
-        btnSubmitReservation.innerHTML = `
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Vui lòng đăng nhập để đặt bàn
-        `;
-      }
-    } else {
-      // Đã đăng nhập: Mở khóa form và ẩn hoàn toàn khối tài khoản để làm gọn trang lại
-      form.style.opacity = '1';
-      form.style.pointerEvents = 'auto';
-      form.style.userSelect = 'auto';
+    if (authNoticeContainer) {
+      authNoticeContainer.innerHTML = '';
+      authNoticeContainer.style.display = 'none';
+    }
 
-      if (btnSubmitReservation) {
-        btnSubmitReservation.disabled = false;
-        btnSubmitReservation.style.background = '';
-        btnSubmitReservation.style.borderColor = '';
-        btnSubmitReservation.style.cursor = 'pointer';
-        btnSubmitReservation.innerHTML = `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          Xác nhận đặt bàn ngay
-        `;
-      }
-
-      // Xóa và ẩn khối tài khoản để làm gọn trang theo yêu cầu
-      if (authNoticeContainer) {
-        authNoticeContainer.innerHTML = '';
-        authNoticeContainer.style.display = 'none';
-      }
-
-      // Tự động điền thông tin (Pre-fill) từ tài khoản đang đăng nhập
+    // Nếu khách hàng đã đăng nhập tài khoản thì tự động điền sẵn Họ tên, SĐT, Email
+    if (currentUser) {
       if (nameInput && (!nameInput.value || nameInput.value.trim() === '')) {
         nameInput.value = currentUser.fullName || '';
       }
@@ -358,8 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const branchParam = urlParams.get('branch');
+  const branchParam = urlParams ? urlParams.get('branch') : null;
   if (branchParam && branchSelect) {
     branchSelect.value = branchParam;
   }
@@ -370,18 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Kiểm tra đăng nhập (Client-side Security Guard)
     const currentUser = window.AppState.getCurrentUser();
-    if (!currentUser) {
-      if (window.showToast) {
-        window.showToast('Quý khách vui lòng đăng nhập tài khoản trước khi gửi thông tin đặt bàn.', 'error', 'Yêu cầu đăng nhập');
-      }
-      setTimeout(() => {
-        window.location.href = 'login.html?redirect=reservation.html';
-      }, 1000);
-      return;
-    }
-
     const branchId = branchSelect.value;
     const name = document.getElementById('customerName').value.trim();
     const phone = document.getElementById('customerPhone').value.trim();
@@ -467,7 +409,31 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 5. Lưu thông tin đặt bàn vào AppState
+    // 5. Tính toán phương thức và số tiền thanh toán
+    const paymentRadio = form.querySelector('input[name="paymentMethod"]:checked');
+    const selectedPaymentMethod = paymentRadio ? paymentRadio.value : 'pay_later';
+
+    // Tính tổng tiền món ăn hoặc tiền cọc giữ bàn
+    let preselectedGrandTotal = 0;
+    try {
+      const stored = sessionStorage.getItem('launuong_preselected_combo');
+      if (stored) {
+        const comboData = JSON.parse(stored);
+        if (comboData && comboData.productId) {
+          const addOnList = (comboData.addOns || []).filter(a => a.quantity > 0);
+          const addOnsTotal = addOnList.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+          preselectedGrandTotal = (comboData.price || 0) + addOnsTotal;
+        }
+      }
+    } catch (e) {}
+
+    // Nếu có món chọn trước thì số tiền thanh toán là tổng tiền món ăn, nếu chỉ đặt bàn giữ chỗ thì cọc 100.000 đ khi trả trực tiếp
+    const depositAmount = 100000;
+    const finalPaymentAmount = preselectedGrandTotal > 0 
+      ? preselectedGrandTotal 
+      : (selectedPaymentMethod === 'pay_now' ? depositAmount : 0);
+
+    // 6. Lưu thông tin đặt bàn vào AppState
     const reservationData = {
       branchId: Number(branchId),
       customerName: name,
@@ -476,12 +442,25 @@ document.addEventListener('DOMContentLoaded', () => {
       date: date,
       time: time,
       guestCount: Number(guests),
-      note: note
+      note: note,
+      paymentMethod: selectedPaymentMethod,
+      paymentStatus: 'unpaid',
+      paymentAmount: finalPaymentAmount,
+      userId: currentUser ? currentUser.id : null
     };
 
     const savedRecord = window.AppState.saveReservation(reservationData);
 
-    // 6. Tự động gắn set lẩu và món nhúng đã chọn trước vào đơn đặt bàn
+    // Lưu mã đặt bàn của khách vào localStorage để hiển thị trong mục "Bàn đã đặt"
+    try {
+      const guestCodes = JSON.parse(localStorage.getItem('launuong_guest_reservation_codes') || '[]');
+      if (!guestCodes.includes(savedRecord.code)) {
+        guestCodes.unshift(savedRecord.code);
+        localStorage.setItem('launuong_guest_reservation_codes', JSON.stringify(guestCodes));
+      }
+    } catch (e) {}
+
+    // 7. Tự động gắn set lẩu và món nhúng đã chọn trước vào đơn đặt bàn
     let preselectedSummaryHtml = '';
     try {
       const stored = sessionStorage.getItem('launuong_preselected_combo');
@@ -531,31 +510,146 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (err) {}
 
-    // 7. Hiển thị thông báo Toast
-    if (window.showToast) {
-      window.showToast(`Đặt bàn thành công! Mã số đặt bàn của bạn là ${savedRecord.code}.`, 'success', 'Thành công', 5000);
-    }
+    // Hàm hiển thị phiếu đặt bàn (Receipt Modal)
+    function showReceiptModal(record) {
+      if (!receiptDetails || !receiptModal) return;
 
-    // 8. Hiển thị Modal Phiếu Đặt Bàn (Receipt)
-    if (receiptDetails && receiptModal) {
+      const isPaidDirect = record.paymentStatus === 'paid';
+      const isPayNowMethod = record.paymentMethod === 'pay_now';
+
+      const paymentBadgeHtml = isPaidDirect
+        ? `<span class="badge" style="background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;">Đã thanh toán trước qua VietQR</span>`
+        : (isPayNowMethod 
+            ? `<span class="badge" style="background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A;">Thanh toán trước (Chưa chuyển khoản)</span>`
+            : `<span class="badge" style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A;">Thanh toán sau tại nhà hàng</span>`);
+
       receiptDetails.innerHTML = `
         <div style="border-bottom: 1px dashed var(--color-gray-300); padding-bottom: 10px; margin-bottom: 10px;">
-          <div>Mã đặt bàn: <strong style="color: var(--color-brand); font-size: 1.1rem;">${savedRecord.code}</strong></div>
-          <div>Trạng thái: <span class="badge" style="background: #FEF3C7; color: #92400E;">Chờ xác nhận</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div>Mã đặt bàn: <strong style="color: var(--color-brand); font-size: 1.15rem;">${record.code}</strong></div>
+            <span class="badge" style="background: #FEF3C7; color: #92400E;">Chờ xác nhận</span>
+          </div>
+          <div style="font-size: 0.84rem; display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+            <span>Hình thức thanh toán:</span>
+            ${paymentBadgeHtml}
+          </div>
+          ${record.paymentAmount > 0 ? `
+            <div style="font-size: 0.84rem; display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+              <span>Số tiền thanh toán:</span>
+              <strong style="color: var(--color-brand); font-size: 0.95rem;">${formatPrice(record.paymentAmount)}</strong>
+            </div>
+          ` : ''}
         </div>
-        <div>Khách hàng: <strong>${savedRecord.customerName}</strong></div>
-        <div>Số điện thoại: <strong>${savedRecord.customerPhone}</strong></div>
-        <div>Chi nhánh: <strong>${savedRecord.branchName}</strong></div>
-        <div>Thời gian: <strong>${savedRecord.time} - Ngày ${savedRecord.date}</strong></div>
-        <div>Số lượng khách: <strong>${savedRecord.guestCount} người</strong></div>
+        <div>Khách hàng: <strong>${record.customerName}</strong></div>
+        <div>Số điện thoại: <strong>${record.customerPhone}</strong></div>
+        <div>Chi nhánh: <strong>${record.branchName}</strong></div>
+        <div>Thời gian: <strong>${record.time} - Ngày ${record.date}</strong></div>
+        <div>Số lượng khách: <strong>${record.guestCount} người</strong></div>
         ${preselectedSummaryHtml}
-        ${savedRecord.note ? `<div style="margin-top: 6px;">Ghi chú: <em>${savedRecord.note}</em></div>` : ''}
+        ${record.note ? `<div style="margin-top: 6px;">Ghi chú: <em>${record.note}</em></div>` : ''}
         <div style="margin-top: 12px; font-size: 0.8rem; color: var(--color-gray-500); border-top: 1px solid var(--color-gray-200); padding-top: 8px;">
-          Lưu ý: Nhà hàng sẽ liên hệ xác nhận trong vòng 10 phút. Bàn được giữ tối đa 15 phút.
+          Lưu ý: Nhà hàng sẽ liên hệ xác nhận trong vòng 10 phút. Bàn được giữ tối đa 15 phút so với giờ hẹn.
         </div>
       `;
 
       receiptModal.classList.add('active');
+    }
+
+    // 8. Điều hướng theo hình thức thanh toán (Thanh toán trước hoặc Thanh toán sau)
+    const directPayModal = document.getElementById('directPaymentModalOverlay');
+
+    if (selectedPaymentMethod === 'pay_now' && directPayModal) {
+      // Thông báo đặt bàn thành công ngay lập tức
+      if (window.showToast) {
+        window.showToast(`Đặt bàn thành công! Mã đơn ${savedRecord.code}. Vui lòng quét mã VietQR để thanh toán trước.`, 'success', 'Đặt bàn thành công', 6000);
+      }
+
+      // Trường hợp 1: Khách chọn Thanh toán trước -> Mở cổng VietQR
+      const cleanPhone = phone.replace(/\s+/g, '');
+      const qrContent = `LAU ${savedRecord.code.replace(/[^A-Za-z0-9]/g, '')} ${cleanPhone.slice(-4)}`;
+      const qrAmount = finalPaymentAmount > 0 ? finalPaymentAmount : 100000;
+      const qrUrl = `https://img.vietqr.io/image/MB-0345662169-compact2.png?amount=${qrAmount}&addInfo=${encodeURIComponent(qrContent)}&accountName=LAU%20RESTAURANT`;
+
+      const qrImg = document.getElementById('directPaymentQrImg');
+      if (qrImg) qrImg.src = qrUrl;
+
+      const qrAmountEl = document.getElementById('qrAmountDisplay');
+      if (qrAmountEl) qrAmountEl.textContent = formatPrice(qrAmount);
+
+      const qrContentEl = document.getElementById('qrContentDisplay');
+      if (qrContentEl) qrContentEl.textContent = qrContent;
+
+      const btnCopyAmt = document.getElementById('btnCopyAmount');
+      if (btnCopyAmt) btnCopyAmt.setAttribute('data-copy', String(qrAmount));
+
+      const btnCopyCnt = document.getElementById('btnCopyContent');
+      if (btnCopyCnt) btnCopyCnt.setAttribute('data-copy', qrContent);
+
+      directPayModal.classList.add('active');
+
+      // Hook nút "Tôi đã chuyển khoản thành công"
+      const btnConfirmPaid = document.getElementById('btnConfirmDirectPaid');
+      const confirmPaidHandler = () => {
+        window.AppState.updateReservationPayment(savedRecord.id, {
+          paymentStatus: 'paid',
+          paymentMethod: 'pay_now',
+          paymentAmount: qrAmount
+        });
+
+        directPayModal.classList.remove('active');
+        savedRecord.paymentStatus = 'paid';
+        savedRecord.paymentAmount = qrAmount;
+
+        if (window.showToast) {
+          window.showToast(`Xác nhận thanh toán trước thành công cho đơn ${savedRecord.code}!`, 'success', 'Thanh toán thành công', 5000);
+        }
+
+        showReceiptModal(savedRecord);
+        btnConfirmPaid.removeEventListener('click', confirmPaidHandler);
+      };
+      if (btnConfirmPaid) {
+        btnConfirmPaid.addEventListener('click', confirmPaidHandler);
+      }
+
+      // Hook nút "Đổi sang thanh toán sau tại nhà hàng"
+      const btnSwitchPayLater = document.getElementById('btnSwitchToPayLater');
+      const switchHandler = () => {
+        window.AppState.updateReservationPayment(savedRecord.id, {
+          paymentStatus: 'unpaid',
+          paymentMethod: 'pay_later',
+          paymentAmount: finalPaymentAmount
+        });
+
+        directPayModal.classList.remove('active');
+        savedRecord.paymentStatus = 'unpaid';
+        savedRecord.paymentMethod = 'pay_later';
+
+        if (window.showToast) {
+          window.showToast(`Đã chuyển sang hình thức thanh toán sau tại nhà hàng.`, 'info', 'Thanh toán sau', 4000);
+        }
+
+        showReceiptModal(savedRecord);
+        btnSwitchPayLater.removeEventListener('click', switchHandler);
+      };
+      if (btnSwitchPayLater) {
+        btnSwitchPayLater.addEventListener('click', switchHandler);
+      }
+
+      // Hook đóng modal VietQR
+      const closeDirectPayBtn = document.getElementById('directPaymentModalCloseBtn');
+      if (closeDirectPayBtn) {
+        closeDirectPayBtn.addEventListener('click', () => {
+          directPayModal.classList.remove('active');
+          showReceiptModal(savedRecord);
+        });
+      }
+
+    } else {
+      // Trường hợp 2: Khách chọn Thanh toán sau tại nhà hàng
+      if (window.showToast) {
+        window.showToast(`Đặt bàn thành công! Mã số đặt bàn của bạn là ${savedRecord.code}. Quý khách thanh toán sau khi dùng bữa xong.`, 'success', 'Đặt bàn thành công', 6000);
+      }
+      showReceiptModal(savedRecord);
     }
 
     form.reset();
@@ -585,4 +679,74 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ========================================================
+  // 9. XỬ LÝ CHỌN PHƯƠNG THỨC THANH TOÁN (INTERACTIVE RADIO CARDS)
+  // ========================================================
+  const cardLater = document.getElementById('payOptionLaterCard');
+  const cardNow = document.getElementById('payOptionNowCard');
+  const noticeBox = document.getElementById('directPaymentNoticeBox');
+
+  function updatePaymentOptionCards(selectedMethod) {
+    if (cardLater && cardNow) {
+      const isNow = selectedMethod === 'pay_now';
+
+      // Cập nhật kiểu dáng thẻ
+      if (isNow) {
+        cardNow.style.borderColor = 'var(--color-gold)';
+        cardNow.style.background = '#FFFFFF';
+        cardNow.style.boxShadow = '0 4px 12px rgba(201, 166, 107, 0.2)';
+        cardLater.style.borderColor = '#E2D7C5';
+        cardLater.style.background = '#FCFAF6';
+        cardLater.style.boxShadow = 'none';
+        if (noticeBox) noticeBox.style.display = 'block';
+      } else {
+        cardLater.style.borderColor = 'var(--color-gold)';
+        cardLater.style.background = '#FFFFFF';
+        cardLater.style.boxShadow = '0 4px 12px rgba(201, 166, 107, 0.2)';
+        cardNow.style.borderColor = '#E2D7C5';
+        cardNow.style.background = '#FCFAF6';
+        cardNow.style.boxShadow = 'none';
+        if (noticeBox) noticeBox.style.display = 'none';
+      }
+
+      const radio = form.querySelector(`input[name="paymentMethod"][value="${selectedMethod}"]`);
+      if (radio) radio.checked = true;
+    }
+  }
+
+  if (cardLater) {
+    cardLater.addEventListener('click', () => updatePaymentOptionCards('pay_later'));
+  }
+  if (cardNow) {
+    cardNow.addEventListener('click', () => updatePaymentOptionCards('pay_now'));
+  }
+
+  const paymentRadios = form.querySelectorAll('input[name="paymentMethod"]');
+  paymentRadios.forEach(radio => {
+    radio.addEventListener('change', () => updatePaymentOptionCards(radio.value));
+  });
+
+  // Hook sao chép nhanh vào Clipboard cho các nút trong Modal VietQR
+  document.querySelectorAll('.btn-copy-field').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const textToCopy = btn.getAttribute('data-copy');
+      if (textToCopy && navigator.clipboard) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = 'Đã chép!';
+          btn.style.background = '#DCFCE7';
+          btn.style.color = '#166534';
+          btn.style.borderColor = '#86EFAC';
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+          }, 1600);
+        });
+      }
+    });
+  });
 });

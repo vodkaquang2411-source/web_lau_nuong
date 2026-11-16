@@ -158,6 +158,13 @@
 
     const user = window.AppState.getCurrentUser();
     if (!user) {
+      if (tabName === 'reservations') {
+        const guestRes = window.AppState.getUserReservations(null);
+        if (guestRes && guestRes.length > 0) {
+          renderReservationsTab(container, null);
+          return;
+        }
+      }
       const isSubPage = window.location.pathname.includes('/pages/');
       const loginUrl = isSubPage ? 'login.html' : 'pages/login.html';
       container.innerHTML = `
@@ -496,13 +503,24 @@
       // 2.B. Chế độ xem bình thường
       return `
         <div style="border: 1px solid #e8e3dc; border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fff; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'" onmouseout="this.style.boxShadow='none'">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 8px; flex-wrap: wrap; gap: 6px;">
             <div style="font-size: 0.95rem; font-weight: 700; color: var(--color-primary, #1e1918);">
               Mã bàn: <span style="color: var(--color-brand, #8f1724);">${r.code || ('LN-' + r.id)}</span>
             </div>
-            <span style="font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 12px; color: ${st.color}; background: ${st.bg}; border: 1px solid ${st.border};">
-              ${st.label}
-            </span>
+            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+              ${r.paymentStatus === 'paid' ? `
+                <span style="font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; color: #166534; background: #DCFCE7; border: 1px solid #BBF7D0;">
+                  Đã thanh toán trước qua VietQR
+                </span>
+              ` : `
+                <span style="font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; color: #92400E; background: #FEF3C7; border: 1px solid #FDE68A;">
+                  Thanh toán sau tại nhà hàng
+                </span>
+              `}
+              <span style="font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 12px; color: ${st.color}; background: ${st.bg}; border: 1px solid ${st.border};">
+                ${st.label}
+              </span>
+            </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.84rem; color: #555; margin-bottom: 10px;">
@@ -592,6 +610,19 @@
               <a href="${isSubPage ? 'menu.html' : 'pages/menu.html'}" class="btn-quick-goto-menu" style="color: var(--color-brand, #8f1724); font-weight: 700; font-size: 0.8rem; text-decoration: underline; white-space: nowrap; margin-left: 8px;">+ Chọn set lẩu</a>
             </div>
           ` : '')}
+
+          ${r.status !== 'cancelled' && r.paymentStatus !== 'paid' ? `
+            <div style="background: #FFFDF9; border: 1px dashed var(--color-gold); border-radius: 8px; padding: 10px 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <span style="font-weight: 700; color: #92400E; font-size: 0.82rem;">Chưa thanh toán trực tiếp</span>
+                <div style="font-size: 0.74rem; color: #78350F;">Số tiền: ${formatMoney(r.totalDishPrice || r.paymentAmount || 100000)} (Có thể thanh toán sau tại nhà hàng hoặc thanh toán ngay)</div>
+              </div>
+              <button type="button" class="btn-trigger-pay-qr" data-id="${r.id}" data-code="${r.code || ('LN-' + r.id)}" data-amount="${r.totalDishPrice || r.paymentAmount || 100000}" data-phone="${r.customerPhone || user.phone || ''}" style="background: #166534; color: #fff; border: 1px solid #166534; border-radius: 6px; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Thanh toán ngay bằng QR
+              </button>
+            </div>
+          ` : ''}
 
           ${isPending ? `
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #f2ede7;">
@@ -734,7 +765,9 @@
           if (window.updateReservationsBadge) {
             window.updateReservationsBadge();
           }
-          updateBadges(user);
+          if (user) {
+            updateBadges(user);
+          }
 
           renderCurrentTab('reservations');
         }
@@ -790,6 +823,83 @@
         window.closeUserAccountModal();
       });
     });
+
+    // 2.7 Hook nút thanh toán trực tiếp bằng VietQR
+    container.querySelectorAll('.btn-trigger-pay-qr').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.getAttribute('data-id'));
+        const code = btn.getAttribute('data-code');
+        const phone = btn.getAttribute('data-phone') || '';
+        const amount = Number(btn.getAttribute('data-amount')) || 100000;
+        openUserPaymentQrDialog(id, code, phone, amount);
+      });
+    });
+  }
+
+  // Hộp thoại quét mã VietQR thanh toán trực tiếp
+  function openUserPaymentQrDialog(id, code, phone, amount) {
+    const cleanPhone = phone.replace(/\s+/g, '');
+    const qrContent = `LAU ${code.replace(/[^A-Za-z0-9]/g, '')} ${cleanPhone.slice(-4)}`;
+    const qrUrl = `https://img.vietqr.io/image/MB-0345662169-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(qrContent)}&accountName=LAU%20RESTAURANT`;
+
+    let qrOverlay = document.getElementById('userPaymentQrDialogOverlay');
+    if (!qrOverlay) {
+      const dialogHtml = `
+        <div class="modal-overlay" id="userPaymentQrDialogOverlay" aria-hidden="true" style="z-index: 2200;">
+          <div class="modal-content" style="max-width: 480px; width: 92%; padding: 24px; border-radius: 14px; border: 2px solid var(--color-gold);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Thanh toán trước VietQR
+              </h3>
+              <button type="button" id="closeUserPaymentQrDialogBtn" style="background: transparent; border: none; font-size: 1.4rem; cursor: pointer; color: #888;">&times;</button>
+            </div>
+            <div style="text-align: center; margin-bottom: 14px;">
+              <img id="uaccQrDialogImg" src="" alt="Mã VietQR" style="width: 200px; height: 200px; object-fit: contain; background: white; padding: 6px; border: 1px solid #ddd; border-radius: 8px;">
+              <div style="font-size: 0.8rem; color: #166534; font-weight: 700; margin-top: 6px;">Quét mã thanh toán tự động qua App Ngân hàng</div>
+            </div>
+            <div style="background: #FDFBF8; border-radius: 8px; border: 1px solid #eee; padding: 12px; font-size: 0.84rem; display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between;"><span>Ngân hàng:</span><strong>MB Bank (Ngân hàng Quân Đội)</strong></div>
+              <div style="display: flex; justify-content: space-between;"><span>Chủ TK:</span><strong style="color: var(--color-brand);">LAU RESTAURANT - NGUYEN VAN KIM</strong></div>
+              <div style="display: flex; justify-content: space-between;"><span>Số tài khoản:</span><strong style="font-size: 0.95rem;">0345662169</strong></div>
+              <div style="display: flex; justify-content: space-between;"><span>Số tiền:</span><strong style="color: #166534; font-size: 1.05rem;" id="uaccQrDialogAmount">0 đ</strong></div>
+              <div style="display: flex; justify-content: space-between; border-top: 1px dashed #ddd; padding-top: 6px;"><span>Nội dung:</span><strong style="color: var(--color-brand); font-family: monospace;" id="uaccQrDialogContent">LAU...</strong></div>
+            </div>
+            <button type="button" id="btnConfirmUserPaidQr" class="btn btn-primary" style="width: 100%; padding: 10px; font-weight: 700;">
+              Tôi đã chuyển khoản thành công
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', dialogHtml);
+      qrOverlay = document.getElementById('userPaymentQrDialogOverlay');
+      document.getElementById('closeUserPaymentQrDialogBtn').addEventListener('click', () => {
+        qrOverlay.classList.remove('active');
+      });
+      qrOverlay.addEventListener('click', (e) => {
+        if (e.target === qrOverlay) qrOverlay.classList.remove('active');
+      });
+    }
+
+    document.getElementById('uaccQrDialogImg').src = qrUrl;
+    document.getElementById('uaccQrDialogAmount').textContent = formatMoney(amount);
+    document.getElementById('uaccQrDialogContent').textContent = qrContent;
+
+    const confirmBtn = document.getElementById('btnConfirmUserPaidQr');
+    confirmBtn.onclick = () => {
+      window.AppState.updateReservationPayment(id, {
+        paymentStatus: 'paid',
+        paymentMethod: 'pay_now',
+        paymentAmount: amount
+      });
+      qrOverlay.classList.remove('active');
+      if (window.showToast) {
+        window.showToast(`Đã thanh toán trước thành công cho đơn đặt bàn ${code}!`, 'success', 'Thanh toán thành công');
+      }
+      renderCurrentTab('reservations');
+    };
+
+    qrOverlay.classList.add('active');
   }
 
   // 3. Tab Món yêu thích

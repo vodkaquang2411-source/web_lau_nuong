@@ -136,9 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.updateReservationsBadge = function () {
       if (!window.AppState) return;
       const currentUser = window.AppState.getCurrentUser();
-      const activeReservations = currentUser 
-        ? window.AppState.getUserReservations(currentUser).filter(r => r.status !== 'cancelled')
-        : [];
+      const userRes = window.AppState.getUserReservations(currentUser);
+      const activeReservations = userRes.filter(r => r.status !== 'cancelled');
       const count = activeReservations.length;
 
       document.querySelectorAll('.res-count-badge').forEach(badge => {
