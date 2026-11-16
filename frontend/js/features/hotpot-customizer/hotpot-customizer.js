@@ -1,10 +1,11 @@
 /**
  * LẨU NƯỚNG VN - HOTPOT CUSTOMIZER LOGIC
  * Sáng tạo nồi lẩu theo phong vị riêng
- * - Chọn kiểu nồi (1 ngăn, 2 ngăn Uyên Ương hoặc 4 ngăn Tứ Quý)
- * - Nồi lẩu hoàng gia cao cấp không bao giờ bị mất chữ
+ * - Chọn kiểu nồi vuông bo góc sang trọng (1 ngăn, 2 ngăn Uyên Ương hoặc 4 ngăn Tứ Quý)
  * - Tích chọn nước lẩu: Ô tròn được đánh dấu và góc thẻ hiển thị rõ Ngăn 1, 2, 3...
- * - Topping đồ nhúng chuyên biệt: Bò, tôm, sò, ốc, hến, gà, các loại rau, nấm, bia, nước ngọt, nước ngọc
+ * - Không bị mất chữ "Chọn" / "Đang chọn"
+ * - Danh mục 38 món chuyên dùng để nhúng: Bò, tôm, sò, ốc, hến, gà, viên thả, rau nấm, bia, nước ngọt, nước ngọc
+ * - Đã xóa mục hướng dẫn và thanh dưới đáy nồi theo yêu cầu
  * - Tính giá tự động theo thời gian thực và chuyển tiếp đặt bàn
  */
 
@@ -108,9 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  // 3. Danh mục 17 món chuyên dùng để nhúng lẩu & đồ uống (Bò, tôm, sò, ốc, hến, gà, rau, bia, nước ngọt, nước ngọc)
+  // 3. Danh mục 38 món chuyên dùng để nhúng lẩu & đồ uống phong phú
   const toppingList = [
-    // Thịt bò & Gà
+    // --- Nhóm 1: Thịt bò & Gà thượng hạng ---
     {
       id: 101,
       category: 'meat',
@@ -130,31 +131,103 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 103,
       category: 'meat',
+      name: 'Gầu bò Mỹ giòn ngậy thơm béo',
+      price: 95000,
+      unit: 'đĩa 200g',
+      img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 104,
+      category: 'meat',
+      name: 'Nạc vai bò Úc thái lát mềm ngọt',
+      price: 109000,
+      unit: 'đĩa 200g',
+      img: 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 105,
+      category: 'meat',
+      name: 'Cuống tim bò tươi giòn sần sật',
+      price: 79000,
+      unit: 'đĩa 200g',
+      img: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 106,
+      category: 'meat',
+      name: 'Sách bò đen nhúng giòn dai sần sật',
+      price: 85000,
+      unit: 'đĩa 250g',
+      img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 107,
+      category: 'meat',
       name: 'Thịt gà ta thả vườn chặt miếng',
       price: 79000,
       unit: 'đĩa 300g',
       img: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=240&q=80'
     },
-
-    // Hải sản nhúng (Tôm, Sò, Ốc, Hến)
     {
-      id: 104,
+      id: 108,
+      category: 'meat',
+      name: 'Chân gà rút xương ngâm sả giòn',
+      price: 69000,
+      unit: 'đĩa 250g',
+      img: 'https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?auto=format&fit=crop&w=240&q=80'
+    },
+
+    // --- Nhóm 2: Hải sản nhúng (Tôm, Sò, Ốc, Hến, Mực...) ---
+    {
+      id: 109,
       category: 'seafood',
-      name: 'Tôm sú biển tươi sống',
+      name: 'Tôm sú biển tươi sống nhảy tanh tách',
       price: 119000,
       unit: 'đĩa 6 con',
       img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 105,
+      id: 110,
       category: 'seafood',
-      name: 'Sò huyết tươi ngọt đậm',
+      name: 'Tôm càng xanh sông béo ngậy',
+      price: 139000,
+      unit: 'đĩa 4 con',
+      img: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 111,
+      category: 'seafood',
+      name: 'Mực trứng Phú Quốc tươi rói',
+      price: 129000,
+      unit: 'đĩa 250g',
+      img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 112,
+      category: 'seafood',
+      name: 'Bạch tuộc baby giòn sần sật',
+      price: 99000,
+      unit: 'đĩa 250g',
+      img: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 113,
+      category: 'seafood',
+      name: 'Sò huyết đầm Ô Loan béo ngọt',
       price: 69000,
       unit: 'đĩa 300g',
       img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 106,
+      id: 114,
+      category: 'seafood',
+      name: 'Ngao hoa 2 cùi ngọt béo đậm đà',
+      price: 59000,
+      unit: 'đĩa 400g',
+      img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 115,
       category: 'seafood',
       name: 'Ốc nhồi thịt thả lẩu giòn dai',
       price: 59000,
@@ -162,25 +235,83 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 107,
+      id: 116,
       category: 'seafood',
-      name: 'Hến tươi Cồn Hến béo ngọt',
+      name: 'Hến tươi Cồn Hến béo ngọt thanh',
       price: 49000,
       unit: 'đĩa 250g',
       img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=240&q=80'
     },
 
-    // Các loại rau & Nấm
+    // --- Nhóm 3: Viên thả lẩu, Đậu & Mì ---
     {
-      id: 108,
+      id: 117,
+      category: 'balls',
+      name: 'Set viên thả lẩu phô mai trứng muối',
+      price: 65000,
+      unit: 'đĩa 8 viên',
+      img: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 118,
+      category: 'balls',
+      name: 'Viên tôm hoàng kim bọc trứng cá',
+      price: 75000,
+      unit: 'đĩa 8 viên',
+      img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 119,
+      category: 'balls',
+      name: 'Thanh cua tuyết Nhật Bản',
+      price: 49000,
+      unit: 'đĩa 8 thanh',
+      img: 'https://images.unsplash.com/photo-1615361200141-f45040f367be?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 120,
+      category: 'balls',
+      name: 'Váng đậu (phù trúc) chiên giòn',
+      price: 35000,
+      unit: 'đĩa lớn',
+      img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 121,
+      category: 'balls',
+      name: 'Đậu phụ non lướt ván mềm béo',
+      price: 25000,
+      unit: 'đĩa 8 miếng',
+      img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 122,
+      category: 'balls',
+      name: 'Mì Udon tươi sợi tròn Nhật Bản',
+      price: 29000,
+      unit: 'đĩa 2 vắt',
+      img: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 123,
+      category: 'balls',
+      name: 'Mì tôm trứng Omachi nhúng lẩu',
+      price: 15000,
+      unit: 'gói',
+      img: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=240&q=80'
+    },
+
+    // --- Nhóm 4: Các loại rau & Nấm tươi ---
+    {
+      id: 124,
       category: 'veggie',
-      name: 'Khay rau xanh nhúng lẩu tổng hợp',
+      name: 'Khay rau xanh nhúng lẩu tổng hợp VietGAP',
       price: 35000,
       unit: 'rổ lớn',
       img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 109,
+      id: 125,
       category: 'veggie',
       name: 'Rau muống cọng giòn xanh mướt',
       price: 25000,
@@ -188,41 +319,73 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 110,
+      id: 126,
       category: 'veggie',
-      name: 'Rau cải cúc non ngọt mát',
+      name: 'Rau cải cúc (tần ô) non ngọt mát',
       price: 25000,
       unit: 'đĩa lớn',
       img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 111,
+      id: 127,
+      category: 'veggie',
+      name: 'Rau cải thảo búp giòn ngọt',
+      price: 25000,
+      unit: 'đĩa lớn',
+      img: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 128,
+      category: 'veggie',
+      name: 'Ngô ngọt Mỹ cắt khúc thơm bùi',
+      price: 25000,
+      unit: 'đĩa 6 khúc',
+      img: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 129,
       category: 'veggie',
       name: 'Set nấm tươi 5 loại thanh mát',
       price: 45000,
       unit: 'đĩa lớn',
       img: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=240&q=80'
     },
-
-    // Bia, Nước ngọt & Nước ngọc
     {
-      id: 112,
+      id: 130,
+      category: 'veggie',
+      name: 'Nấm kim châm trắng giòn ngọt',
+      price: 29000,
+      unit: 'gói 200g',
+      img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=240&q=80'
+    },
+
+    // --- Nhóm 5: Bia & Nước giải khát ---
+    {
+      id: 131,
       category: 'drink',
-      name: 'Bia Tiger Crystal mát lạnh',
+      name: 'Bia Tiger Crystal lon mát lạnh',
       price: 25000,
       unit: 'lon 330ml',
       img: 'https://images.unsplash.com/photo-1608270199990-264627d2c3df?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 113,
+      id: 132,
       category: 'drink',
-      name: 'Bia Heineken Silver êm đằm',
+      name: 'Bia Heineken Silver lon êm đằm',
       price: 28000,
       unit: 'lon 330ml',
       img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 114,
+      id: 133,
+      category: 'drink',
+      name: 'Bia Saigon Special lon vàng',
+      price: 22000,
+      unit: 'lon 330ml',
+      img: 'https://images.unsplash.com/photo-1608270199990-264627d2c3df?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 134,
       category: 'drink',
       name: 'Nước ngọt Coca-Cola mát lạnh',
       price: 15000,
@@ -230,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 115,
+      id: 135,
       category: 'drink',
       name: 'Nước ngọt Sprite chanh sảng khoái',
       price: 15000,
@@ -238,7 +401,15 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 116,
+      id: 136,
+      category: 'drink',
+      name: 'Trà đào cam sả thanh mát thảo mộc',
+      price: 25000,
+      unit: 'ly lớn',
+      img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 137,
       category: 'drink',
       name: 'Nước ngọc thạch nha đam hạt chia',
       price: 20000,
@@ -246,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 117,
+      id: 138,
       category: 'drink',
       name: 'Nước khoáng tinh khiết thiên nhiên',
       price: 10000,
@@ -259,9 +430,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPotTypeId = 2; // Mặc định nồi 2 ngăn Uyên Ương
   let activeSlotIndex = 0; // Ngăn đang được chọn
   let assignedBroths = [brothList[0], brothList[1]]; // Mặc định Tomyum & Lẩu nấm
-  let selectedToppings = {}; // { 101: 1, 104: 2 ... }
+  let selectedToppings = {}; // { 101: 1, 109: 2 ... }
   let currentControlTab = 'broth'; // 'broth' (chọn nước lẩu) hoặc 'topping' (chọn đồ nhúng)
-  let currentToppingCategory = 'all'; // 'all', 'meat', 'seafood', 'veggie', 'drink'
+  let currentToppingCategory = 'all'; // 'all', 'meat', 'seafood', 'balls', 'veggie', 'drink'
 
   // 5. Render khung giao diện chính
   function renderCustomizerLayout() {
@@ -277,18 +448,18 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Pot Type Selector Tabs -->
         <div class="pot-type-selector">
           <button type="button" class="pot-type-btn ${currentPotTypeId === 1 ? 'active' : ''}" data-type="1">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle></svg>
-            Nồi 1 ngăn (Đơn vị)
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect></svg>
+            Nồi vuông 1 ngăn
             <span class="pot-badge-price">189.000 đ</span>
           </button>
           <button type="button" class="pot-type-btn ${currentPotTypeId === 2 ? 'active' : ''}" data-type="2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18"></path></svg>
-            Nồi 2 ngăn (Uyên Ương)
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+            Nồi vuông 2 ngăn Uyên Ương
             <span class="pot-badge-price">239.000 đ</span>
           </button>
           <button type="button" class="pot-type-btn ${currentPotTypeId === 4 ? 'active' : ''}" data-type="4">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path></svg>
-            Nồi 4 ngăn (Tứ Quý)
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><line x1="12" y1="3" x2="12" y2="21"></line><line x1="3" y1="12" x2="21" y2="12"></line></svg>
+            Nồi vuông 4 ngăn Tứ Quý
             <span class="pot-badge-price">299.000 đ</span>
           </button>
         </div>
@@ -296,12 +467,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Interactive Grid: Left Pot Visual + Right Controls -->
         <div class="pot-customizer-grid">
           
-          <!-- Left Column: Royal Hotpot Visual Vessel -->
+          <!-- Left Column: Square Rounded Luxury Hotpot Visual Vessel -->
           <div class="pot-stage-wrapper">
             <div class="pot-handles-wrap">
               <div class="pot-handle-left"></div>
               
-              <!-- Round Metallic Royal Pot -->
+              <!-- Square Rounded Metallic Pot -->
               <div class="pot-vessel" id="potVesselElement">
                 <!-- Steam Effect -->
                 <div class="pot-steam-effect">
@@ -318,17 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
               <div class="pot-handle-right"></div>
             </div>
-
-            <!-- Stage Guidance Instruction -->
-            <div class="pot-stage-guide">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span>Nhấp trực tiếp vào ngăn nồi trên hoặc thẻ bên dưới để đổi vị:</span>
-            </div>
-
-            <!-- Pot Slots Mini Deck: Thanh tóm tắt và chuyển nhanh ngăn ngay dưới đáy nồi -->
-            <div class="pot-slots-deck" id="potSlotsDeckContainer">
-              <!-- Render tự động theo số ngăn -->
-            </div>
+            <!-- Đã xóa hoàn toàn mục hướng dẫn và các thẻ dưới đáy nồi theo yêu cầu -->
           </div>
 
           <!-- Right Column: Sub-Tabs & Controls -->
@@ -389,18 +550,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <div id="toppingPanelContainer" style="${currentControlTab === 'topping' ? 'display: block;' : 'display: none;'}">
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
                 <h3 style="font-size: 1.05rem; color: var(--color-primary); margin: 0; font-weight: 700;">
-                  Món chuyên dùng để nhúng & đồ uống:
+                  Món chuyên dùng để nhúng & đồ uống (38 món):
                 </h3>
                 <span style="font-size: 0.78rem; color: var(--color-gray-500);">Gọi theo nhu cầu bàn tiệc</span>
               </div>
 
               <!-- Category Pills Filter -->
               <div class="topping-cat-filter" id="toppingCatFilter">
-                <button type="button" class="top-cat-pill active" data-cat="all">Tất cả (17)</button>
-                <button type="button" class="top-cat-pill" data-cat="meat">Bò & Gà</button>
-                <button type="button" class="top-cat-pill" data-cat="seafood">Tôm, Sò, Ốc, Hến</button>
-                <button type="button" class="top-cat-pill" data-cat="veggie">Các loại rau & Nấm</button>
-                <button type="button" class="top-cat-pill" data-cat="drink">Bia & Nước giải khát</button>
+                <button type="button" class="top-cat-pill active" data-cat="all">Tất cả (38)</button>
+                <button type="button" class="top-cat-pill" data-cat="meat">Bò & Gà (8)</button>
+                <button type="button" class="top-cat-pill" data-cat="seafood">Tôm, Sò, Ốc, Hến (8)</button>
+                <button type="button" class="top-cat-pill" data-cat="balls">Viên thả & Mì (7)</button>
+                <button type="button" class="top-cat-pill" data-cat="veggie">Các loại rau & Nấm (7)</button>
+                <button type="button" class="top-cat-pill" data-cat="drink">Bia & Nước giải khát (8)</button>
               </div>
 
               <div class="topping-options-grid" id="toppingOptionsList">
@@ -412,7 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="pot-summary-box">
               <div class="pot-summary-row">
                 <span>Kiểu nồi cốt đã chọn:</span>
-                <strong id="summaryPotTypeName" style="color: var(--color-primary);">Nồi 2 ngăn Uyên Ương (239.000 đ)</strong>
+                <strong id="summaryPotTypeName" style="color: var(--color-primary);">Nồi vuông 2 ngăn Uyên Ương (239.000 đ)</strong>
               </div>
               <div class="pot-summary-row" style="align-items: flex-start;">
                 <span>Vị nước lẩu cốt:</span>
@@ -491,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    // Gán lại sự kiện tăng giảm
+    // Gán sự kiện tăng giảm
     listEl.querySelectorAll('.btn-top-plus').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -528,10 +690,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 7. Vẽ cấu trúc các ngăn nồi lẩu tương tác (Nồi hoàng gia không mất chữ)
+  // 7. Vẽ cấu trúc các ngăn Nồi Vuông Bo Góc tương tác (không bao giờ mất chữ "Chọn")
   function renderPotCompartments() {
     const potContainer = document.getElementById('potCompartmentsContainer');
-    const deckContainer = document.getElementById('potSlotsDeckContainer');
     if (!potContainer) return;
 
     const potConfig = potTypes[currentPotTypeId];
@@ -543,7 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="pot-layout-1">
           <div class="pot-compartment ${broth.colorClass} active-compartment" data-slot="0">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Nồi đơn vị</span>
+              <span class="compartment-num-tag is-active-tag">Nồi đơn vị • Đang chọn</span>
               <div class="compartment-broth-title">${broth.shortName || broth.name}</div>
               <div class="compartment-hint">${broth.spice} • Cốt chuẩn vị</div>
             </div>
@@ -557,15 +718,18 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="pot-layout-2">
           <div class="pot-compartment ${b0.colorClass} ${activeSlotIndex === 0 ? 'active-compartment' : ''}" data-slot="0">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Ngăn 1</span>
+              <span class="compartment-num-tag ${activeSlotIndex === 0 ? 'is-active-tag' : ''}">
+                ${activeSlotIndex === 0 ? 'Ngăn 1 • Đang chọn' : 'Ngăn 1'}
+              </span>
               <div class="compartment-broth-title">${b0.shortName || b0.name}</div>
               <div class="compartment-hint">${b0.spice}</div>
             </div>
           </div>
-          <div class="divider-bar"></div>
           <div class="pot-compartment ${b1.colorClass} ${activeSlotIndex === 1 ? 'active-compartment' : ''}" data-slot="1">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Ngăn 2</span>
+              <span class="compartment-num-tag ${activeSlotIndex === 1 ? 'is-active-tag' : ''}">
+                ${activeSlotIndex === 1 ? 'Ngăn 2 • Đang chọn' : 'Ngăn 2'}
+              </span>
               <div class="compartment-broth-title">${b1.shortName || b1.name}</div>
               <div class="compartment-hint">${b1.spice}</div>
             </div>
@@ -581,35 +745,45 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="pot-layout-4">
           <div class="pot-compartment ${b0.colorClass} ${activeSlotIndex === 0 ? 'active-compartment' : ''}" data-slot="0">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Ngăn 1</span>
+              <span class="compartment-num-tag ${activeSlotIndex === 0 ? 'is-active-tag' : ''}">
+                ${activeSlotIndex === 0 ? 'Ngăn 1 • Đang chọn' : 'Ngăn 1'}
+              </span>
               <div class="compartment-broth-title">${b0.shortName || b0.name}</div>
+              <div class="compartment-hint">${b0.spice}</div>
             </div>
           </div>
           <div class="pot-compartment ${b1.colorClass} ${activeSlotIndex === 1 ? 'active-compartment' : ''}" data-slot="1">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Ngăn 2</span>
+              <span class="compartment-num-tag ${activeSlotIndex === 1 ? 'is-active-tag' : ''}">
+                ${activeSlotIndex === 1 ? 'Ngăn 2 • Đang chọn' : 'Ngăn 2'}
+              </span>
               <div class="compartment-broth-title">${b1.shortName || b1.name}</div>
+              <div class="compartment-hint">${b1.spice}</div>
             </div>
           </div>
-          <div class="divider-h"></div>
-          <div class="divider-v"></div>
           <div class="pot-compartment ${b2.colorClass} ${activeSlotIndex === 2 ? 'active-compartment' : ''}" data-slot="2">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Ngăn 3</span>
+              <span class="compartment-num-tag ${activeSlotIndex === 2 ? 'is-active-tag' : ''}">
+                ${activeSlotIndex === 2 ? 'Ngăn 3 • Đang chọn' : 'Ngăn 3'}
+              </span>
               <div class="compartment-broth-title">${b2.shortName || b2.name}</div>
+              <div class="compartment-hint">${b2.spice}</div>
             </div>
           </div>
           <div class="pot-compartment ${b3.colorClass} ${activeSlotIndex === 3 ? 'active-compartment' : ''}" data-slot="3">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Ngăn 4</span>
+              <span class="compartment-num-tag ${activeSlotIndex === 3 ? 'is-active-tag' : ''}">
+                ${activeSlotIndex === 3 ? 'Ngăn 4 • Đang chọn' : 'Ngăn 4'}
+              </span>
               <div class="compartment-broth-title">${b3.shortName || b3.name}</div>
+              <div class="compartment-hint">${b3.spice}</div>
             </div>
           </div>
         </div>
       `;
     }
 
-    // Lắng nghe sự kiện click trực tiếp vào từng ngăn nồi
+    // Lắng nghe sự kiện click trực tiếp vào từng ngăn của nồi vuông
     potContainer.querySelectorAll('.pot-compartment').forEach(comp => {
       comp.addEventListener('click', () => {
         const slotIdx = Number(comp.getAttribute('data-slot'));
@@ -617,30 +791,6 @@ document.addEventListener('DOMContentLoaded', () => {
         switchControlTab('broth');
       });
     });
-
-    // Vẽ thanh Deck tóm tắt các ngăn ngay dưới đáy nồi
-    if (deckContainer) {
-      deckContainer.innerHTML = assignedBroths.slice(0, totalSlots).map((broth, idx) => {
-        const isActive = idx === activeSlotIndex;
-        return `
-          <div class="slot-pill-btn ${isActive ? 'active' : ''}" data-slot="${idx}">
-            <div class="slot-pill-header">
-              <span class="slot-pill-num">Ngăn ${idx + 1}</span>
-              <span class="slot-pill-spice">${broth.spice}</span>
-            </div>
-            <div class="slot-pill-name" title="${broth.name}">${broth.name}</div>
-          </div>
-        `;
-      }).join('');
-
-      deckContainer.querySelectorAll('.slot-pill-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const slotIdx = Number(btn.getAttribute('data-slot'));
-          setActiveSlot(slotIdx);
-          switchControlTab('broth');
-        });
-      });
-    }
 
     updateActiveSlotIndicator();
     updateBrothCardsStatus();
@@ -650,24 +800,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function setActiveSlot(slotIndex) {
     activeSlotIndex = slotIndex;
     
-    // Đồng bộ class ngăn trong nồi
-    const potContainer = document.getElementById('potCompartmentsContainer');
-    if (potContainer) {
-      potContainer.querySelectorAll('.pot-compartment').forEach(comp => {
-        const idx = Number(comp.getAttribute('data-slot'));
-        comp.classList.toggle('active-compartment', idx === activeSlotIndex);
-      });
-    }
-
-    // Đồng bộ class thẻ deck dưới đáy nồi
-    const deckContainer = document.getElementById('potSlotsDeckContainer');
-    if (deckContainer) {
-      deckContainer.querySelectorAll('.slot-pill-btn').forEach(btn => {
-        const idx = Number(btn.getAttribute('data-slot'));
-        btn.classList.toggle('active', idx === activeSlotIndex);
-      });
-    }
-
+    // Vẽ lại ngăn nồi để cập nhật tag "Ngăn X • Đang chọn"
+    renderPotCompartments();
     updateActiveSlotIndicator();
     updateBrothCardsStatus();
   }
