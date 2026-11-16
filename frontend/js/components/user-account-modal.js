@@ -128,7 +128,8 @@
     const favCountBadge = document.getElementById('uaccFavCountBadge');
 
     if (window.AppState) {
-      const reservations = window.AppState.getUserReservations(user);
+      // Chỉ đếm các bàn chưa bị hủy
+      const reservations = window.AppState.getUserReservations(user).filter(r => r.status !== 'cancelled');
       if (resCountBadge) {
         if (reservations.length > 0) {
           resCountBadge.textContent = reservations.length;
@@ -728,6 +729,13 @@
           if (window.showToast) {
             window.showToast(`Đã hủy đặt bàn ${code} thành công.`, 'info', 'Đã hủy bàn');
           }
+
+          // Cập nhật lại toàn bộ huy hiệu thông báo số lượng bàn đã đặt ở góc nút và trong modal
+          if (window.updateReservationsBadge) {
+            window.updateReservationsBadge();
+          }
+          updateBadges(user);
+
           renderCurrentTab('reservations');
         }
       });

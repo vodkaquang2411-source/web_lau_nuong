@@ -132,17 +132,21 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Cập nhật số lượng bàn đã đặt trên badge
+    // Cập nhật số lượng bàn đã đặt trên badge (chỉ đếm các bàn chưa bị hủy)
     window.updateReservationsBadge = function () {
       if (!window.AppState) return;
       const currentUser = window.AppState.getCurrentUser();
-      const count = currentUser ? window.AppState.getUserReservations(currentUser).length : 0;
+      const activeReservations = currentUser 
+        ? window.AppState.getUserReservations(currentUser).filter(r => r.status !== 'cancelled')
+        : [];
+      const count = activeReservations.length;
 
       document.querySelectorAll('.res-count-badge').forEach(badge => {
         if (count > 0) {
           badge.textContent = count;
           badge.style.display = 'inline-block';
         } else {
+          badge.textContent = '0';
           badge.style.display = 'none';
         }
       });

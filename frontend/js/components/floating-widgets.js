@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LẨU RESTAURANT - FLOATING WIDGETS JAVASCRIPT
  * 1. Thanh icon mạng xã hội cố định bên trái (Facebook, Zalo, YouTube)
  * 2. Hộp thoại hỗ trợ trực tuyến thông minh cố định bên phải (Live Chat Box)
