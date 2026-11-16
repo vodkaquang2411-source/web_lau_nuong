@@ -1,66 +1,72 @@
 /* ==========================================================================
-   HOTPOT CUSTOMIZER - INTERACTIVE JAVASCRIPT FEATURE STYLES
+   HOTPOT CUSTOMIZER - INTERACTIVE FEATURE STYLES
+   Tự phối nồi lẩu theo khẩu vị bàn tiệc & Chọn topping đồ nhúng đi kèm
    ========================================================================== */
 
 .hotpot-customizer-section {
-  background-color: var(--color-white);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDFBF8 100%);
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--color-gray-200);
   border-bottom: 1px solid var(--color-gray-200);
+  padding: 60px 0 80px;
 }
 
 /* Pot Type Tabs */
 .pot-type-selector {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 30px;
+  gap: 14px;
+  margin-bottom: 34px;
   flex-wrap: wrap;
 }
 
 .pot-type-btn {
-  background: var(--color-cream);
+  background: #FFFDF9;
   border: 2px solid #E2D7C5;
   color: var(--color-primary);
   border-radius: var(--radius-full);
-  padding: 10px 22px;
+  padding: 11px 24px;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: all 0.25s ease;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .pot-type-btn:hover {
   border-color: var(--color-gold);
-  background: #FFFDF9;
+  background: #FFFFFF;
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(184, 134, 11, 0.15);
 }
 
 .pot-type-btn.active {
   background: var(--color-primary);
   border-color: var(--color-gold);
   color: var(--color-gold);
-  box-shadow: 0 4px 14px rgba(36, 32, 30, 0.25);
+  box-shadow: 0 6px 20px rgba(36, 32, 30, 0.35);
+  transform: translateY(-2px);
 }
 
 .pot-type-btn .pot-badge-price {
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: rgba(201, 166, 107, 0.25);
+  font-size: 0.82rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: rgba(201, 166, 107, 0.22);
   color: inherit;
+  font-weight: 800;
 }
 
 /* Main Interactive Grid */
 .pot-customizer-grid {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1.15fr 1.25fr;
   gap: 36px;
-  align-items: center;
+  align-items: start;
 }
 
 /* Pot Stage (Left Column) */
@@ -68,12 +74,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: radial-gradient(circle, #FFFDF9 0%, #F5EFE6 100%);
-  border: 1.5px solid #E5DAC9;
+  background: radial-gradient(circle at 50% 40%, #FFFDF9 0%, #F5ECE0 100%);
+  border: 2px solid #EADDC9;
   border-radius: var(--radius-lg);
-  padding: 34px 24px;
+  padding: 36px 20px;
   position: relative;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
 .pot-handles-wrap {
@@ -85,41 +91,38 @@
   max-width: 440px;
 }
 
-/* Metal Pot Handles (Quai nồi 2 bên) */
+/* Metal Pot Handles (Quai nồi 2 bên màu đồng ánh kim) */
 .pot-handle-left,
 .pot-handle-right {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 32px;
-  height: 64px;
-  border: 6px solid #B38F46;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #D4AF37, #8C6D2B);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 36px;
+  height: 72px;
+  border: 7px solid #8C6D2B;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #FFD700 0%, #B8860B 50%, #684814 100%);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.5);
   z-index: 1;
 }
 
-.pot-handle-left {
-  left: 6px;
-}
-
-.pot-handle-right {
-  right: 6px;
-}
+.pot-handle-left { left: 4px; }
+.pot-handle-right { right: 4px; }
 
 /* The Round Metallic Pot Vessel */
 .pot-vessel {
   position: relative;
-  width: 360px;
-  height: 360px;
+  width: 370px;
+  height: 370px;
   border-radius: 50%;
-  background: #1F1B18;
-  border: 14px solid #C5A059;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 6px 18px rgba(0, 0, 0, 0.8);
+  background: #1A1614;
+  border: 15px solid #C5A059;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
+              0 0 35px rgba(201, 166, 107, 0.3),
+              inset 0 8px 24px rgba(0, 0, 0, 0.9);
   overflow: hidden;
   z-index: 2;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s ease;
 }
 
 /* Steam Effect Animation */
@@ -128,50 +131,49 @@
   top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 180px;
-  height: 80px;
+  width: 200px;
+  height: 90px;
   pointer-events: none;
-  opacity: 0.65;
+  opacity: 0.75;
   z-index: 10;
   display: flex;
   justify-content: space-around;
 }
 
 .steam-bubble {
-  width: 24px;
-  height: 60px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
+  width: 28px;
+  height: 70px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 70%);
   border-radius: 50%;
-  animation: steamRise 3.5s infinite ease-in-out;
+  animation: steamRise 3.2s infinite ease-in-out;
 }
 
 .steam-bubble:nth-child(2) {
-  animation-delay: 1.2s;
-  height: 75px;
+  animation-delay: 1.1s;
+  height: 85px;
 }
 
 .steam-bubble:nth-child(3) {
-  animation-delay: 2.1s;
-  height: 50px;
+  animation-delay: 2s;
+  height: 60px;
 }
 
 @keyframes steamRise {
   0% {
-    transform: translateY(20px) scale(0.6);
+    transform: translateY(25px) scale(0.6);
     opacity: 0;
   }
   50% {
-    opacity: 0.7;
-    transform: translateY(-15px) scale(1.1);
+    opacity: 0.8;
+    transform: translateY(-18px) scale(1.15);
   }
   100% {
-    transform: translateY(-50px) scale(1.5);
+    transform: translateY(-60px) scale(1.6);
     opacity: 0;
   }
 }
 
 /* Compartment Layouts */
-/* 1. Nồi 1 ngăn */
 .pot-layout-1 {
   width: 100%;
   height: 100%;
@@ -184,7 +186,6 @@
   border-radius: 50%;
 }
 
-/* 2. Nồi 2 ngăn Uyên Ương (Divided by Yin-Yang S-Divider) */
 .pot-layout-2 {
   width: 100%;
   height: 100%;
@@ -204,14 +205,13 @@
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 8px;
+  width: 9px;
   transform: translateX(-50%);
-  background: linear-gradient(to right, #B8860B, #FFDF73, #8C6D2B);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  z-index: 5;
+  background: linear-gradient(to right, #8C6D2B, #FFDF73, #B8860B, #684814);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.75), inset 0 0 3px rgba(255, 255, 255, 0.6);
+  z-index: 6;
 }
 
-/* 3. Nồi 4 ngăn Tứ Quý (Grid 2x2 with Cross Divider) */
 .pot-layout-4 {
   width: 100%;
   height: 100%;
@@ -231,11 +231,11 @@
   top: 50%;
   left: 0;
   right: 0;
-  height: 8px;
+  height: 9px;
   transform: translateY(-50%);
   background: linear-gradient(to bottom, #FFDF73, #8C6D2B);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  z-index: 5;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.75);
+  z-index: 6;
 }
 
 .pot-layout-4 .divider-v {
@@ -243,11 +243,11 @@
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 8px;
+  width: 9px;
   transform: translateX(-50%);
   background: linear-gradient(to right, #FFDF73, #8C6D2B);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  z-index: 5;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.75);
+  z-index: 6;
 }
 
 /* Individual Compartment State */
@@ -257,34 +257,37 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 14px;
+  padding: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   background-color: #38312B;
+  position: relative;
 }
 
 .pot-compartment:hover {
-  filter: brightness(1.12);
+  filter: brightness(1.15) contrast(1.05);
 }
 
 .pot-compartment.active-compartment {
-  box-shadow: inset 0 0 0 4px #FFD700, inset 0 0 20px rgba(255, 215, 0, 0.6);
+  box-shadow: inset 0 0 0 4px #FFD700, inset 0 0 30px rgba(255, 215, 0, 0.7);
+  filter: brightness(1.12);
 }
 
 .pot-compartment.active-compartment::after {
   content: "Đang chọn";
   position: absolute;
-  top: 8px;
-  background: #B8860B;
-  color: white;
-  font-size: 0.68rem;
+  top: 10px;
+  background: linear-gradient(135deg, #D4AF37, #AA7C11);
+  color: #1A1614;
+  font-size: 0.7rem;
   font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 10px;
+  padding: 2px 10px;
+  border-radius: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   z-index: 8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   animation: pulseBadge 1.5s infinite;
 }
 
@@ -298,67 +301,54 @@
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.55);
   color: #FFF;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 3px 9px;
+  border-radius: 6px;
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
 
 .compartment-broth-title {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 800;
   color: white;
   line-height: 1.25;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
   margin-bottom: 4px;
 }
 
 .compartment-hint {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.2;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-.compartment-spice-level {
-  display: inline-flex;
-  gap: 2px;
-  margin-top: 4px;
-}
-
-/* Broth Color Themes */
-/* 1. Tomyum Thái: Đỏ cam tươi */
+/* Broth Color Themes (Gradient sinh động, màu sắc chuẩn ẩm thực) */
 .broth-tomyum {
-  background: radial-gradient(circle, #D84315 0%, #BF360C 100%) !important;
+  background: radial-gradient(circle at 40% 40%, #E64A19 0%, #BF360C 60%, #870000 100%) !important;
 }
 
-/* 2. Nấm Chim Câu: Nâu cánh gián thanh tao */
 .broth-nam {
-  background: radial-gradient(circle, #8D6E63 0%, #4E342E 100%) !important;
+  background: radial-gradient(circle at 40% 40%, #8D6E63 0%, #4E342E 60%, #271A15 100%) !important;
 }
 
-/* 3. Tứ Xuyên: Đỏ sẫm tiêu ớt */
 .broth-tuxuyen {
-  background: radial-gradient(circle, #C62828 0%, #880E4F 100%) !important;
+  background: radial-gradient(circle at 40% 40%, #D32F2F 0%, #880E4F 60%, #4A0000 100%) !important;
 }
 
-/* 4. Riêu Cua: Vàng cam gạch cua */
 .broth-rieucua {
-  background: radial-gradient(circle, #EF6C00 0%, #E65100 100%) !important;
+  background: radial-gradient(circle at 40% 40%, #F57C00 0%, #E65100 60%, #A33A00 100%) !important;
 }
 
-/* 5. Bò Nhúng Dấm: Vàng hổ phách trong */
 .broth-nhungdam {
-  background: radial-gradient(circle, #F57F17 0%, #9E9D24 100%) !important;
+  background: radial-gradient(circle at 40% 40%, #FBC02D 0%, #F57F17 60%, #9E9D24 100%) !important;
 }
 
-/* 6. Ếch Măng Cay: Cam vàng măng cay */
 .broth-echmang {
-  background: radial-gradient(circle, #E65100 0%, #BF360C 100%) !important;
+  background: radial-gradient(circle at 40% 40%, #EF6C00 0%, #D84315 60%, #8C2500 100%) !important;
 }
 
-/* Prompt indicator under the pot */
 .pot-stage-guide {
   margin-top: 18px;
   font-size: 0.88rem;
@@ -368,13 +358,54 @@
   gap: 8px;
 }
 
-/* Controls Column (Right Column) */
+/* Right Controls Column & Sub-Tabs */
 .pot-controls-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
+/* Sub-tabs: 1. Nước lẩu cốt | 2. Topping đồ nhúng */
+.customizer-subtabs {
+  display: flex;
+  background: #F4EDE2;
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+
+.customizer-tab-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: var(--color-gray-700);
+  font-weight: 700;
+  font-size: 0.92rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.customizer-tab-btn.active {
+  background: white;
+  color: var(--color-brand);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.customizer-tab-btn .tab-badge-count {
+  font-size: 0.74rem;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: var(--color-brand);
+  color: white;
+}
+
+/* Broth Choices Grid */
 .broth-options-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -391,7 +422,6 @@
   align-items: flex-start;
   gap: 12px;
   transition: all 0.2s ease;
-  position: relative;
 }
 
 .broth-choice-card:hover {
@@ -412,17 +442,16 @@
   height: 22px;
   border-radius: 50%;
   border: 2px solid white;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .broth-info-title {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: 3px;
-  line-height: 1.3;
+  margin-bottom: 2px;
 }
 
 .broth-info-desc {
@@ -431,12 +460,114 @@
   line-height: 1.35;
 }
 
-/* Live Calculator Box */
+/* Toppings Grid */
+.topping-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  max-height: 290px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.topping-choice-card {
+  background: white;
+  border: 1.5px solid #EBE4D8;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.topping-choice-card:hover {
+  border-color: var(--color-gold);
+}
+
+.topping-choice-card.has-quantity {
+  border-color: var(--color-gold);
+  background: #FFFDF9;
+}
+
+.topping-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #ECE3D7;
+}
+
+.topping-name {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.3;
+}
+
+.topping-price {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-top: 2px;
+}
+
+.topping-unit {
+  font-size: 0.74rem;
+  color: var(--color-gray-500);
+  font-weight: normal;
+}
+
+.topping-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.btn-top-qty {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  border: 1px solid #CCC;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #444;
+  transition: all 0.2s;
+}
+
+.btn-top-qty:hover {
+  border-color: var(--color-gold);
+  background: #FFFDF9;
+}
+
+.btn-top-qty.btn-top-plus {
+  border-color: var(--color-gold);
+  background: var(--color-gold);
+  color: white;
+}
+
+.topping-qty-val {
+  font-size: 0.9rem;
+  font-weight: 800;
+  min-width: 20px;
+  text-align: center;
+  color: var(--color-dark);
+}
+
+/* Summary Box */
 .pot-summary-box {
   background: #FFFDF9;
   border: 2px solid var(--color-gold);
   border-radius: var(--radius-md);
-  padding: 20px 22px;
+  padding: 18px 20px;
   box-shadow: 0 6px 18px rgba(184, 134, 11, 0.1);
 }
 
@@ -444,20 +575,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-  font-size: 0.88rem;
+  margin-bottom: 7px;
+  font-size: 0.86rem;
   color: var(--color-gray-700);
 }
 
 .pot-summary-row.total-row {
   border-top: 1.5px dashed #E2D7C5;
-  padding-top: 12px;
-  margin-top: 10px;
-  margin-bottom: 16px;
+  padding-top: 10px;
+  margin-top: 8px;
+  margin-bottom: 14px;
 }
 
 .pot-total-price {
-  font-size: 1.8rem;
+  font-size: 1.75rem;
   font-weight: 900;
   color: var(--color-brand);
 }
@@ -485,10 +616,11 @@
   .pot-vessel {
     width: 280px;
     height: 280px;
-    border-width: 10px;
+    border-width: 12px;
   }
 
-  .broth-options-grid {
+  .broth-options-grid,
+  .topping-options-grid {
     grid-template-columns: 1fr;
   }
 
