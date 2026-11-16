@@ -1,9 +1,10 @@
 /**
  * LẨU NƯỚNG VN - HOTPOT CUSTOMIZER LOGIC
- * Tự phối nồi lẩu theo khẩu vị bàn tiệc
+ * Sáng tạo nồi lẩu theo phong vị riêng
  * - Chọn kiểu nồi (1 ngăn, 2 ngăn Uyên Ương hoặc 4 ngăn Tứ Quý)
- * - Nhấp vào từng ngăn nồi và gán vị nước lẩu yêu thích
- * - Chọn thêm các món topping đồ nhúng tươi ngon đi kèm
+ * - Nồi lẩu hoàng gia cao cấp không bao giờ bị mất chữ
+ * - Tích chọn nước lẩu: Ô tròn được đánh dấu và góc thẻ hiển thị rõ Ngăn 1, 2, 3...
+ * - Topping đồ nhúng chuyên biệt: Bò, tôm, sò, ốc, hến, gà, các loại rau, nấm, bia, nước ngọt, nước ngọc
  * - Tính giá tự động theo thời gian thực và chuyển tiếp đặt bàn
  */
 
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'tomyum',
       name: 'Lẩu Thái Tomyum hải sản',
+      shortName: 'Thái Tomyum',
       colorClass: 'broth-tomyum',
       dotColor: '#E64A19',
       spice: 'Cay vừa',
@@ -57,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'nam',
       name: 'Lẩu nấm chim câu bổ dưỡng',
+      shortName: 'Nấm chim câu',
       colorClass: 'broth-nam',
       dotColor: '#8D6E63',
       spice: 'Không cay',
@@ -66,15 +69,17 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'tuxuyen',
       name: 'Lẩu Tứ Xuyên cay tê nồng nàn',
+      shortName: 'Tứ Xuyên cay tê',
       colorClass: 'broth-tuxuyen',
       dotColor: '#D32F2F',
-      spice: 'Cay tê nhiều',
+      spice: 'Cay tê',
       desc: 'Hoa tiêu Tứ Xuyên trứ danh và ớt khô cay nồng',
       extraPrice: 0
     },
     {
       id: 'rieucua',
       name: 'Lẩu riêu cua bắp bò sườn sụn',
+      shortName: 'Riêu cua bắp bò',
       colorClass: 'broth-rieucua',
       dotColor: '#F57C00',
       spice: 'Không cay',
@@ -84,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'nhungdam',
       name: 'Lẩu bò nhúng dấm thảo mộc',
+      shortName: 'Bò nhúng dấm',
       colorClass: 'broth-nhungdam',
       dotColor: '#FBC02D',
       spice: 'Không cay',
@@ -93,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'echmang',
       name: 'Lẩu ếch đồng măng cay',
+      shortName: 'Ếch măng cay',
       colorClass: 'broth-echmang',
       dotColor: '#EF6C00',
       spice: 'Cay vừa',
@@ -101,63 +108,150 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  // 3. Danh mục 8 món Topping đồ nhúng tươi ngon đi kèm
+  // 3. Danh mục 17 món chuyên dùng để nhúng lẩu & đồ uống (Bò, tôm, sò, ốc, hến, gà, rau, bia, nước ngọt, nước ngọc)
   const toppingList = [
+    // Thịt bò & Gà
     {
-      id: 13,
+      id: 101,
+      category: 'meat',
       name: 'Ba chỉ bò Mỹ thái lát mỏng',
       price: 89000,
       unit: 'đĩa 200g',
-      img: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=200&q=80'
+      img: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 14,
+      id: 102,
+      category: 'meat',
       name: 'Bắp bò hoa giòn sần sật',
       price: 99000,
       unit: 'đĩa 200g',
-      img: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=200&q=80'
+      img: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 17,
+      id: 103,
+      category: 'meat',
+      name: 'Thịt gà ta thả vườn chặt miếng',
+      price: 79000,
+      unit: 'đĩa 300g',
+      img: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=240&q=80'
+    },
+
+    // Hải sản nhúng (Tôm, Sò, Ốc, Hến)
+    {
+      id: 104,
+      category: 'seafood',
       name: 'Tôm sú biển tươi sống',
       price: 119000,
       unit: 'đĩa 6 con',
-      img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=200&q=80'
+      img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 18,
-      name: 'Mực trứng Phú Quốc tươi rói',
-      price: 129000,
-      unit: 'đĩa 250g',
-      img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=200&q=80'
+      id: 105,
+      category: 'seafood',
+      name: 'Sò huyết tươi ngọt đậm',
+      price: 69000,
+      unit: 'đĩa 300g',
+      img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 24,
-      name: 'Set viên thả lẩu phô mai',
+      id: 106,
+      category: 'seafood',
+      name: 'Ốc nhồi thịt thả lẩu giòn dai',
       price: 59000,
       unit: 'đĩa 8 viên',
-      img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=200&q=80'
+      img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=240&q=80'
     },
     {
-      id: 21,
-      name: 'Set nấm tươi 6 loại bổ dưỡng',
+      id: 107,
+      category: 'seafood',
+      name: 'Hến tươi Cồn Hến béo ngọt',
       price: 49000,
-      unit: 'đĩa lớn',
-      img: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=200&q=80'
+      unit: 'đĩa 250g',
+      img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=240&q=80'
     },
+
+    // Các loại rau & Nấm
     {
-      id: 23,
-      name: 'Đậu phụ Mơ lướt ván',
-      price: 29000,
-      unit: 'đĩa 8 miếng',
-      img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=200&q=80'
-    },
-    {
-      id: 22,
-      name: 'Rau xanh tổng hợp VietGAP',
+      id: 108,
+      category: 'veggie',
+      name: 'Khay rau xanh nhúng lẩu tổng hợp',
       price: 35000,
       unit: 'rổ lớn',
-      img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=200&q=80'
+      img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 109,
+      category: 'veggie',
+      name: 'Rau muống cọng giòn xanh mướt',
+      price: 25000,
+      unit: 'đĩa lớn',
+      img: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 110,
+      category: 'veggie',
+      name: 'Rau cải cúc non ngọt mát',
+      price: 25000,
+      unit: 'đĩa lớn',
+      img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 111,
+      category: 'veggie',
+      name: 'Set nấm tươi 5 loại thanh mát',
+      price: 45000,
+      unit: 'đĩa lớn',
+      img: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=240&q=80'
+    },
+
+    // Bia, Nước ngọt & Nước ngọc
+    {
+      id: 112,
+      category: 'drink',
+      name: 'Bia Tiger Crystal mát lạnh',
+      price: 25000,
+      unit: 'lon 330ml',
+      img: 'https://images.unsplash.com/photo-1608270199990-264627d2c3df?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 113,
+      category: 'drink',
+      name: 'Bia Heineken Silver êm đằm',
+      price: 28000,
+      unit: 'lon 330ml',
+      img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 114,
+      category: 'drink',
+      name: 'Nước ngọt Coca-Cola mát lạnh',
+      price: 15000,
+      unit: 'lon 320ml',
+      img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 115,
+      category: 'drink',
+      name: 'Nước ngọt Sprite chanh sảng khoái',
+      price: 15000,
+      unit: 'lon 320ml',
+      img: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 116,
+      category: 'drink',
+      name: 'Nước ngọc thạch nha đam hạt chia',
+      price: 20000,
+      unit: 'chai 350ml',
+      img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=240&q=80'
+    },
+    {
+      id: 117,
+      category: 'drink',
+      name: 'Nước khoáng tinh khiết thiên nhiên',
+      price: 10000,
+      unit: 'chai 500ml',
+      img: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=240&q=80'
     }
   ];
 
@@ -165,14 +259,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPotTypeId = 2; // Mặc định nồi 2 ngăn Uyên Ương
   let activeSlotIndex = 0; // Ngăn đang được chọn
   let assignedBroths = [brothList[0], brothList[1]]; // Mặc định Tomyum & Lẩu nấm
-  let selectedToppings = {}; // { 13: 1, 17: 2 ... }
+  let selectedToppings = {}; // { 101: 1, 104: 2 ... }
   let currentControlTab = 'broth'; // 'broth' (chọn nước lẩu) hoặc 'topping' (chọn đồ nhúng)
+  let currentToppingCategory = 'all'; // 'all', 'meat', 'seafood', 'veggie', 'drink'
 
   // 5. Render khung giao diện chính
   function renderCustomizerLayout() {
     container.innerHTML = `
       <div class="container">
-        <!-- Section Header (Không chứa tag kỹ thuật) -->
+        <!-- Section Header -->
         <div class="section-header" style="margin-bottom: 26px;">
           <h2 class="section-title">Sáng tạo nồi lẩu theo <span>phong vị riêng</span></h2>
           <div class="gold-divider"><div class="gold-divider-icon"></div></div>
@@ -201,12 +296,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Interactive Grid: Left Pot Visual + Right Controls -->
         <div class="pot-customizer-grid">
           
-          <!-- Left Column: Interactive Hotpot Visual Vessel -->
+          <!-- Left Column: Royal Hotpot Visual Vessel -->
           <div class="pot-stage-wrapper">
             <div class="pot-handles-wrap">
               <div class="pot-handle-left"></div>
               
-              <!-- Round Metallic Pot -->
+              <!-- Round Metallic Royal Pot -->
               <div class="pot-vessel" id="potVesselElement">
                 <!-- Steam Effect -->
                 <div class="pot-steam-effect">
@@ -227,7 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Stage Guidance Instruction -->
             <div class="pot-stage-guide">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span>Nhấp trực tiếp vào ngăn nồi ở trên để gán hoặc đổi vị lẩu</span>
+              <span>Nhấp trực tiếp vào ngăn nồi trên hoặc thẻ bên dưới để đổi vị:</span>
+            </div>
+
+            <!-- Pot Slots Mini Deck: Thanh tóm tắt và chuyển nhanh ngăn ngay dưới đáy nồi -->
+            <div class="pot-slots-deck" id="potSlotsDeckContainer">
+              <!-- Render tự động theo số ngăn -->
             </div>
           </div>
 
@@ -242,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </button>
               <button type="button" class="customizer-tab-btn ${currentControlTab === 'topping' ? 'active' : ''}" id="tabBtnTopping">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
-                2. Chọn topping đồ nhúng
+                2. Chọn món nhúng & đồ uống
                 <span class="tab-badge-count" id="toppingBadgeCount" style="display: none;">0</span>
               </button>
             </div>
@@ -261,13 +361,17 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="broth-options-grid" id="brothOptionsList">
                 ${brothList.map(broth => `
                   <div class="broth-choice-card" data-broth-id="${broth.id}">
-                    <div class="broth-color-dot" style="background-color: ${broth.dotColor};"></div>
-                    <div>
+                    <div class="broth-color-dot" style="background-color: ${broth.dotColor};">
+                      <svg class="broth-dot-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
                       <div class="broth-info-title">${broth.name}</div>
                       <div class="broth-info-desc">${broth.desc}</div>
                       <div style="display: flex; gap: 8px; align-items: center; margin-top: 3px;">
                         <span style="font-size: 0.72rem; color: #991B1B; font-weight: 600;">${broth.spice}</span>
-                        <span style="font-size: 0.72rem; color: #166534; font-weight: 600;">• Miễn phí</span>
+                        <span style="font-size: 0.72rem; color: #166534; font-weight: 600;">• Đã bao gồm</span>
                       </div>
                     </div>
                   </div>
@@ -276,45 +380,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
               <div style="text-align: right; margin-top: 12px;">
                 <button type="button" id="btnNextToTopping" class="btn btn-secondary btn-sm" style="font-size: 0.85rem; padding: 6px 14px; font-weight: 700; color: var(--color-brand); border-color: var(--color-gold);">
-                  Tiếp tục chọn topping đồ nhúng →
+                  Tiếp tục chọn món nhúng & đồ uống →
                 </button>
               </div>
             </div>
 
             <!-- Panel 2: Topping Choices Grid -->
             <div id="toppingPanelContainer" style="${currentControlTab === 'topping' ? 'display: block;' : 'display: none;'}">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
                 <h3 style="font-size: 1.05rem; color: var(--color-primary); margin: 0; font-weight: 700;">
-                  Chọn topping đồ nhúng tươi ngon đi kèm:
+                  Món chuyên dùng để nhúng & đồ uống:
                 </h3>
-                <span style="font-size: 0.78rem; color: var(--color-gray-500);">Tùy chọn theo sở thích</span>
+                <span style="font-size: 0.78rem; color: var(--color-gray-500);">Gọi theo nhu cầu bàn tiệc</span>
+              </div>
+
+              <!-- Category Pills Filter -->
+              <div class="topping-cat-filter" id="toppingCatFilter">
+                <button type="button" class="top-cat-pill active" data-cat="all">Tất cả (17)</button>
+                <button type="button" class="top-cat-pill" data-cat="meat">Bò & Gà</button>
+                <button type="button" class="top-cat-pill" data-cat="seafood">Tôm, Sò, Ốc, Hến</button>
+                <button type="button" class="top-cat-pill" data-cat="veggie">Các loại rau & Nấm</button>
+                <button type="button" class="top-cat-pill" data-cat="drink">Bia & Nước giải khát</button>
               </div>
 
               <div class="topping-options-grid" id="toppingOptionsList">
-                ${toppingList.map(top => `
-                  <div class="topping-choice-card" data-topping-id="${top.id}">
-                    <img src="${top.img}" alt="${top.name}" class="topping-thumb">
-                    <div style="flex: 1; min-width: 0;">
-                      <div class="topping-name">${top.name}</div>
-                      <div class="topping-price">
-                        ${formatPrice(top.price)} <span class="topping-unit">/${top.unit}</span>
-                      </div>
-                    </div>
-                    <div class="topping-qty-control">
-                      <button type="button" class="btn-top-qty btn-top-minus" data-id="${top.id}">-</button>
-                      <span class="topping-qty-val" data-id="${top.id}">0</span>
-                      <button type="button" class="btn-top-qty btn-top-plus" data-id="${top.id}">+</button>
-                    </div>
-                  </div>
-                `).join('')}
+                <!-- Render bằng hàm renderToppingsList() -->
               </div>
             </div>
 
             <!-- Real-time Live Price Calculator Box -->
             <div class="pot-summary-box">
               <div class="pot-summary-row">
-                <span>Kiểu nồi đã chọn:</span>
-                <strong id="summaryPotTypeName" style="color: var(--color-primary);">Nồi 2 ngăn Uyên Ương</strong>
+                <span>Kiểu nồi cốt đã chọn:</span>
+                <strong id="summaryPotTypeName" style="color: var(--color-primary);">Nồi 2 ngăn Uyên Ương (239.000 đ)</strong>
               </div>
               <div class="pot-summary-row" style="align-items: flex-start;">
                 <span>Vị nước lẩu cốt:</span>
@@ -323,21 +421,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
               </div>
               <div class="pot-summary-row" id="summaryToppingRow" style="display: none; align-items: flex-start;">
-                <span>Topping đồ nhúng thêm:</span>
+                <span>Món nhúng & đồ uống gọi thêm:</span>
                 <div id="summarySelectedToppings" style="text-align: right; font-weight: 600; color: #166534; font-size: 0.84rem; line-height: 1.4;">
-                  Chưa chọn topping
+                  Chưa chọn món nhúng
                 </div>
-              </div>
-              <div class="pot-summary-row" style="font-size: 0.8rem; color: #15803D;">
-                <span>Quà tặng kèm theo:</span>
-                <strong>01 Khay rau nấm nhúng tươi ngon</strong>
               </div>
 
               <!-- Total price row -->
               <div class="pot-summary-row total-row">
                 <div>
-                  <div style="font-weight: 800; font-size: 0.98rem; color: var(--color-primary);">Tổng tiền nồi lẩu & đồ nhúng:</div>
-                  <div style="font-size: 0.78rem; color: var(--color-gray-500);">Đã bao gồm nước cốt và topping đi kèm</div>
+                  <div style="font-weight: 800; font-size: 0.98rem; color: var(--color-primary);">Tổng thanh toán nồi lẩu:</div>
+                  <div style="font-size: 0.78rem; color: var(--color-gray-500);">Đã bao gồm nước lẩu và món gọi thêm</div>
                 </div>
                 <div class="pot-total-price" id="customizerTotalPrice">
                   239.000 đ
@@ -363,13 +457,81 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     bindEvents();
+    renderToppingsList();
     renderPotCompartments();
     updateSummaryCalculation();
   }
 
-  // 6. Vẽ cấu trúc các ngăn nồi lẩu tương tác
+  // 6. Vẽ danh sách Topping theo bộ lọc chuyên mục
+  function renderToppingsList() {
+    const listEl = document.getElementById('toppingOptionsList');
+    if (!listEl) return;
+
+    const filtered = currentToppingCategory === 'all'
+      ? toppingList
+      : toppingList.filter(item => item.category === currentToppingCategory);
+
+    listEl.innerHTML = filtered.map(top => {
+      const qty = selectedToppings[top.id] || 0;
+      return `
+        <div class="topping-choice-card ${qty > 0 ? 'has-quantity' : ''}" data-topping-id="${top.id}">
+          <img src="${top.img}" alt="${top.name}" class="topping-thumb">
+          <div style="flex: 1; min-width: 0;">
+            <div class="topping-name">${top.name}</div>
+            <div class="topping-price">
+              ${formatPrice(top.price)} <span class="topping-unit">/${top.unit}</span>
+            </div>
+          </div>
+          <div class="topping-qty-control">
+            <button type="button" class="btn-top-qty btn-top-minus" data-id="${top.id}">-</button>
+            <span class="topping-qty-val" data-id="${top.id}">${qty}</span>
+            <button type="button" class="btn-top-qty btn-top-plus" data-id="${top.id}">+</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Gán lại sự kiện tăng giảm
+    listEl.querySelectorAll('.btn-top-plus').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = Number(btn.getAttribute('data-id'));
+        selectedToppings[id] = (selectedToppings[id] || 0) + 1;
+        updateToppingQtyDisplay(id);
+        updateSummaryCalculation();
+      });
+    });
+
+    listEl.querySelectorAll('.btn-top-minus').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = Number(btn.getAttribute('data-id'));
+        if (selectedToppings[id] && selectedToppings[id] > 0) {
+          selectedToppings[id] -= 1;
+          if (selectedToppings[id] === 0) {
+            delete selectedToppings[id];
+          }
+          updateToppingQtyDisplay(id);
+          updateSummaryCalculation();
+        }
+      });
+    });
+  }
+
+  function updateToppingQtyDisplay(id) {
+    const qty = selectedToppings[id] || 0;
+    const cards = document.querySelectorAll(`.topping-choice-card[data-topping-id="${id}"]`);
+    cards.forEach(card => {
+      const qtyEl = card.querySelector('.topping-qty-val');
+      if (qtyEl) qtyEl.textContent = qty;
+      card.classList.toggle('has-quantity', qty > 0);
+    });
+  }
+
+  // 7. Vẽ cấu trúc các ngăn nồi lẩu tương tác (Nồi hoàng gia không mất chữ)
   function renderPotCompartments() {
     const potContainer = document.getElementById('potCompartmentsContainer');
+    const deckContainer = document.getElementById('potSlotsDeckContainer');
     if (!potContainer) return;
 
     const potConfig = potTypes[currentPotTypeId];
@@ -381,9 +543,9 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="pot-layout-1">
           <div class="pot-compartment ${broth.colorClass} active-compartment" data-slot="0">
             <div class="compartment-info-card">
-              <span class="compartment-num-tag">Ngăn đơn</span>
-              <div class="compartment-broth-title">${broth.name}</div>
-              <div class="compartment-hint">${broth.spice} • ${broth.desc}</div>
+              <span class="compartment-num-tag">Nồi đơn vị</span>
+              <div class="compartment-broth-title">${broth.shortName || broth.name}</div>
+              <div class="compartment-hint">${broth.spice} • Cốt chuẩn vị</div>
             </div>
           </div>
         </div>
@@ -396,7 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="pot-compartment ${b0.colorClass} ${activeSlotIndex === 0 ? 'active-compartment' : ''}" data-slot="0">
             <div class="compartment-info-card">
               <span class="compartment-num-tag">Ngăn 1</span>
-              <div class="compartment-broth-title">${b0.name}</div>
+              <div class="compartment-broth-title">${b0.shortName || b0.name}</div>
               <div class="compartment-hint">${b0.spice}</div>
             </div>
           </div>
@@ -404,7 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="pot-compartment ${b1.colorClass} ${activeSlotIndex === 1 ? 'active-compartment' : ''}" data-slot="1">
             <div class="compartment-info-card">
               <span class="compartment-num-tag">Ngăn 2</span>
-              <div class="compartment-broth-title">${b1.name}</div>
+              <div class="compartment-broth-title">${b1.shortName || b1.name}</div>
               <div class="compartment-hint">${b1.spice}</div>
             </div>
           </div>
@@ -420,13 +582,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="pot-compartment ${b0.colorClass} ${activeSlotIndex === 0 ? 'active-compartment' : ''}" data-slot="0">
             <div class="compartment-info-card">
               <span class="compartment-num-tag">Ngăn 1</span>
-              <div class="compartment-broth-title">${b0.name}</div>
+              <div class="compartment-broth-title">${b0.shortName || b0.name}</div>
             </div>
           </div>
           <div class="pot-compartment ${b1.colorClass} ${activeSlotIndex === 1 ? 'active-compartment' : ''}" data-slot="1">
             <div class="compartment-info-card">
               <span class="compartment-num-tag">Ngăn 2</span>
-              <div class="compartment-broth-title">${b1.name}</div>
+              <div class="compartment-broth-title">${b1.shortName || b1.name}</div>
             </div>
           </div>
           <div class="divider-h"></div>
@@ -434,13 +596,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="pot-compartment ${b2.colorClass} ${activeSlotIndex === 2 ? 'active-compartment' : ''}" data-slot="2">
             <div class="compartment-info-card">
               <span class="compartment-num-tag">Ngăn 3</span>
-              <div class="compartment-broth-title">${b2.name}</div>
+              <div class="compartment-broth-title">${b2.shortName || b2.name}</div>
             </div>
           </div>
           <div class="pot-compartment ${b3.colorClass} ${activeSlotIndex === 3 ? 'active-compartment' : ''}" data-slot="3">
             <div class="compartment-info-card">
               <span class="compartment-num-tag">Ngăn 4</span>
-              <div class="compartment-broth-title">${b3.name}</div>
+              <div class="compartment-broth-title">${b3.shortName || b3.name}</div>
             </div>
           </div>
         </div>
@@ -452,17 +614,43 @@ document.addEventListener('DOMContentLoaded', () => {
       comp.addEventListener('click', () => {
         const slotIdx = Number(comp.getAttribute('data-slot'));
         setActiveSlot(slotIdx);
-        // Tự động chuyển sang tab chọn vị lẩu nếu đang ở tab topping
         switchControlTab('broth');
       });
     });
 
+    // Vẽ thanh Deck tóm tắt các ngăn ngay dưới đáy nồi
+    if (deckContainer) {
+      deckContainer.innerHTML = assignedBroths.slice(0, totalSlots).map((broth, idx) => {
+        const isActive = idx === activeSlotIndex;
+        return `
+          <div class="slot-pill-btn ${isActive ? 'active' : ''}" data-slot="${idx}">
+            <div class="slot-pill-header">
+              <span class="slot-pill-num">Ngăn ${idx + 1}</span>
+              <span class="slot-pill-spice">${broth.spice}</span>
+            </div>
+            <div class="slot-pill-name" title="${broth.name}">${broth.name}</div>
+          </div>
+        `;
+      }).join('');
+
+      deckContainer.querySelectorAll('.slot-pill-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const slotIdx = Number(btn.getAttribute('data-slot'));
+          setActiveSlot(slotIdx);
+          switchControlTab('broth');
+        });
+      });
+    }
+
     updateActiveSlotIndicator();
+    updateBrothCardsStatus();
   }
 
-  // 7. Đặt ngăn đang chọn (Active Slot)
+  // 8. Đặt ngăn đang chọn (Active Slot)
   function setActiveSlot(slotIndex) {
     activeSlotIndex = slotIndex;
+    
+    // Đồng bộ class ngăn trong nồi
     const potContainer = document.getElementById('potCompartmentsContainer');
     if (potContainer) {
       potContainer.querySelectorAll('.pot-compartment').forEach(comp => {
@@ -470,8 +658,18 @@ document.addEventListener('DOMContentLoaded', () => {
         comp.classList.toggle('active-compartment', idx === activeSlotIndex);
       });
     }
+
+    // Đồng bộ class thẻ deck dưới đáy nồi
+    const deckContainer = document.getElementById('potSlotsDeckContainer');
+    if (deckContainer) {
+      deckContainer.querySelectorAll('.slot-pill-btn').forEach(btn => {
+        const idx = Number(btn.getAttribute('data-slot'));
+        btn.classList.toggle('active', idx === activeSlotIndex);
+      });
+    }
+
     updateActiveSlotIndicator();
-    highlightSelectedBrothCard();
+    updateBrothCardsStatus();
   }
 
   function updateActiveSlotIndicator() {
@@ -481,16 +679,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function highlightSelectedBrothCard() {
-    const currentBroth = assignedBroths[activeSlotIndex];
+  // 9. Cập nhật dấu tích checkmark ở ô tròn và ghi rõ "Ngăn 1, 2, 3..." ở góc thẻ nước lẩu
+  function updateBrothCardsStatus() {
+    const totalSlots = potTypes[currentPotTypeId].slots;
+    const currentActiveBroth = assignedBroths[activeSlotIndex];
+
     document.querySelectorAll('.broth-choice-card').forEach(card => {
       const brothId = card.getAttribute('data-broth-id');
-      const isSelected = currentBroth && currentBroth.id === brothId;
-      card.classList.toggle('selected-for-active', isSelected);
+
+      // Tìm danh sách các ngăn đang gán vị lẩu này
+      const assignedSlotNumbers = [];
+      for (let i = 0; i < totalSlots; i++) {
+        if (assignedBroths[i] && assignedBroths[i].id === brothId) {
+          assignedSlotNumbers.push(`Ngăn ${i + 1}`);
+        }
+      }
+
+      const isAssigned = assignedSlotNumbers.length > 0;
+      const isSelectedForActive = currentActiveBroth && currentActiveBroth.id === brothId;
+
+      card.classList.toggle('is-assigned', isAssigned);
+      card.classList.toggle('selected-for-active', isSelectedForActive);
+
+      // Cập nhật huy hiệu góc ghi rõ số ngăn
+      let badgeEl = card.querySelector('.broth-corner-badge');
+      if (isAssigned) {
+        if (!badgeEl) {
+          badgeEl = document.createElement('div');
+          badgeEl.className = 'broth-corner-badge';
+          card.appendChild(badgeEl);
+        }
+        badgeEl.textContent = assignedSlotNumbers.join(', ');
+      } else {
+        if (badgeEl) {
+          badgeEl.remove();
+        }
+      }
     });
   }
 
-  // 8. Chuyển đổi giữa 2 tab: 1. Nước lẩu cốt | 2. Topping đồ nhúng
+  // 10. Chuyển đổi giữa 2 tab: 1. Nước lẩu cốt | 2. Topping đồ nhúng
   function switchControlTab(tabName) {
     currentControlTab = tabName;
     const tabBroth = document.getElementById('tabBtnBroth');
@@ -506,7 +734,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 9. Cập nhật bảng tính giá tự động
+  // 11. Cập nhật bảng tính giá tự động
   function updateSummaryCalculation() {
     const potConfig = potTypes[currentPotTypeId];
     const typeNameEl = document.getElementById('summaryPotTypeName');
@@ -516,7 +744,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const summaryToppingsEl = document.getElementById('summarySelectedToppings');
     const badgeCountEl = document.getElementById('toppingBadgeCount');
 
-    if (typeNameEl) typeNameEl.textContent = potConfig.name;
+    if (typeNameEl) {
+      typeNameEl.textContent = `${potConfig.name} (${formatPrice(potConfig.basePrice)})`;
+    }
 
     if (assignedEl) {
       assignedEl.innerHTML = assignedBroths.slice(0, potConfig.slots).map((b, i) => {
@@ -524,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }).join('');
     }
 
-    // Tính tổng tiền topping
+    // Tính tổng tiền món nhúng & đồ uống
     let toppingTotal = 0;
     let toppingCount = 0;
     const selectedToppingEntries = [];
@@ -536,7 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (item) {
           toppingTotal += item.price * qty;
           toppingCount += qty;
-          selectedToppingEntries.push(`${item.name} x${qty}`);
+          selectedToppingEntries.push(`${item.name} x${qty} (${formatPrice(item.price * qty)})`);
         }
       }
     });
@@ -544,7 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (summaryToppingRow && summaryToppingsEl) {
       if (selectedToppingEntries.length > 0) {
         summaryToppingRow.style.display = 'flex';
-        summaryToppingsEl.innerHTML = selectedToppingEntries.join('<br>') + ` (${formatPrice(toppingTotal)})`;
+        summaryToppingsEl.innerHTML = selectedToppingEntries.join('<br>') + `<div style="margin-top: 4px; font-weight: 700; color: #15803D;">Tổng đồ nhúng: ${formatPrice(toppingTotal)}</div>`;
       } else {
         summaryToppingRow.style.display = 'none';
       }
@@ -565,7 +795,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 10. Gán các sự kiện tương tác
+  // 12. Gán các sự kiện tương tác
   function bindEvents() {
     // A. Chuyển đổi kiểu nồi (1 ngăn, 2 ngăn, 4 ngăn)
     document.querySelectorAll('.pot-type-btn').forEach(btn => {
@@ -614,12 +844,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Gán vị lẩu vào ngăn đang chọn
         assignedBroths[activeSlotIndex] = selectedBroth;
 
-        // Vẽ lại ngăn nồi
+        // Vẽ lại cấu trúc ngăn nồi & cập nhật dấu tick và badge góc
         renderPotCompartments();
         updateSummaryCalculation();
 
         if (window.showToast) {
-          window.showToast(`Đã gán "${selectedBroth.name}" vào Ngăn ${activeSlotIndex + 1}!`, 'success');
+          window.showToast(`Đã gán "${selectedBroth.name}" cho Ngăn ${activeSlotIndex + 1}!`, 'success');
         }
 
         // Tự động chuyển tiêu điểm sang ngăn tiếp theo để khách chọn tiếp thuận tiện
@@ -629,36 +859,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // D. Tăng giảm số lượng Topping đồ nhúng
-    document.querySelectorAll('.btn-top-plus').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = Number(btn.getAttribute('data-id'));
-        selectedToppings[id] = (selectedToppings[id] || 0) + 1;
-        
-        const card = btn.closest('.topping-choice-card');
-        const qtyEl = card.querySelector('.topping-qty-val');
-        if (qtyEl) qtyEl.textContent = selectedToppings[id];
-        if (card) card.classList.add('has-quantity');
-
-        updateSummaryCalculation();
-      });
-    });
-
-    document.querySelectorAll('.btn-top-minus').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = Number(btn.getAttribute('data-id'));
-        if (selectedToppings[id] && selectedToppings[id] > 0) {
-          selectedToppings[id] -= 1;
-          const card = btn.closest('.topping-choice-card');
-          const qtyEl = card.querySelector('.topping-qty-val');
-          if (qtyEl) qtyEl.textContent = selectedToppings[id];
-          
-          if (selectedToppings[id] === 0) {
-            delete selectedToppings[id];
-            if (card) card.classList.remove('has-quantity');
-          }
-          updateSummaryCalculation();
-        }
+    // D. Bộ lọc phân loại Topping
+    document.querySelectorAll('.top-cat-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.top-cat-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        currentToppingCategory = pill.getAttribute('data-cat');
+        renderToppingsList();
       });
     });
 
@@ -669,7 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const potConfig = potTypes[currentPotTypeId];
         const brothSummaryText = assignedBroths.slice(0, potConfig.slots).map((b, i) => `Ngăn ${i + 1}: ${b.name}`).join(' | ');
 
-        // Danh sách topping đã chọn
+        // Danh sách topping & đồ uống đã chọn
         const addOns = [];
         let toppingTotal = 0;
         Object.keys(selectedToppings).forEach(id => {
@@ -722,17 +929,18 @@ document.addEventListener('DOMContentLoaded', () => {
         activeSlotIndex = 0;
         assignedBroths = [brothList[0], brothList[1]];
         selectedToppings = {};
+        currentToppingCategory = 'all';
 
         document.querySelectorAll('.pot-type-btn').forEach(b => b.classList.toggle('active', Number(b.getAttribute('data-type')) === 2));
-        document.querySelectorAll('.topping-qty-val').forEach(el => el.textContent = '0');
-        document.querySelectorAll('.topping-choice-card').forEach(card => card.classList.remove('has-quantity'));
+        document.querySelectorAll('.top-cat-pill').forEach(p => p.classList.toggle('active', p.getAttribute('data-cat') === 'all'));
 
         switchControlTab('broth');
+        renderToppingsList();
         renderPotCompartments();
         updateSummaryCalculation();
 
         if (window.showToast) {
-          window.showToast('Đã đặt lại cấu hình nồi lẩu và đồ nhúng về mặc định.', 'info');
+          window.showToast('Đã đặt lại cấu hình nồi lẩu và món nhúng về mặc định.', 'info');
         }
       });
     }

@@ -109,20 +109,32 @@
 .pot-handle-left { left: 4px; }
 .pot-handle-right { right: 4px; }
 
-/* The Round Metallic Pot Vessel */
+/* The Round Metallic Pot Vessel - Luxury Royal Brass Hotpot */
 .pot-vessel {
   position: relative;
-  width: 370px;
-  height: 370px;
+  width: 390px;
+  height: 390px;
   border-radius: 50%;
-  background: #1A1614;
-  border: 15px solid #C5A059;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
-              0 0 35px rgba(201, 166, 107, 0.3),
-              inset 0 8px 24px rgba(0, 0, 0, 0.9);
+  background: #14110F;
+  border: 14px solid #B8860B;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55),
+              0 0 0 2px #533B0E,
+              0 0 32px rgba(212, 175, 55, 0.4),
+              inset 0 10px 28px rgba(0, 0, 0, 0.95);
   overflow: hidden;
   z-index: 2;
   transition: all 0.35s ease;
+}
+
+/* Decorative Rivets on the Royal Brass Rim */
+.pot-vessel::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 223, 115, 0.6);
+  pointer-events: none;
+  z-index: 3;
 }
 
 /* Steam Effect Animation */
@@ -298,33 +310,33 @@
 
 /* Glassmorphism Dark Card Inside Each Pot Compartment to Prevent Color Clashing */
 .compartment-info-card {
-  background: rgba(14, 10, 8, 0.86);
+  background: rgba(14, 10, 8, 0.88);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(255, 215, 0, 0.55);
+  border: 1.5px solid rgba(255, 215, 0, 0.65);
   border-radius: 12px;
-  padding: 8px 14px;
+  padding: 6px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
-  max-width: 90%;
+  max-width: 88%;
   pointer-events: none;
   transition: all 0.25s ease;
   z-index: 5;
 }
 
 .pot-layout-4 .compartment-info-card {
-  padding: 4px 6px;
+  padding: 4px 8px;
   border-radius: 8px;
-  max-width: 94%;
+  max-width: 90%;
 }
 
 .pot-compartment.active-compartment .compartment-info-card {
   border-color: #FFD700;
-  box-shadow: 0 0 16px rgba(255, 215, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.8);
-  background: rgba(10, 8, 6, 0.92);
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.85);
+  background: rgba(10, 8, 6, 0.94);
 }
 
 .compartment-num-tag {
@@ -335,19 +347,19 @@
   color: #1A1614;
   padding: 2px 8px;
   border-radius: 4px;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
   letter-spacing: 0.5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .pot-layout-4 .compartment-num-tag {
-  font-size: 0.62rem;
-  padding: 1px 5px;
+  font-size: 0.64rem;
+  padding: 1px 6px;
   margin-bottom: 2px;
 }
 
 .compartment-broth-title {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 800;
   color: #FFFFFF;
   line-height: 1.25;
@@ -357,12 +369,12 @@
 }
 
 .pot-layout-4 .compartment-broth-title {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   line-height: 1.15;
 }
 
 .compartment-hint {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: #FFE082;
   font-weight: 700;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
@@ -370,6 +382,75 @@
 
 .pot-layout-4 .compartment-hint {
   display: none;
+}
+
+/* Pot Slots Mini Deck (Thanh trạng thái các ngăn ngay dưới đáy nồi) */
+.pot-slots-deck {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 440px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.slot-pill-btn {
+  flex: 1;
+  min-width: 120px;
+  background: #FFFFFF;
+  border: 1.5px solid #E2D7C5;
+  border-radius: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.slot-pill-btn:hover {
+  border-color: var(--color-gold);
+  background: #FFFDF9;
+  transform: translateY(-1px);
+}
+
+.slot-pill-btn.active {
+  border-color: var(--color-gold);
+  background: #FFF9E6;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.45);
+}
+
+.slot-pill-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slot-pill-num {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #1A1614;
+  background: linear-gradient(135deg, #FFD700, #B8860B);
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.slot-pill-spice {
+  font-size: 0.7rem;
+  color: #991B1B;
+  font-weight: 600;
+}
+
+.slot-pill-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Broth Color Themes (Gradient sinh động, màu sắc chuẩn ẩm thực) */
@@ -469,6 +550,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  position: relative;
   transition: all 0.2s ease;
 }
 
@@ -479,20 +561,57 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.broth-choice-card.is-assigned {
+  border-color: var(--color-gold);
+  background: #FFFDF8;
+}
+
 .broth-choice-card.selected-for-active {
   border-color: var(--color-brand);
   background: #FFF5F5;
-  box-shadow: 0 4px 12px rgba(143, 23, 36, 0.12);
+  box-shadow: 0 4px 14px rgba(143, 23, 36, 0.15), 0 0 0 1px var(--color-brand);
+}
+
+/* Corner Slot Badge on Broth Card (Ghi Ngăn 1, 2, 3... ở góc thẻ) */
+.broth-corner-badge {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  background: linear-gradient(135deg, #FFD700, #B8860B);
+  color: #1A1614;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  z-index: 2;
 }
 
 .broth-color-dot {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
   margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.broth-dot-check {
+  display: none;
+}
+
+.broth-choice-card.is-assigned .broth-dot-check {
+  display: block;
 }
 
 .broth-info-title {
@@ -500,6 +619,7 @@
   font-weight: 700;
   color: var(--color-primary);
   margin-bottom: 2px;
+  padding-right: 50px; /* Tránh đè lên badge góc */
 }
 
 .broth-info-desc {
@@ -508,12 +628,46 @@
   line-height: 1.35;
 }
 
+/* Topping Category Filter Pills */
+.topping-cat-filter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.top-cat-pill {
+  background: #F4EDE2;
+  border: 1px solid #E2D7C5;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-gray-700);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.top-cat-pill:hover {
+  background: #FFFFFF;
+  border-color: var(--color-gold);
+}
+
+.top-cat-pill.active {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: white;
+  box-shadow: 0 2px 6px rgba(143, 23, 36, 0.25);
+}
+
 /* Toppings Grid */
 .topping-options-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  max-height: 290px;
+  max-height: 330px;
   overflow-y: auto;
   padding-right: 4px;
 }
