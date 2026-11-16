@@ -1,7 +1,9 @@
 /**
  * LẨU NƯỚNG VN - RESERVATION FEATURE LOGIC
- * Kiểm tra ràng buộc dữ liệu (Validation), Ngăn chọn ngày quá khứ,
- * Lưu trữ đặt bàn vào hệ thống và hiển thị hóa đơn xác nhận.
+ * - Kiểm tra đăng nhập bắt buộc: Chỉ khi đăng nhập mới có thể đặt bàn
+ * - Nhận diện và hiển thị set lẩu/combo người dùng đã chọn trước kèm món gọi thêm logic
+ * - Kiểm tra ràng buộc dữ liệu (Validation), chống chọn ngày quá khứ
+ * - Lưu trữ đặt bàn, tự động gắn món vào đơn và hiển thị phiếu xác nhận
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,10 +14,236 @@ document.addEventListener('DOMContentLoaded', () => {
   const receiptCloseBtn = document.getElementById('receiptModalCloseBtn');
   const btnContinueMenu = document.getElementById('btnContinueMenu');
   const receiptDetails = document.getElementById('receiptDetails');
+  const btnSubmitReservation = document.getElementById('btnSubmitReservation');
+  const authNoticeContainer = document.getElementById('reservationAuthNotice');
+  const preselectedContainer = document.getElementById('reservationPreselectedCombo');
 
   if (!form || !window.AppState) return;
 
-  // 1. Chống chọn ngày trong quá khứ (Set min date = hôm nay)
+  const formatPrice = (num) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num || 0);
+  };
+
+  // ========================================================
+  // 1. KIỂM TRA ĐĂNG NHẬP BẮT BUỘC ĐỂ ĐẶT BÀN (AUTH GUARD)
+  // ========================================================
+  function initReservationAuthGuard() {
+    const currentUser = window.AppState.getCurrentUser();
+    const nameInput = document.getElementById('customerName');
+    const phoneInput = document.getElementById('customerPhone');
+    const emailInput = document.getElementById('customerEmail');
+
+    if (!currentUser) {
+      // Chưa đăng nhập: Khóa form, đổi nút submit, hiển thị thông báo trang trọng
+      if (authNoticeContainer) {
+        authNoticeContainer.innerHTML = `
+          <div style="background: #FFFBEB; border: 1.5px solid #F59E0B; border-radius: var(--radius-md); padding: 18px 20px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);">
+            <div style="display: flex; align-items: flex-start; gap: 14px;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <div style="flex: 1;">
+                <h4 style="margin: 0 0 4px 0; font-size: 1.05rem; color: #92400E; font-weight: 700;">Yêu cầu đăng nhập để đặt bàn</h4>
+                <p style="margin: 0 0 12px 0; font-size: 0.88rem; color: #78350F; line-height: 1.5;">
+                  Để bảo vệ quyền lợi tích điểm hội viên, áp dụng ưu đãi giảm 10% và xác nhận giữ chỗ chính xác, quý khách vui lòng đăng nhập hoặc tạo tài khoản mới trước khi gửi phiếu đặt bàn.
+                </p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <a href="login.html?redirect=reservation.html" class="btn btn-primary btn-sm" style="font-size: 0.85rem; padding: 8px 18px; display: inline-flex; align-items: center; gap: 6px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                    Đăng nhập ngay
+                  </a>
+                  <a href="register.html?redirect=reservation.html" class="btn btn-secondary btn-sm" style="font-size: 0.85rem; padding: 8px 18px;">
+                    Đăng ký tài khoản mới
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Khóa tương tác của form
+      form.style.opacity = '0.55';
+      form.style.pointerEvents = 'none';
+      form.style.userSelect = 'none';
+
+      if (btnSubmitReservation) {
+        btnSubmitReservation.disabled = true;
+        btnSubmitReservation.style.background = '#9CA3AF';
+        btnSubmitReservation.style.borderColor = '#9CA3AF';
+        btnSubmitReservation.style.cursor = 'not-allowed';
+        btnSubmitReservation.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Vui lòng đăng nhập để đặt bàn
+        `;
+      }
+    } else {
+      // Đã đăng nhập: Mở khóa form và hiển thị thẻ xác nhận tài khoản
+      form.style.opacity = '1';
+      form.style.pointerEvents = 'auto';
+      form.style.userSelect = 'auto';
+
+      if (btnSubmitReservation) {
+        btnSubmitReservation.disabled = false;
+        btnSubmitReservation.style.background = '';
+        btnSubmitReservation.style.borderColor = '';
+        btnSubmitReservation.style.cursor = 'pointer';
+        btnSubmitReservation.innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Xác nhận đặt bàn ngay
+        `;
+      }
+
+      if (authNoticeContainer) {
+        authNoticeContainer.innerHTML = `
+          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: var(--radius-md); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.06);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div>
+                <div style="font-size: 0.92rem; color: #166534; font-weight: 700;">
+                  Tài khoản đặt bàn: <span style="color: var(--color-brand);">${currentUser.fullName || 'Khách hàng thân thiết'}</span>
+                </div>
+                <div style="font-size: 0.82rem; color: #15803D; margin-top: 2px;">
+                  Email: ${currentUser.email || 'N/A'} ${currentUser.phone ? ` • Số điện thoại: ${currentUser.phone}` : ''}
+                </div>
+              </div>
+            </div>
+            <div>
+              <button type="button" id="btnChangeAccount" class="btn btn-ghost btn-sm" style="font-size: 0.82rem; padding: 6px 12px; color: #166534; text-decoration: underline; cursor: pointer;">
+                Đổi tài khoản
+              </button>
+            </div>
+          </div>
+        `;
+
+        const btnChange = document.getElementById('btnChangeAccount');
+        if (btnChange) {
+          btnChange.addEventListener('click', () => {
+            window.AppState.logout();
+            window.location.href = 'login.html?redirect=reservation.html';
+          });
+        }
+      }
+
+      // Tự động điền thông tin (Pre-fill) từ tài khoản đang đăng nhập
+      if (nameInput && (!nameInput.value || nameInput.value.trim() === '')) {
+        nameInput.value = currentUser.fullName || '';
+      }
+      if (phoneInput && (!phoneInput.value || phoneInput.value.trim() === '')) {
+        phoneInput.value = currentUser.phone || '';
+      }
+      if (emailInput && (!emailInput.value || emailInput.value.trim() === '')) {
+        emailInput.value = currentUser.email || '';
+      }
+    }
+  }
+
+  initReservationAuthGuard();
+
+  // ========================================================
+  // 2. NHẬN DIỆN VÀ HIỂN THỊ SET LẨU ĐÃ CHỌN TRƯỚC
+  // ========================================================
+  function initPreselectedCombo() {
+    if (!preselectedContainer) return;
+
+    let comboData = null;
+    try {
+      const stored = sessionStorage.getItem('launuong_preselected_combo');
+      if (stored) comboData = JSON.parse(stored);
+    } catch (e) {
+      comboData = null;
+    }
+
+    if (!comboData || !comboData.productName) {
+      preselectedContainer.style.display = 'none';
+      preselectedContainer.innerHTML = '';
+      return;
+    }
+
+    const { productName, price, servingSize, broth, addOns } = comboData;
+    const addOnList = Array.isArray(addOns) ? addOns.filter(a => a.quantity > 0) : [];
+    const addOnsTotal = addOnList.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const grandTotal = (price || 0) + addOnsTotal;
+
+    preselectedContainer.style.display = 'block';
+    preselectedContainer.innerHTML = `
+      <div style="background: #FFFDF9; border: 1.5px solid var(--color-gold); border-radius: var(--radius-md); padding: 18px 20px; box-shadow: 0 4px 14px rgba(184, 134, 11, 0.08);">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed #E2D7C5; padding-bottom: 10px; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; background: var(--color-gold); color: white; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px;">Món đặt trước</span>
+            <span style="font-size: 0.85rem; color: var(--color-gray-600);">${servingSize || 'Thực đơn trọn vị'}</span>
+          </div>
+          <button type="button" id="btnRemovePreselectedCombo" class="btn btn-ghost btn-sm" style="font-size: 0.8rem; padding: 2px 8px; color: var(--color-brand); text-decoration: underline;" title="Hủy chọn trước set lẩu">
+            Hủy chọn món này
+          </button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+          <div style="font-size: 1.15rem; font-weight: 700; color: var(--color-primary);">${productName}</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: var(--color-brand);">${formatPrice(price)}</div>
+        </div>
+
+        ${broth ? `
+          <div style="font-size: 0.85rem; color: var(--color-gray-600); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <strong style="color: var(--color-dark);">Nước lẩu cốt:</strong>
+            <span>${broth}</span>
+          </div>
+        ` : ''}
+
+        ${addOnList.length > 0 ? `
+          <div style="background: white; border-radius: var(--radius-sm); border: 1px solid #EBE4D8; padding: 10px 14px; margin-bottom: 12px;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-dark); margin-bottom: 6px;">Món nhúng gọi thêm kèm theo:</div>
+            <ul style="margin: 0; padding-left: 18px; font-size: 0.84rem; color: var(--color-gray-700); display: flex; flex-direction: column; gap: 4px;">
+              ${addOnList.map(a => `
+                <li style="display: flex; justify-content: space-between;">
+                  <span>${a.name} <strong style="color: var(--color-brand);">x${a.quantity}</strong></span>
+                  <span style="color: var(--color-gray-600);">${formatPrice(a.price * a.quantity)}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        ` : ''}
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E2D7C5; padding-top: 10px;">
+          <span style="font-size: 0.88rem; font-weight: 600; color: var(--color-gray-700);">Tổng tiền dự kiến món đã chọn:</span>
+          <span style="font-size: 1.2rem; font-weight: 800; color: var(--color-brand);">${formatPrice(grandTotal)}</span>
+        </div>
+      </div>
+    `;
+
+    // Tự động ghi chú vào ô Ghi chú đặt bàn nếu ô này chưa có nội dung
+    const noteInput = document.getElementById('reservationNote');
+    if (noteInput && (!noteInput.value || noteInput.value.trim() === '')) {
+      const addonSummary = addOnList.length > 0 
+        ? ` + Món gọi thêm: ${addOnList.map(a => `${a.name} x${a.quantity}`).join(', ')}`
+        : '';
+      noteInput.value = `[Khách đặt trước: ${productName} (${servingSize})${addonSummary}]`;
+    }
+
+    // Xử lý nút hủy chọn món
+    const btnRemove = document.getElementById('btnRemovePreselectedCombo');
+    if (btnRemove) {
+      btnRemove.addEventListener('click', () => {
+        sessionStorage.removeItem('launuong_preselected_combo');
+        preselectedContainer.style.display = 'none';
+        preselectedContainer.innerHTML = '';
+        if (noteInput && noteInput.value.includes(productName)) {
+          noteInput.value = '';
+        }
+        if (window.showToast) {
+          window.showToast('Đã hủy chọn trước set lẩu.', 'info', 'Đã xóa lựa chọn');
+        }
+      });
+    }
+  }
+
+  initPreselectedCombo();
+
+  // ========================================================
+  // 3. THIẾT LẬP NGÀY VÀ CHI NHÁNH MẶC ĐỊNH
+  // ========================================================
   if (dateInput) {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -23,30 +251,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const dd = String(today.getDate()).padStart(2, '0');
     const minDateStr = `${yyyy}-${mm}-${dd}`;
     dateInput.min = minDateStr;
-    dateInput.value = minDateStr; // Mặc định chọn ngày hôm nay
+    if (!dateInput.value) {
+      dateInput.value = minDateStr;
+    }
   }
 
-  // 2. Tự động chọn chi nhánh nếu URL có tham số (?branch=id)
   const urlParams = new URLSearchParams(window.location.search);
   const branchParam = urlParams.get('branch');
   if (branchParam && branchSelect) {
     branchSelect.value = branchParam;
   }
 
-  // 3. Tự động điền thông tin nếu khách hàng đã đăng nhập
-  const currentUser = window.AppState.getCurrentUser();
-  if (currentUser) {
-    const nameInput = document.getElementById('customerName');
-    const phoneInput = document.getElementById('customerPhone');
-    const emailInput = document.getElementById('customerEmail');
-    if (nameInput && currentUser.fullName) nameInput.value = currentUser.fullName;
-    if (phoneInput && currentUser.phone) phoneInput.value = currentUser.phone;
-    if (emailInput && currentUser.email) emailInput.value = currentUser.email;
-  }
-
-  // 4. Validate & Submit Form
+  // ========================================================
+  // 4. KIỂM TRA RÀNG BUỘC VÀ XÁC NHẬN ĐẶT BÀN (SUBMIT FORM)
+  // ========================================================
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    // Kiểm tra đăng nhập (Client-side Security Guard)
+    const currentUser = window.AppState.getCurrentUser();
+    if (!currentUser) {
+      if (window.showToast) {
+        window.showToast('Quý khách vui lòng đăng nhập tài khoản trước khi gửi thông tin đặt bàn.', 'error', 'Yêu cầu đăng nhập');
+      }
+      setTimeout(() => {
+        window.location.href = 'login.html?redirect=reservation.html';
+      }, 1000);
+      return;
+    }
 
     const branchId = branchSelect.value;
     const name = document.getElementById('customerName').value.trim();
@@ -133,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 5. Lưu vào AppState
+    // 5. Lưu thông tin đặt bàn vào AppState
     const reservationData = {
       branchId: Number(branchId),
       customerName: name,
@@ -147,12 +379,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const savedRecord = window.AppState.saveReservation(reservationData);
 
-    // 6. Hiển thị thông báo Toast
+    // 6. Tự động gắn set lẩu và món nhúng đã chọn trước vào đơn đặt bàn
+    let preselectedSummaryHtml = '';
+    try {
+      const stored = sessionStorage.getItem('launuong_preselected_combo');
+      if (stored) {
+        const comboData = JSON.parse(stored);
+        if (comboData && comboData.productId) {
+          window.AppState.addDishToReservation(savedRecord.id, comboData.productId, 1);
+
+          if (Array.isArray(comboData.addOns)) {
+            comboData.addOns.forEach(addon => {
+              if (addon.quantity > 0) {
+                window.AppState.addDishToReservation(savedRecord.id, addon.id, addon.quantity);
+              }
+            });
+          }
+
+          const addOnList = (comboData.addOns || []).filter(a => a.quantity > 0);
+          const addOnsTotal = addOnList.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+          const comboGrandTotal = (comboData.price || 0) + addOnsTotal;
+
+          preselectedSummaryHtml = `
+            <div style="background: #FFFDF9; border: 1px solid var(--color-gold); border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 12px; margin-bottom: 8px;">
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--color-primary); margin-bottom: 4px;">
+                Món đặt trước: <span style="color: var(--color-brand);">${comboData.productName}</span>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--color-gray-600);">
+                Khẩu phần: ${comboData.servingSize || 'Tiêu chuẩn'} • Giá set: ${formatPrice(comboData.price)}
+              </div>
+              ${addOnList.length > 0 ? `
+                <div style="font-size: 0.8rem; color: var(--color-gray-700); margin-top: 4px;">
+                  Món nhúng thêm: ${addOnList.map(a => `${a.name} x${a.quantity}`).join(', ')}
+                </div>
+              ` : ''}
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--color-brand); margin-top: 6px; border-top: 1px dashed #E5D8C3; padding-top: 4px;">
+                Tạm tính món ăn: ${formatPrice(comboGrandTotal)}
+              </div>
+            </div>
+          `;
+
+          // Xóa sau khi đã lưu thành công vào đơn
+          sessionStorage.removeItem('launuong_preselected_combo');
+          if (preselectedContainer) {
+            preselectedContainer.style.display = 'none';
+            preselectedContainer.innerHTML = '';
+          }
+        }
+      }
+    } catch (err) {}
+
+    // 7. Hiển thị thông báo Toast
     if (window.showToast) {
       window.showToast(`Đặt bàn thành công! Mã số đặt bàn của bạn là ${savedRecord.code}.`, 'success', 'Thành công', 5000);
     }
 
-    // 7. Hiển thị Modal Phiếu Đặt Bàn (Receipt)
+    // 8. Hiển thị Modal Phiếu Đặt Bàn (Receipt)
     if (receiptDetails && receiptModal) {
       receiptDetails.innerHTML = `
         <div style="border-bottom: 1px dashed var(--color-gray-300); padding-bottom: 10px; margin-bottom: 10px;">
@@ -164,7 +446,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div>Chi nhánh: <strong>${savedRecord.branchName}</strong></div>
         <div>Thời gian: <strong>${savedRecord.time} - Ngày ${savedRecord.date}</strong></div>
         <div>Số lượng khách: <strong>${savedRecord.guestCount} người</strong></div>
-        ${savedRecord.note ? `<div>Ghi chú: <em>${savedRecord.note}</em></div>` : ''}
+        ${preselectedSummaryHtml}
+        ${savedRecord.note ? `<div style="margin-top: 6px;">Ghi chú: <em>${savedRecord.note}</em></div>` : ''}
         <div style="margin-top: 12px; font-size: 0.8rem; color: var(--color-gray-500); border-top: 1px solid var(--color-gray-200); padding-top: 8px;">
           Lưu ý: Nhà hàng sẽ liên hệ xác nhận trong vòng 10 phút. Bàn được giữ tối đa 15 phút.
         </div>
@@ -174,6 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     form.reset();
+    initReservationAuthGuard();
   });
 
   // Modal close handlers

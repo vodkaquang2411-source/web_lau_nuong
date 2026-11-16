@@ -1103,3 +1103,31 @@
   font-size: 0.8rem;
   color: var(--color-gray-500);
 }
+
+
+/* ==========================================================================
+   HOTPOT & COMBO DETAIL MODAL / ADD-ON SELECTION STYLES
+   ========================================================================== */
+.combo-detail-wrapper {
+  color: var(--color-dark);
+}
+
+.combo-addon-item {
+  transition: all 0.2s ease;
+}
+
+.combo-addon-item:hover {
+  border-color: var(--color-gold) !important;
+  box-shadow: 0 2px 8px rgba(184, 134, 11, 0.08);
+}
+
+.btn-addon-qty:active {
+  transform: scale(0.92);
+}
+
+@media (max-width: 768px) {
+  .combo-detail-wrapper > div:first-child {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}

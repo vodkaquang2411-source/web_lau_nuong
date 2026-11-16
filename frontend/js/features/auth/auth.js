@@ -99,8 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
           window.showToast(`Chào mừng bạn quay trở lại với LẨU NƯỚNG VN!`, 'success', 'Đăng nhập thành công');
         }
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectTarget = urlParams.get('redirect');
+        const targetUrl = redirectTarget ? redirectTarget : '../index.html';
+
         setTimeout(() => {
-          window.location.href = '../index.html';
+          window.location.href = targetUrl;
         }, 1000);
       }
     });
@@ -178,8 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.showToast('Đăng ký tài khoản hội viên thành công! Tặng bạn voucher giảm 100k cho lần đặt bàn đầu tiên.', 'success', 'Chúc mừng');
       }
 
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectTarget = urlParams.get('redirect');
+      const targetUrl = redirectTarget ? redirectTarget : '../index.html';
+
       setTimeout(() => {
-        window.location.href = '../index.html';
+        window.location.href = targetUrl;
       }, 1200);
     });
   }
@@ -191,6 +199,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (window.showToast) {
         window.showToast('Hệ thống đã gửi liên kết đặt lại mật khẩu đến email của bạn.', 'info', 'Khôi phục mật khẩu');
       }
+    });
+  }
+
+  // 5. Đồng bộ tham số chuyển hướng (redirect) giữa trang đăng nhập và đăng ký
+  const currentRedirect = new URLSearchParams(window.location.search).get('redirect');
+  if (currentRedirect) {
+    document.querySelectorAll('a[href="register.html"]').forEach(link => {
+      link.href = `register.html?redirect=${encodeURIComponent(currentRedirect)}`;
+    });
+    document.querySelectorAll('a[href="login.html"]').forEach(link => {
+      link.href = `login.html?redirect=${encodeURIComponent(currentRedirect)}`;
     });
   }
 });

@@ -35,7 +35,29 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80',
     description: 'Nước lẩu riêu cua đồng thanh ngọt tự nhiên, giấm bỗng nếp thơm dịu, kèm bắp bò hoa và sườn sụn non giòn sần sật.',
     isFeatured: true,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '2 - 3 người dùng',
+      broth: 'Nước lẩu riêu cua đồng gia truyền hầm cùng giấm bỗng nếp cái hoa vàng (1.8 lít)',
+      includedItems: [
+        { name: 'Bắp bò hoa Mỹ thái lát mỏng', amount: '250g', desc: 'Thịt tươi vân mỡ cẩm thạch nhúng chín tới mềm ngọt thơm lừng' },
+        { name: 'Sườn sụn non heo giòn sần sật', amount: '200g', desc: 'Sụn non tươi sạch luộc sơ ngâm đá giòn ngọt đậm vị' },
+        { name: 'Riêu cua đồng xịn nguyên chất', amount: '1 tô lớn', desc: 'Gạch cua đồng giã tay đóng bánh béo ngậy vàng óng ả' },
+        { name: 'Đậu phụ Mơ chiên lướt ván', amount: '1 đĩa (8 miếng)', desc: 'Đậu non rán lướt vỏ vàng rụm, ruột mềm mọng béo bùi' },
+        { name: 'Khay nấm tươi tổng hợp', amount: '1 khay lớn', desc: 'Nấm kim châm trắng giòn, nấm đùi gà baby và nấm hương tươi sạch' },
+        { name: 'Mẹt rau xanh tươi VietGAP', amount: '1 rổ lớn', desc: 'Hoa chuối tây thái mỏng ngâm chanh, rau muống chẻ, tía tô, mùng tơi sạch' },
+        { name: 'Bún tươi sợi nhỏ & mì trứng', amount: '1 đĩa bún + 2 vắt mì', desc: 'Tinh bột ăn kèm nhúng nước lẩu riêu cua đậm đà trọn vị' },
+        { name: 'Set sốt chấm gia vị đặc chế', amount: 'Trọn bộ bàn', desc: 'Muối ớt tiêu chanh ớt xanh Nha Trang và sốt chấm chao đỏ gia truyền' }
+      ],
+      suggestedAddOns: [
+        { id: 13, name: 'Ba chỉ bò Mỹ nhúng thêm', price: 89000, unit: 'đĩa 200g' },
+        { id: 14, name: 'Bắp bò hoa nhúng thêm', price: 99000, unit: 'đĩa 200g' },
+        { id: 17, name: 'Tôm sú tươi nhảy tanh tách', price: 119000, unit: 'đĩa 6 con' },
+        { id: 18, name: 'Mực trứng Phú Quốc tươi rói', price: 129000, unit: 'đĩa 250g' },
+        { id: 21, name: 'Set nấm tươi 6 loại gọi thêm', price: 49000, unit: 'đĩa lớn' },
+        { id: 23, name: 'Đậu phụ Mơ lướt ván thêm', price: 29000, unit: 'đĩa 8 miếng' }
+      ]
+    }
   },
   {
     id: 2,
@@ -45,7 +67,25 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80',
     description: 'Nước dùng hầm từ xương gà ta và thảo mộc hơn 8 giờ, kết hợp 6 loại nấm quý và chim bồ câu béo ngậy ngọt thanh.',
     isFeatured: true,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '2 - 3 người dùng',
+      broth: 'Nước dùng hầm từ xương gà ta, kỷ tử, đẳng sâm và táo đỏ hơn 8 giờ (1.8 lít)',
+      includedItems: [
+        { name: 'Chim bồ câu ra ràng béo ngọt', amount: '1 con lớn', desc: 'Chim câu tươi làm sạch chặt miếng vừa ăn ninh mềm ngọt nước' },
+        { name: 'Bắp bò hoa Mỹ thái lát', amount: '150g', desc: 'Thịt bò tươi nhúng kèm nước lẩu thảo mộc thơm bổ' },
+        { name: 'Khay 6 loại nấm quý hảo hạng', amount: '1 khay lớn', desc: 'Nấm tùng nhung, nấm đùi gà, nấm kim châm, nấm hương, linh chi trắng, hoàng kim' },
+        { name: 'Đậu phụ non thanh mát', amount: '1 đĩa (8 miếng)', desc: 'Đậu hũ non mềm mượt tan ngay trong miệng' },
+        { name: 'Mẹt rau xanh VietGAP', amount: '1 rổ lớn', desc: 'Rau cải cúc mướt non, cải thìa ngọt mát và rau mầm tươi sạch' },
+        { name: 'Mì trứng cao cấp', amount: '2 vắt lớn', desc: 'Mì trứng vàng óng sợi dai không nát' },
+        { name: 'Nước chấm xì dầu tỏi ớt gia truyền', amount: 'Trọn bộ bàn', desc: 'Xì dầu ủ thơm cùng tỏi ớt băm nhuyễn và tiêu đen' }
+      ],
+      suggestedAddOns: [
+        { id: 14, name: 'Bắp bò hoa nhúng thêm', price: 99000, unit: 'đĩa 200g' },
+        { id: 21, name: 'Set nấm tươi 6 loại gọi thêm', price: 49000, unit: 'đĩa lớn' },
+        { id: 22, name: 'Rau xanh tổng hợp gọi thêm', price: 35000, unit: 'rổ lớn' }
+      ]
+    }
   },
   {
     id: 3,
@@ -55,7 +95,26 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=600&q=80',
     description: 'Vị cay nồng của ớt xiêm, chua thanh từ nước cốt chanh tươi hòa quyện cùng mùi sả, lá chanh và nước cốt dừa béo bùi.',
     isFeatured: true,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '2 - 3 người dùng',
+      broth: 'Nước lẩu Tomyum chua cay chuẩn vị Thái hầm lá chanh Kaffir, sả cây và nước cốt dừa béo bùi (1.8 lít)',
+      includedItems: [
+        { name: 'Tôm sú tươi sống bật tanh tách', amount: '6 con lớn', desc: 'Tôm sú tươi rói trong ngày nhúng lẩu ngọt thịt chắc nịch' },
+        { name: 'Mực trứng Phú Quốc tươi giòn', amount: '200g', desc: 'Mực trứng sim tươi nguyên nang trứng bùi béo giòn sần sật' },
+        { name: 'Nghêu hoa biển tươi sạch cát', amount: '300g', desc: 'Nghêu biển ngọt nước mở miệng thơm phức' },
+        { name: 'Ba chỉ bò Mỹ thái lát vân hoa', amount: '150g', desc: 'Thịt bò Mỹ nhúng nước lẩu Thái chua cay bùng nổ vị giác' },
+        { name: 'Khay nấm tươi & ngô ngọt', amount: '1 khay lớn', desc: 'Nấm kim châm, nấm bào ngư xám, ngô ngọt Đà Lạt và cà chua bi' },
+        { name: 'Mẹt rau xanh tươi VietGAP', amount: '1 rổ lớn', desc: 'Rau muống non, hoa chuối chẻ và cải thảo giòn ngọt' },
+        { name: 'Mì gói chua cay sợi dai', amount: '2 gói mì', desc: 'Mì ăn kèm chuẩn phong cách lẩu Thái hải sản' },
+        { name: 'Muối ớt xanh Nha Trang', amount: 'Trọn bộ bàn', desc: 'Sốt chấm hải sản cay nồng chua ngọt đậm đà' }
+      ],
+      suggestedAddOns: [
+        { id: 17, name: 'Tôm sú tươi nhảy tanh tách', price: 119000, unit: 'đĩa 6 con' },
+        { id: 18, name: 'Mực trứng Phú Quốc tươi rói', price: 129000, unit: 'đĩa 250g' },
+        { id: 19, name: 'Bạch tuộc baby nướng sa tế', price: 115000, unit: 'đĩa 200g' }
+      ]
+    }
   },
   {
     id: 4,
@@ -65,7 +124,25 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=600&q=80',
     description: 'Nồi lẩu 2 ngăn âm dương với hoa tiêu Tứ Xuyên tê tê kích thích vị giác và nước hầm xương ống ngọt thanh.',
     isFeatured: false,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '3 - 4 người dùng',
+      broth: 'Nồi lẩu 2 ngăn âm dương (1 ngăn cay tê hoa tiêu Tứ Xuyên thảo quả & 1 ngăn nước hầm xương thanh ngọt - 2.0 lít)',
+      includedItems: [
+        { name: 'Thịt bò Mỹ tổng hợp 2 loại', amount: '300g', desc: 'Ba chỉ bò Mỹ & thăn bò thái mỏng nhúng cay tê đậm đà' },
+        { name: 'Viên thả lẩu phô mai tan chảy', amount: '6 viên', desc: 'Viên cá bao phô mai béo ngậy cắn ngập miệng' },
+        { name: 'Thanh cua tuyết Nhật Bản', amount: '6 thanh lớn', desc: 'Thanh cua ngọt thịt dai ngon' },
+        { name: 'Đậu phụ non & váng đậu giòn', amount: '1 đĩa lớn', desc: 'Váng đậu chiên phồng giòn tan nhúng ngấm nước lẩu' },
+        { name: 'Khay nấm tươi tổng hợp', amount: '1 khay lớn', desc: 'Nấm đùi gà, nấm kim châm và nấm hải sản tươi sạch' },
+        { name: 'Rau xanh VietGAP', amount: '1 rổ lớn', desc: 'Cải thảo, rau muống và cải thìa xanh mát' },
+        { name: 'Miến dong sợi dẻo dai', amount: '1 đĩa lớn', desc: 'Miến dong cao cấp không trương nở nhúng lẩu cực ngon' },
+        { name: 'Khay sốt mè rang bơ đậu phộng', amount: 'Trọn bộ bàn', desc: 'Sốt chấm chuẩn vị Tứ Xuyên bùi béo giảm cay êm dịu' }
+      ],
+      suggestedAddOns: [
+        { id: 13, name: 'Ba chỉ bò Mỹ thái lát', price: 89000, unit: 'đĩa 200g' },
+        { id: 21, name: 'Set nấm tươi 6 loại gọi thêm', price: 49000, unit: 'đĩa lớn' }
+      ]
+    }
   },
   {
     id: 5,
@@ -75,7 +152,24 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1625398407796-82650a8c135f?auto=format&fit=crop&w=600&q=80',
     description: 'Thịt ếch đồng xào săn da giòn rụm với măng trúc muối ớt chua cay, thơm ngào ngạt mùi lá lốt tía tô Bắc Bộ.',
     isFeatured: false,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '2 - 3 người dùng',
+      broth: 'Nước dùng lẩu măng cay hầm xương ống đậm đà ngạt ngào mùi tía tô lá lốt (1.8 lít)',
+      includedItems: [
+        { name: 'Thịt ếch đồng xào săn da giòn', amount: '500g', desc: 'Thịt đùi ếch đồng tươi ngon chiên vàng da giòn rụm xào măng cay' },
+        { name: 'Măng trúc muối ớt chua cay', amount: '250g', desc: 'Măng trúc Tây Bắc muối ớt cay giòn chuẩn vị' },
+        { name: 'Váng đậu chiên giòn rụm', amount: '1 đĩa lớn', desc: 'Váng đậu vàng giòn nhúng nước lẩu ếch bùi béo' },
+        { name: 'Đậu phụ non & nấm kim châm', amount: '1 đĩa lớn', desc: 'Đậu hũ non mát lành và nấm kim châm ngọt thanh' },
+        { name: 'Mẹt rau muống, tía tô, lá lốt', amount: '1 rổ lớn', desc: 'Rau muống giòn, lá lốt tía tô thơm nồng giải cảm' },
+        { name: 'Bún tươi sợi nhỏ', amount: '1 đĩa lớn', desc: 'Bún tươi dẻo thơm chan nước lẩu măng cay' },
+        { name: 'Muối ớt tiêu chanh', amount: 'Trọn bộ bàn', desc: 'Gia vị chấm ếch chua cay chuẩn vị đồng quê' }
+      ],
+      suggestedAddOns: [
+        { id: 23, name: 'Đậu phụ Mơ lướt ván thêm', price: 29000, unit: 'đĩa 8 miếng' },
+        { id: 22, name: 'Rau xanh tổng hợp gọi thêm', price: 35000, unit: 'rổ lớn' }
+      ]
+    }
   },
   {
     id: 6,
@@ -85,7 +179,23 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80',
     description: 'Nước dấm gạo thanh chua dịu hầm cùng nước dừa xiêm bến tre, sả, hành tây, nhúng kèm bắp bò tươi và bánh tráng cuốn.',
     isFeatured: false,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '2 - 3 người dùng',
+      broth: 'Nước dùng dấm gạo nếp thanh chua dịu hầm cùng nước dừa xiêm, sả đập dập và thảo mộc (1.8 lít)',
+      includedItems: [
+        { name: 'Bắp bò hoa & gầu bò giòn thái mỏng', amount: '300g', desc: 'Thịt bò tươi nhúng dấm chín tái ngọt lịm tan nơi đầu lưỡi' },
+        { name: 'Gân bò trong hầm mềm dẻo', amount: '150g', desc: 'Gân bò tươi hầm dẻo quánh nhai sần sật' },
+        { name: 'Bánh tráng phơi sương Trảng Bàng', amount: '1 xấp lớn', desc: 'Bánh tráng dẻo dai cuốn thịt bò và rau sống' },
+        { name: 'Mẹt rau rừng & hoa quả cuốn', amount: '1 rổ lớn', desc: 'Chuối chát, khế chua, dứa chín, dưa chuột và rau sống thơm ngát' },
+        { name: 'Bún tươi sợi nhỏ ăn kèm', amount: '1 đĩa lớn', desc: 'Bún tươi cuốn bánh tráng hoặc chan nước lẩu' },
+        { name: 'Mắm nêm cá cơm nguyên chất', amount: 'Trọn bộ bàn', desc: 'Mắm nêm pha dứa băm, tỏi ớt thơm lừng chuẩn vị miền Trung' }
+      ],
+      suggestedAddOns: [
+        { id: 14, name: 'Bắp bò hoa nhúng thêm', price: 99000, unit: 'đĩa 200g' },
+        { id: 13, name: 'Ba chỉ bò Mỹ thái lát', price: 89000, unit: 'đĩa 200g' }
+      ]
+    }
   },
 
   // --- 2. ĐỒ NƯỚNG (Category: nuong) ---
@@ -285,7 +395,25 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80',
     description: 'Gồm 01 nồi lẩu 2 ngăn tự chọn vị, 01 đĩa ba chỉ bò Mỹ & bắp hoa (350g), 01 dẻ sườn nướng mật ong, đĩa rau nấm và 02 đồ uống.',
     isFeatured: true,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '2 - 3 người dùng no nê',
+      broth: '01 Nồi lẩu 2 ngăn tự chọn 2 vị nước dùng (Riêu cua / Tomyum / Nấm chim câu - 1.8 lít)',
+      includedItems: [
+        { name: 'Đĩa bò Mỹ nhúng lẩu hảo hạng', amount: '350g', desc: 'Ba chỉ bò Mỹ vân hoa & bắp bò hoa nhúng lẩu mềm ngọt đậm vị' },
+        { name: 'Dẻ sườn bò nướng sốt mật ong', amount: '200g', desc: 'Dẻ sườn ướp đậm sốt nướng than hoa thơm lừng xèo xèo' },
+        { name: 'Khay nấm tươi & đậu phụ non', amount: '1 khay lớn', desc: 'Nấm kim châm trắng, nấm đùi gà baby và đậu phụ Mơ chiên vàng' },
+        { name: 'Rổ rau xanh VietGAP tổng hợp', amount: '1 rổ lớn', desc: 'Rau muống non, hoa chuối, cải thảo và xà lách cuốn thịt' },
+        { name: 'Tinh bột ăn kèm', amount: '2 vắt mì trứng + 1 đĩa bún tươi', desc: 'Mì trứng vàng óng sợi dai và bún tươi sợi nhỏ' },
+        { name: 'Đồ uống tráng miệng mát lạnh', amount: '02 ly lớn', desc: '02 Ly trà đào cam sả hạt chia hoặc trà chanh sả gừng tươi mát' },
+        { name: 'Trọn bộ gia vị & sốt chấm', amount: 'Bàn tiệc', desc: 'Sốt tiêu đen, muối ớt chanh và sốt chấm chao đỏ' }
+      ],
+      suggestedAddOns: [
+        { id: 18, name: 'Mực trứng Phú Quốc tươi rói', price: 129000, unit: 'đĩa 250g' },
+        { id: 17, name: 'Tôm sú tươi nhảy tanh tách', price: 119000, unit: 'đĩa 6 con' },
+        { id: 21, name: 'Set nấm tươi 6 loại gọi thêm', price: 49000, unit: 'đĩa lớn' }
+      ]
+    }
   },
   {
     id: 26,
@@ -295,7 +423,27 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
     description: '01 Lẩu 4 ngăn đại tiệc, thăn bò, mực trứng nướng sa tế, nầm nướng chao, đĩa rau nấm hảo hạng và 4 đồ uống trái cây.',
     isFeatured: true,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '4 - 6 người dùng thịnh soạn',
+      broth: '01 Nồi lẩu đại tiệc 4 ngăn tự chọn 4 vị nước dùng tinh hoa (2.5 lít)',
+      includedItems: [
+        { name: 'Thịt bò Mỹ 3 loại nhúng lẩu', amount: '450g', desc: 'Ba chỉ bò Mỹ, bắp hoa và gầu bò giòn thái mỏng' },
+        { name: 'Dẻ sườn bò nướng sốt tiêu đen', amount: '250g', desc: 'Dẻ sườn chọn lọc vân mỡ nướng đượm than hoa' },
+        { name: 'Nầm heo nướng sốt chao đỏ', amount: '250g', desc: 'Nầm sữa tươi giòn sần sật ướp chao đỏ béo ngậy' },
+        { name: 'Mực trứng Phú Quốc nướng sa tế', amount: '200g', desc: 'Mực trứng sim tươi rói nướng thơm nức mũi' },
+        { name: 'Set viên thả lẩu phô mai & há cảo', amount: '10 viên', desc: 'Viên cá bọc phô mai tan chảy và há cảo tôm tươi' },
+        { name: 'Khay 6 loại nấm tươi hảo hạng', amount: '2 khay lớn', desc: 'Nấm tùng nhung, đùi gà, kim châm, nấm hương, linh chi trắng' },
+        { name: 'Mẹt rau xanh VietGAP cuốn & nhúng', amount: '2 rổ lớn', desc: 'Rau muống chẻ, hoa chuối, mùng tơi, xà lách sạch' },
+        { name: 'Bún tươi & mì trứng thượng hạng', amount: '1 đĩa bún lớn + 3 vắt mì', desc: 'Ăn kèm trọn vẹn no nê cho cả gia đình' },
+        { name: 'Nước trái cây giải nhiệt tươi mát', amount: '04 ly lớn', desc: 'Trà đào cam sả hoặc nước mơ Chùa Hương gừng phèn' },
+        { name: 'Bộ sốt chấm thượng hạng 4 vị', amount: 'Bàn tiệc', desc: 'Muối ớt xanh, sốt chao, sốt me cay ngọt và xì dầu tỏi ớt' }
+      ],
+      suggestedAddOns: [
+        { id: 14, name: 'Bắp bò hoa nhúng thêm', price: 99000, unit: 'đĩa 200g' },
+        { id: 17, name: 'Tôm sú tươi nhảy tanh tách', price: 119000, unit: 'đĩa 6 con' }
+      ]
+    }
   },
   {
     id: 27,
@@ -305,7 +453,28 @@ const INITIAL_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
     description: 'Đại tiệc toàn diện lẩu riêu cua bắp bò + bếp nướng xèo xèo, bạch tuộc, tôm sú, nọng heo hạt dổi, tráng miệng chè dưỡng nhan.',
     isFeatured: true,
-    isAvailable: true
+    isAvailable: true,
+    comboDetails: {
+      servingSize: '6 - 8 người dùng đại tiệc',
+      broth: '01 Đại tiệc lẩu 4 ngăn tự chọn vị + 01 Bếp nướng than hoa thượng hạng (3.0 lít)',
+      includedItems: [
+        { name: 'Tháp thịt bò Mỹ 4 tầng hảo hạng', amount: '600g', desc: 'Ba chỉ bò Mỹ, bắp hoa, thăn bò ngoại và dẻ sườn thái lát' },
+        { name: 'Dẻ sườn bò nướng sốt tiêu đen', amount: '350g', desc: 'Dẻ sườn rút xương ướp tiêu đen Phú Quốc' },
+        { name: 'Nọng heo nướng hạt dổi mắc khén', amount: '300g', desc: 'Thịt nọng heo giòn mọng gia vị rừng Tây Bắc' },
+        { name: 'Hải sản nướng & nhúng cao cấp', amount: '500g', desc: 'Tôm sú biển tươi 8 con lớn và mực trứng Phú Quốc 300g' },
+        { name: 'Bạch tuộc baby nướng sa tế', amount: '250g', desc: 'Bạch tuộc tươi giòn cay tê nướng đượm lửa' },
+        { name: 'Set viên thả lẩu thập cẩm hoàng gia', amount: '12 viên', desc: 'Viên tôm hùm, viên phô mai, mực viên và há cảo' },
+        { name: 'Khay nấm tươi & đậu Mơ lướt ván', amount: '2 khay lớn', desc: 'Đậu non chiên lướt ván và 6 loại nấm quý' },
+        { name: 'Mẹt rau xanh tổng hợp VietGAP', amount: '3 rổ lớn', desc: 'Rau muống non, hoa chuối, mùng tơi, xà lách sạch' },
+        { name: 'Bún tươi & mì trứng cao cấp', amount: '2 đĩa bún + 4 vắt mì', desc: 'Tinh bột ăn kèm no đủ cho cả đoàn tiệc' },
+        { name: 'Trà hoa quả nhiệt đới thượng hạng', amount: '06 ly lớn', desc: 'Trà đào cam sả hạt chia thơm mát' },
+        { name: 'Tráng miệng chè dưỡng nhan tuyết yến', amount: '06 chén', desc: 'Chè tuyết yến, nhựa đào, kỷ tử thanh nhiệt giải ngấy' }
+      ],
+      suggestedAddOns: [
+        { id: 14, name: 'Bắp bò hoa nhúng thêm', price: 99000, unit: 'đĩa 200g' },
+        { id: 18, name: 'Mực trứng Phú Quốc tươi rói', price: 129000, unit: 'đĩa 250g' }
+      ]
+    }
   },
 
   // --- 7. ĐỒ UỐNG & TRÁNG MIỆNG (Category: do-uong) ---
