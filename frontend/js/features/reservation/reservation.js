@@ -20,6 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!form || !window.AppState) return;
 
+  // Kiểm tra tham số ?tab=history trên URL để mở modal xem các bàn đã đặt
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('tab') === 'history') {
+    setTimeout(() => {
+      if (window.openUserAccountModal) {
+        window.openUserAccountModal('reservations');
+      }
+    }, 300);
+  }
+
   const formatPrice = (num) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num || 0);
   };
@@ -550,6 +560,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.reset();
     initReservationAuthGuard();
+    if (window.updateReservationsBadge) {
+      window.updateReservationsBadge();
+    }
   });
 
   // Modal close handlers

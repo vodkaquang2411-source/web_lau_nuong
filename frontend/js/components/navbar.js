@@ -117,4 +117,39 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
+  // 4. Xử lý các nút "Bàn đã đặt" (My Reservations)
+  function initMyReservationsButtons() {
+    const resBtns = document.querySelectorAll('.btn-my-reservations');
+
+    resBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (window.openUserAccountModal) {
+          e.preventDefault();
+          closeMobileNav();
+          window.openUserAccountModal('reservations');
+        }
+      });
+    });
+
+    // Cập nhật số lượng bàn đã đặt trên badge
+    window.updateReservationsBadge = function () {
+      if (!window.AppState) return;
+      const currentUser = window.AppState.getCurrentUser();
+      const count = currentUser ? window.AppState.getUserReservations(currentUser).length : 0;
+
+      document.querySelectorAll('.res-count-badge').forEach(badge => {
+        if (count > 0) {
+          badge.textContent = count;
+          badge.style.display = 'inline-block';
+        } else {
+          badge.style.display = 'none';
+        }
+      });
+    };
+
+    window.updateReservationsBadge();
+  }
+
+  initMyReservationsButtons();
 });
