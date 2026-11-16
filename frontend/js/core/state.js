@@ -507,6 +507,33 @@ const INITIAL_PRODUCTS = [
     description: 'Mơ rừng Chùa Hương ngâm đường phèn gừng tươi theo công thức cổ truyền, vị chua thanh ngọt hậu giúp tiêu hóa êm ru.',
     isFeatured: false,
     isAvailable: true
+  },
+
+  // --- 8. NỒI LẨU TỰ PHỐI THEO KHẨU VỊ (Hotpot Customizer) ---
+  {
+    id: 999,
+    name: 'Nồi lẩu tự phối theo khẩu vị bàn tiệc',
+    category: 'lau',
+    price: 239000,
+    imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80',
+    description: 'Tự chọn kiểu nồi (1 ngăn, 2 ngăn Uyên Ương hoặc 4 ngăn Tứ Quý) và gán các vị nước lẩu cốt đặc sản theo khẩu vị bàn tiệc.',
+    isFeatured: true,
+    isAvailable: true,
+    comboDetails: {
+      servingSize: 'Khẩu phần tùy chọn theo kiểu nồi (2 - 8 người)',
+      broth: 'Tự phối các vị cốt: Tomyum, Nấm, Tứ Xuyên, Riêu cua, Bò nhúng dấm, Ếch măng cay',
+      includedItems: [
+        { name: 'Nước cốt lẩu đặc sản tự chọn', amount: 'Nồi theo kiểu', desc: 'Hầm xương ống & thảo dược gia truyền' },
+        { name: 'Khay rau nấm nhúng tươi ngon', amount: '1 khay lớn', desc: 'Rau xanh và nấm tươi VietGAP các loại' },
+        { name: 'Mỳ nhúng lẩu & nước chấm gia truyền', amount: 'Trọn gói', desc: 'Mỳ trứng tươi dai ngon và gia vị chấm đặc chế' }
+      ],
+      suggestedAddOns: [
+        { id: 13, name: 'Ba chỉ bò Mỹ thái lát mỏng', price: 89000, unit: 'đĩa 200g' },
+        { id: 14, name: 'Bắp bò hoa nhúng thêm', price: 99000, unit: 'đĩa 200g' },
+        { id: 17, name: 'Tôm sú tươi nhảy tanh tách', price: 119000, unit: 'đĩa 6 con' },
+        { id: 21, name: 'Set nấm tươi 6 loại gọi thêm', price: 49000, unit: 'đĩa lớn' }
+      ]
+    }
   }
 ];
 
@@ -804,7 +831,7 @@ const AppState = {
     return { success: false, message: 'Không tìm thấy đơn đặt bàn.' };
   },
 
-  addDishToReservation(reservationId, productId, quantity = 1) {
+  addDishToReservation(reservationId, productId, quantity = 1, customPrice = null, customName = null) {
     const reservations = this.getReservations();
     const resIdx = reservations.findIndex(r => r.id === Number(reservationId));
     if (resIdx === -1) {
@@ -824,14 +851,19 @@ const AppState = {
       reservations[resIdx].orderedDishes = [];
     }
 
+    const finalPrice = (customPrice !== null && customPrice !== undefined) ? Number(customPrice) : product.price;
+    const finalName = customName || product.name;
+
     const dishIdx = reservations[resIdx].orderedDishes.findIndex(d => Number(d.id) === Number(productId));
     if (dishIdx !== -1) {
       reservations[resIdx].orderedDishes[dishIdx].quantity += Number(quantity);
+      reservations[resIdx].orderedDishes[dishIdx].price = finalPrice;
+      if (customName) reservations[resIdx].orderedDishes[dishIdx].name = finalName;
     } else {
       reservations[resIdx].orderedDishes.push({
         id: Number(product.id),
-        name: product.name,
-        price: product.price,
+        name: finalName,
+        price: finalPrice,
         imageUrl: product.imageUrl,
         quantity: Number(quantity)
       });

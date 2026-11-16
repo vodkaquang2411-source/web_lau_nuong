@@ -1,0 +1,504 @@
+/* ==========================================================================
+   HOTPOT CUSTOMIZER - INTERACTIVE JAVASCRIPT FEATURE STYLES
+   ========================================================================== */
+
+.hotpot-customizer-section {
+  background-color: var(--color-white);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--color-gray-200);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+/* Pot Type Tabs */
+.pot-type-selector {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.pot-type-btn {
+  background: var(--color-cream);
+  border: 2px solid #E2D7C5;
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  padding: 10px 22px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.pot-type-btn:hover {
+  border-color: var(--color-gold);
+  background: #FFFDF9;
+  transform: translateY(-2px);
+}
+
+.pot-type-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  box-shadow: 0 4px 14px rgba(36, 32, 30, 0.25);
+}
+
+.pot-type-btn .pot-badge-price {
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(201, 166, 107, 0.25);
+  color: inherit;
+}
+
+/* Main Interactive Grid */
+.pot-customizer-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 36px;
+  align-items: center;
+}
+
+/* Pot Stage (Left Column) */
+.pot-stage-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(circle, #FFFDF9 0%, #F5EFE6 100%);
+  border: 1.5px solid #E5DAC9;
+  border-radius: var(--radius-lg);
+  padding: 34px 24px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.pot-handles-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Metal Pot Handles (Quai nồi 2 bên) */
+.pot-handle-left,
+.pot-handle-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 64px;
+  border: 6px solid #B38F46;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #D4AF37, #8C6D2B);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.pot-handle-left {
+  left: 6px;
+}
+
+.pot-handle-right {
+  right: 6px;
+}
+
+/* The Round Metallic Pot Vessel */
+.pot-vessel {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: #1F1B18;
+  border: 14px solid #C5A059;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 6px 18px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  z-index: 2;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Steam Effect Animation */
+.pot-steam-effect {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 80px;
+  pointer-events: none;
+  opacity: 0.65;
+  z-index: 10;
+  display: flex;
+  justify-content: space-around;
+}
+
+.steam-bubble {
+  width: 24px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  animation: steamRise 3.5s infinite ease-in-out;
+}
+
+.steam-bubble:nth-child(2) {
+  animation-delay: 1.2s;
+  height: 75px;
+}
+
+.steam-bubble:nth-child(3) {
+  animation-delay: 2.1s;
+  height: 50px;
+}
+
+@keyframes steamRise {
+  0% {
+    transform: translateY(20px) scale(0.6);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-15px) scale(1.1);
+  }
+  100% {
+    transform: translateY(-50px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Compartment Layouts */
+/* 1. Nồi 1 ngăn */
+.pot-layout-1 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.pot-layout-1 .pot-compartment {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* 2. Nồi 2 ngăn Uyên Ương (Divided by Yin-Yang S-Divider) */
+.pot-layout-2 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.pot-layout-2 .pot-compartment {
+  width: 50%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pot-layout-2 .divider-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 8px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, #B8860B, #FFDF73, #8C6D2B);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+/* 3. Nồi 4 ngăn Tứ Quý (Grid 2x2 with Cross Divider) */
+.pot-layout-4 {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  position: relative;
+}
+
+.pot-layout-4 .pot-compartment {
+  position: relative;
+  overflow: hidden;
+}
+
+.pot-layout-4 .divider-h {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 8px;
+  transform: translateY(-50%);
+  background: linear-gradient(to bottom, #FFDF73, #8C6D2B);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.pot-layout-4 .divider-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 8px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, #FFDF73, #8C6D2B);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+/* Individual Compartment State */
+.pot-compartment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  background-color: #38312B;
+}
+
+.pot-compartment:hover {
+  filter: brightness(1.12);
+}
+
+.pot-compartment.active-compartment {
+  box-shadow: inset 0 0 0 4px #FFD700, inset 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.pot-compartment.active-compartment::after {
+  content: "Đang chọn";
+  position: absolute;
+  top: 8px;
+  background: #B8860B;
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 8;
+  animation: pulseBadge 1.5s infinite;
+}
+
+@keyframes pulseBadge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.compartment-num-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.45);
+  color: #FFF;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.compartment-broth-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.25;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  margin-bottom: 4px;
+}
+
+.compartment-hint {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.2;
+}
+
+.compartment-spice-level {
+  display: inline-flex;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+/* Broth Color Themes */
+/* 1. Tomyum Thái: Đỏ cam tươi */
+.broth-tomyum {
+  background: radial-gradient(circle, #D84315 0%, #BF360C 100%) !important;
+}
+
+/* 2. Nấm Chim Câu: Nâu cánh gián thanh tao */
+.broth-nam {
+  background: radial-gradient(circle, #8D6E63 0%, #4E342E 100%) !important;
+}
+
+/* 3. Tứ Xuyên: Đỏ sẫm tiêu ớt */
+.broth-tuxuyen {
+  background: radial-gradient(circle, #C62828 0%, #880E4F 100%) !important;
+}
+
+/* 4. Riêu Cua: Vàng cam gạch cua */
+.broth-rieucua {
+  background: radial-gradient(circle, #EF6C00 0%, #E65100 100%) !important;
+}
+
+/* 5. Bò Nhúng Dấm: Vàng hổ phách trong */
+.broth-nhungdam {
+  background: radial-gradient(circle, #F57F17 0%, #9E9D24 100%) !important;
+}
+
+/* 6. Ếch Măng Cay: Cam vàng măng cay */
+.broth-echmang {
+  background: radial-gradient(circle, #E65100 0%, #BF360C 100%) !important;
+}
+
+/* Prompt indicator under the pot */
+.pot-stage-guide {
+  margin-top: 18px;
+  font-size: 0.88rem;
+  color: var(--color-gray-600);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Controls Column (Right Column) */
+.pot-controls-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.broth-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.broth-choice-card {
+  background: #FFF;
+  border: 1.5px solid #EBE4D8;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.broth-choice-card:hover {
+  border-color: var(--color-gold);
+  background: #FFFDF9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.broth-choice-card.selected-for-active {
+  border-color: var(--color-brand);
+  background: #FFF5F5;
+  box-shadow: 0 4px 12px rgba(143, 23, 36, 0.12);
+}
+
+.broth-color-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.broth-info-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+.broth-info-desc {
+  font-size: 0.78rem;
+  color: var(--color-gray-500);
+  line-height: 1.35;
+}
+
+/* Live Calculator Box */
+.pot-summary-box {
+  background: #FFFDF9;
+  border: 2px solid var(--color-gold);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  box-shadow: 0 6px 18px rgba(184, 134, 11, 0.1);
+}
+
+.pot-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  color: var(--color-gray-700);
+}
+
+.pot-summary-row.total-row {
+  border-top: 1.5px dashed #E2D7C5;
+  padding-top: 12px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+.pot-total-price {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--color-brand);
+}
+
+.pot-action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .pot-customizer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .pot-vessel {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+@media (max-width: 576px) {
+  .pot-vessel {
+    width: 280px;
+    height: 280px;
+    border-width: 10px;
+  }
+
+  .broth-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pot-type-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .pot-action-buttons button,
+  .pot-action-buttons a {
+    width: 100%;
+  }
+}

@@ -491,12 +491,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (stored) {
         const comboData = JSON.parse(stored);
         if (comboData && comboData.productId) {
-          window.AppState.addDishToReservation(savedRecord.id, comboData.productId, 1);
+          window.AppState.addDishToReservation(savedRecord.id, comboData.productId, 1, comboData.price, comboData.productName);
 
           if (Array.isArray(comboData.addOns)) {
             comboData.addOns.forEach(addon => {
               if (addon.quantity > 0) {
-                window.AppState.addDishToReservation(savedRecord.id, addon.id, addon.quantity);
+                window.AppState.addDishToReservation(savedRecord.id, addon.id, addon.quantity, addon.price, addon.name);
               }
             });
           }
