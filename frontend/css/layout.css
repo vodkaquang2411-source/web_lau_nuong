@@ -69,12 +69,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .top-bar-info {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .top-bar-info span {
@@ -82,6 +87,7 @@
   align-items: center;
   gap: 6px;
   color: var(--color-cream-light);
+  white-space: nowrap;
 }
 
 .top-bar-info span svg {
@@ -91,12 +97,15 @@
 .top-bar-auth {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .top-bar-auth a {
   color: var(--color-cream-light);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .top-bar-auth a:hover {
@@ -128,6 +137,8 @@
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
+  gap: 16px;
+  flex-wrap: nowrap;
   transition: height var(--transition-base);
 }
 
@@ -141,6 +152,24 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.site-logo-img {
+  height: 44px;
+  width: auto;
+  max-width: 60px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-gold);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: block;
+  flex-shrink: 0;
+}
+
+.site-header.scrolled .site-logo-img {
+  height: 38px;
 }
 
 .logo-icon {
@@ -154,6 +183,7 @@
   justify-content: center;
   color: var(--color-gold);
   box-shadow: var(--shadow-gold);
+  flex-shrink: 0;
 }
 
 .logo-text {
@@ -163,12 +193,13 @@
 
 .logo-title {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--color-white);
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .logo-title span {
@@ -176,26 +207,33 @@
 }
 
 .logo-tagline {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--color-cream);
   letter-spacing: 0.8px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* Nav Menu */
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+  flex-shrink: 1;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-cream-light);
   position: relative;
   padding: 8px 0;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
 }
 
 .nav-link::after {
@@ -223,7 +261,9 @@
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .nav-cta {
@@ -232,16 +272,34 @@
   white-space: nowrap;
 }
 
-.nav-cta.btn-outline-gold {
+/* Nút Bàn đã đặt ở header: nhỏ hơn nút Đặt bàn ngay đúng 1 size */
+.nav-actions .btn-my-reservations {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  gap: 5px;
+  border-width: 1.2px;
   background: rgba(30, 25, 24, 0.45);
   backdrop-filter: blur(6px);
-  border: 1.5px solid var(--color-gold);
+  border-color: var(--color-gold);
   color: var(--color-gold-light);
+  border-radius: var(--radius-full);
 }
 
-.nav-cta.btn-outline-gold:hover {
+.nav-actions .btn-my-reservations:hover {
   background: var(--color-gold);
   color: var(--color-dark);
+}
+
+.nav-actions .btn-my-reservations svg {
+  width: 14px;
+  height: 14px;
+}
+
+.nav-actions .nav-cta:not(.btn-my-reservations) {
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
 /* Hamburger button */

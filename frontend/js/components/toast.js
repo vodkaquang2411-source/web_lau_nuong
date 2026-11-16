@@ -1,5 +1,5 @@
-/**
- * LẨU NƯỚNG VN - TOAST NOTIFICATION COMPONENT
+﻿/**
+ * LẨU RESTAURANT - TOAST NOTIFICATION COMPONENT
  * Hiển thị thông báo Toast pop-up hiện đại, mượt mà và trực quan
  */
 
@@ -72,3 +72,4 @@
     }
   };
 })();
+

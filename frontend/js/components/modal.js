@@ -1,5 +1,5 @@
-/**
- * LẨU NƯỚNG VN - MODAL POPUP COMPONENT
+﻿/**
+ * LẨU RESTAURANT - MODAL POPUP COMPONENT
  * Xử lý mở/đóng hộp thoại chi tiết món ăn và các popup tương tác
  * Hỗ trợ hiển thị logic chi tiết các đồ nhúng & thành phần đi kèm trong set lẩu / combo lẩu
  * Sentence case: Toàn bộ tiêu đề, nhãn và nút bấm chỉ viết hoa chữ cái đầu tiên
@@ -516,3 +516,4 @@
     });
   });
 })();
+

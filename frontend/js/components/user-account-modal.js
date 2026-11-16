@@ -1,5 +1,5 @@
-/**
- * LẨU NƯỚNG VN - USER ACCOUNT MODAL COMPONENT
+﻿/**
+ * LẨU RESTAURANT - USER ACCOUNT MODAL COMPONENT
  * Cửa sổ nhỏ quản lý tài khoản người dùng:
  * 1. Thay đổi thông tin cá nhân (họ tên, số điện thoại, đổi mật khẩu)
  * 2. Xem và quản lý các bàn đã đặt (lịch sử, trạng thái, hủy bàn đang chờ)
@@ -910,3 +910,4 @@
     ensureModalDOMElements();
   });
 })();
+

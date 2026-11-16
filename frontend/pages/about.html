@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Về Chúng Tôi - LẨU NƯỚNG VN</title>
-  <meta name="description" content="Khám phá câu chuyện thương hiệu LẨU NƯỚNG VN, triết lý phục vụ ẩm thực Việt và cam kết chất lượng nguồn nguyên liệu tươi ngon hàng ngày.">
+  <title>Về chúng tôi - Lẩu Restaurant</title>
+  <meta name="description" content="Khám phá câu chuyện thương hiệu Lẩu Restaurant, triết lý phục vụ ẩm thực Việt và cam kết chất lượng nguồn nguyên liệu tươi ngon hàng ngày.">
 
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="../css/base.css">
@@ -36,9 +36,9 @@
     <div class="container">
       <nav class="navbar" aria-label="Điều hướng chính">
         <a href="../index.html" class="logo">
-          <div class="logo-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg></div>
+          <img src="../img/logo.jpg" alt="Logo Lẩu Restaurant" class="site-logo-img">
           <div class="logo-text">
-            <div class="logo-title">LẨU NƯỚNG <span>VN</span></div>
+            <div class="logo-title">LẨU <span>RESTAURANT</span></div>
             <div class="logo-tagline">Hương vị Việt – Trọn vị sum vầy</div>
           </div>
         </a>
@@ -53,6 +53,11 @@
         </ul>
 
         <div class="nav-actions">
+          <a href="reservation.html?tab=history" class="btn btn-outline-gold nav-cta btn-my-reservations" id="navMyReservationsBtn" title="Xem danh sách bàn đã đặt của bạn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>Bàn đã đặt</span>
+            <span class="res-count-badge" style="display: none; background: var(--color-brand); color: #fff; border-radius: 10px; font-size: 0.68rem; padding: 1px 6px; font-weight: 700; margin-left: 2px;">0</span>
+          </a>
           <a href="reservation.html" class="btn btn-gold nav-cta">Đặt bàn ngay</a>
           <button class="hamburger" id="hamburgerBtn" aria-label="Mở menu di động">
             <span></span><span></span><span></span>
@@ -99,7 +104,7 @@
             <h2 class="section-title">Hương vị Việt <br><span>Trọn vị sum vầy</span></h2>
             <div class="gold-divider" style="justify-content: flex-start;"><div class="gold-divider-icon"></div></div>
             <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 18px;">
-              Được thành lập với khát vọng mang đến một trải nghiệm lẩu nướng đẳng cấp nhưng vẫn giữ nguyên vẹn hồn cốt của gia vị Việt, <strong>Lẩu Nướng VN</strong> đã và đang là điểm hẹn ẩm thực tin cậy của hàng triệu gia đình Việt.
+              Được thành lập với khát vọng mang đến một trải nghiệm lẩu nướng đẳng cấp nhưng vẫn giữ nguyên vẹn hồn cốt của gia vị Việt, <strong>Lẩu Restaurant</strong> đã và đang là điểm hẹn ẩm thực tin cậy của hàng triệu gia đình Việt.
             </p>
             <p style="font-size: 0.98rem; color: var(--color-gray-500); line-height: 1.8; margin-bottom: 24px;">
               Chúng tôi tin rằng, bữa ăn ngon nhất không chỉ ở nguyên liệu quý hiếm, mà còn ở nụ cười sum họp ấm cúng bên người thân. Vì thế, mỗi chi tiết từ thiết kế nồi lẩu nhiều ngăn, hệ thống hút âm không khói, đến cách thức phục vụ tận tâm đều được chăm chút kỹ lưỡng.
@@ -114,7 +119,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Đầu bếp tại Lẩu Nướng VN" style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; height: 480px; object-fit: cover;">
+            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Đầu bếp tại Lẩu Restaurant" style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; height: 480px; object-fit: cover;">
           </div>
         </div>
       </div>
@@ -213,13 +218,13 @@
       <div class="footer-grid">
         <div class="footer-col footer-about">
           <div class="logo" style="margin-bottom: 18px;">
-            <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg></div>
+            <img src="../img/logo.jpg" alt="Logo Lẩu Restaurant" class="site-logo-img">
             <div class="logo-text">
-              <div class="logo-title" style="font-size: 1.25rem;">LẨU NƯỚNG <span style="color: var(--color-gold);">VN</span></div>
+              <div class="logo-title" style="font-size: 1.25rem;">LẨU <span style="color: var(--color-gold);">RESTAURANT</span></div>
               <div class="logo-tagline" style="color: var(--color-cream-dark);">Hương vị Việt – Trọn vị sum vầy</div>
             </div>
           </div>
-          <p>Hệ thống nhà hàng Lẩu Nướng cao cấp mang đậm hương vị ẩm thực Việt. Đặt bàn trực tuyến nhanh chóng, tiện lợi.</p>
+          <p>Hệ thống nhà hàng Lẩu Restaurant cao cấp mang đậm hương vị ẩm thực Việt. Đặt bàn trực tuyến nhanh chóng, tiện lợi.</p>
         </div>
         <div class="footer-col footer-links">
           <h4>Khám phá</h4>
@@ -248,7 +253,7 @@
       </div>
       <div class="footer-bottom">
         <div class="container">
-          <div>© 2026 LẨU NƯỚNG VN. Tất cả quyền thuộc quyền sở hữu của Mr.Kim</div>
+          <div>© 2026 Lẩu Restaurant. Tất cả quyền thuộc quyền sở hữu của Mr.Kim</div>
         </div>
       </div>
     </div>

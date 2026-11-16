@@ -1,5 +1,5 @@
-/**
- * LẨU NƯỚNG VN - FRONTEND API CLIENT SERVICE
+﻿/**
+ * LẨU RESTAURANT - FRONTEND API CLIENT SERVICE
  * Cung cấp các hàm gọi RESTful API từ giao diện người dùng đến Express Backend
  * Hỗ trợ tự động chuyển đổi sang Local State nếu Backend tạm thời chưa khởi động.
  */
@@ -87,3 +87,4 @@ const ApiService = {
 };
 
 window.ApiService = ApiService;
+

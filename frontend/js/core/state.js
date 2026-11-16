@@ -1,5 +1,5 @@
-/**
- * LẨU NƯỚNG VN - CENTRALIZED STATE MANAGEMENT
+﻿/**
+ * LẨU RESTAURANT - CENTRALIZED STATE MANAGEMENT
  * Quản lý trạng thái dữ liệu (Thực đơn, Chi nhánh, Đặt bàn, Khách hàng, Xác thực)
  * Hỗ trợ lưu trữ cục bộ (localStorage) và sẵn sàng đồng bộ REST API Backend.
  */
@@ -1045,3 +1045,4 @@ const AppState = {
 
 // Đưa AppState vào phạm vi window để các module có thể gọi tự do
 window.AppState = AppState;
+

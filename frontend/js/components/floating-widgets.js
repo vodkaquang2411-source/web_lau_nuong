@@ -1,5 +1,5 @@
-/**
- * LẨU NƯỚNG VN - FLOATING WIDGETS JAVASCRIPT
+﻿/**
+ * LẨU RESTAURANT - FLOATING WIDGETS JAVASCRIPT
  * 1. Thanh icon mạng xã hội cố định bên trái (Facebook, Zalo, YouTube)
  * 2. Hộp thoại hỗ trợ trực tuyến thông minh cố định bên phải (Live Chat Box)
  * Sentence case: Toàn bộ nhãn, tiêu đề và tin nhắn chỉ viết hoa chữ cái đầu tiên
@@ -11,7 +11,7 @@
   'use strict';
 
   // Lịch sử chat mặc định
-  const DEFAULT_BOT_WELCOME = 'Kính chào quý khách! Nhà hàng Lẩu Nướng VN rất hân hạnh được phục vụ. Quý khách đang quan tâm đến đặt bàn, xem thực đơn hay nhận ưu đãi hôm nay ạ?';
+  const DEFAULT_BOT_WELCOME = 'Kính chào quý khách! Nhà hàng Lẩu Restaurant rất hân hạnh được phục vụ. Quý khách đang quan tâm đến đặt bàn, xem thực đơn hay nhận ưu đãi hôm nay ạ?';
 
   // Danh mục câu hỏi gợi ý nhanh
   const QUICK_QUESTIONS = [
@@ -106,7 +106,7 @@
           </div>
           <div class="chat-header-info">
             <h4>Hỗ trợ khách hàng</h4>
-            <p class="chat-header-status">Lẩu Nướng VN • Sẵn sàng hỗ trợ</p>
+            <p class="chat-header-status">Lẩu Restaurant • Sẵn sàng hỗ trợ</p>
           </div>
         </div>
         <button class="chat-close-btn" id="chatCloseBtn" aria-label="Đóng hộp thoại chat" title="Đóng chat">
@@ -331,7 +331,7 @@
       }
 
       if (presetKey === 'branch' || q.includes('chi nhánh') || q.includes('địa chỉ') || q.includes('ở đâu') || q.includes('mở cửa') || q.includes('giờ')) {
-        return 'Nhà hàng Lẩu Nướng VN có trụ sở chính tại Kiến Hưng - Hải Phòng, cùng hệ thống 5 chi nhánh tại Hà Nội, Đà Nẵng và TP. Hồ Chí Minh. Giờ mở cửa đón khách liên tục từ 10:00 đến 23:00 tất cả các ngày trong tuần ạ.';
+        return 'Nhà hàng Lẩu Restaurant có trụ sở chính tại Kiến Hưng - Hải Phòng, cùng hệ thống 5 chi nhánh tại Hà Nội, Đà Nẵng và TP. Hồ Chí Minh. Giờ mở cửa đón khách liên tục từ 10:00 đến 23:00 tất cả các ngày trong tuần ạ.';
       }
 
       if (presetKey === 'popular' || q.includes('món') || q.includes('thực đơn') || q.includes('ngon') || q.includes('lẩu') || q.includes('nướng')) {
@@ -342,7 +342,7 @@
         return 'Hotline tư vấn và tiếp nhận đặt bàn 24/7 của nhà hàng là 0345662169, email hỗ trợ: codeweb@gmail.com. Đội ngũ phục vụ luôn túc trực để hỗ trợ quý khách kịp thời nhất!';
       }
 
-      return 'Cảm ơn quý khách đã gửi tin nhắn! Nhân viên hỗ trợ của Lẩu Nướng VN đã tiếp nhận thông tin và sẽ phản hồi quý khách trong giây lát. Quý khách cũng có thể gọi trực tiếp Hotline 0345662169 để được phục vụ ngay tức thì ạ.';
+      return 'Cảm ơn quý khách đã gửi tin nhắn! Nhân viên hỗ trợ của Lẩu Restaurant đã tiếp nhận thông tin và sẽ phản hồi quý khách trong giây lát. Quý khách cũng có thể gọi trực tiếp Hotline 0345662169 để được phục vụ ngay tức thì ạ.';
     }
 
     // Sự kiện submit form
@@ -374,3 +374,4 @@
   }
 
 })();
+
