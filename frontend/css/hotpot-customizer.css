@@ -349,73 +349,53 @@
   display: none;
 }
 
-/* Pot Slots Mini Deck (Thanh trạng thái các ngăn ngay dưới đáy nồi) */
-.pot-slots-deck {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-  max-width: 440px;
-  margin-top: 14px;
-  flex-wrap: wrap;
-}
-
-.slot-pill-btn {
-  flex: 1;
-  min-width: 120px;
-  background: #FFFFFF;
-  border: 1.5px solid #E2D7C5;
-  border-radius: 8px;
-  padding: 7px 10px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  text-align: left;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
-}
-
-.slot-pill-btn:hover {
-  border-color: var(--color-gold);
-  background: #FFFDF9;
-  transform: translateY(-1px);
-}
-
-.slot-pill-btn.active {
-  border-color: var(--color-gold);
-  background: #FFF9E6;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.45);
-}
-
-.slot-pill-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.slot-pill-num {
-  font-size: 0.68rem;
-  font-weight: 800;
-  color: #1A1614;
-  background: linear-gradient(135deg, #FFD700, #B8860B);
-  padding: 1px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.slot-pill-spice {
-  font-size: 0.7rem;
-  color: #991B1B;
-  font-weight: 600;
-}
-
-.slot-pill-name {
-  font-size: 0.82rem;
+/* Animated Guidance Box Below Hotpot */
+.pot-stage-guide-anim {
+  margin-top: 20px;
+  font-size: 0.88rem;
   font-weight: 700;
-  color: var(--color-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: #78350F;
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border: 1.5px solid #F59E0B;
+  padding: 9px 20px;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.22);
+  animation: floatingGuide 2.6s infinite ease-in-out;
+  cursor: default;
+  user-select: none;
+}
+
+@keyframes floatingGuide {
+  0% {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.22);
+  }
+  50% {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+  }
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.22);
+  }
+}
+
+.guide-hand-icon {
+  animation: tapHandPulse 1.8s infinite ease-in-out;
+  transform-origin: center bottom;
+  color: #B45309;
+}
+
+@keyframes tapHandPulse {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(-10deg);
+  }
 }
 
 /* Broth Color Themes (Gradient sinh động, màu sắc chuẩn ẩm thực) */

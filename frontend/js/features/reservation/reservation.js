@@ -170,38 +170,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     preselectedContainer.style.display = 'block';
     preselectedContainer.innerHTML = `
-      <div style="background: #FFFDF9; border: 2px solid var(--color-gold); border-radius: var(--radius-md); padding: 20px 22px; box-shadow: 0 6px 18px rgba(184, 134, 11, 0.12); margin-bottom: 22px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed #E2D7C5; padding-bottom: 12px; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; background: var(--color-gold); color: white; padding: 3px 10px; border-radius: 4px; letter-spacing: 0.5px;">Món đã chọn cho bàn này</span>
-            <span style="font-size: 0.85rem; color: #166534; background: #DCFCE7; padding: 2px 8px; border-radius: 12px; font-weight: 600;">${servingSize || 'Thực đơn trọn vị'}</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <a href="combo-detail.html?id=${productId}" target="_blank" style="font-size: 0.82rem; color: var(--color-brand); font-weight: 600; text-decoration: underline;">
-              Xem trang chi tiết món
-            </a>
-            <button type="button" id="btnRemovePreselectedCombo" class="btn btn-ghost btn-sm" style="font-size: 0.82rem; padding: 2px 6px; color: #991B1B; text-decoration: underline;" title="Hủy chọn trước set lẩu">
+      <div class="preselected-card">
+        <!-- Top Bar: Badge Món đã chọn + Các hành động -->
+        <div class="preselected-top-bar">
+          <div class="preselected-badge-tag">Món đã chọn cho bàn này</div>
+          <div class="preselected-actions">
+            ${Number(productId) === 999 
+              ? `<a href="../index.html#hotpotCustomizer" class="preselected-link-action">Phối lại vị lẩu khác</a>`
+              : `<a href="combo-detail.html?id=${productId}" target="_blank" class="preselected-link-action">Xem trang chi tiết món</a>`
+            }
+            <button type="button" id="btnRemovePreselectedCombo" class="preselected-btn-remove" title="Hủy chọn trước set lẩu">
               Hủy chọn món
             </button>
           </div>
         </div>
 
-        <!-- Tên món & Giá tiền hiển thị to rõ ràng ngay lập tức -->
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-          <div>
-            <div style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary);">${productName}</div>
-            ${broth ? `
-              <div style="font-size: 0.88rem; color: var(--color-gray-600); margin-top: 4px; display: flex; align-items: center; gap: 6px;">
-                <strong style="color: var(--color-dark);">Nước lẩu cốt:</strong>
-                <span>${broth}</span>
-              </div>
-            ` : ''}
+        <!-- Hàng tên món & Khẩu phần + Giá niêm yết (Không nhảy dòng) -->
+        <div class="preselected-main-row">
+          <div class="preselected-title-wrap">
+            <h3 class="preselected-product-name">${productName}</h3>
+            <div class="preselected-serving-tag">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              <span>${servingSize || 'Thực đơn trọn vị'}</span>
+            </div>
           </div>
-          <div style="text-align: right;">
-            <div style="font-size: 0.78rem; color: var(--color-gray-500); text-transform: uppercase; font-weight: 700;">Giá niêm yết set lẩu:</div>
-            <div style="font-size: 1.6rem; font-weight: 900; color: var(--color-brand);">${formatPrice(price)}</div>
+          <div class="preselected-price-wrap">
+            <span class="preselected-price-lbl">Giá niêm yết set lẩu:</span>
+            <span class="preselected-price-val">${formatPrice(price)}</span>
           </div>
         </div>
+
+        <!-- Khối vị nước lẩu cốt hiển thị theo từng ngăn ngay ngắn -->
+        ${broth ? `
+          <div class="preselected-broth-section">
+            <div class="preselected-broth-header">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+              <strong>Vị nước lẩu cốt đã phối:</strong>
+            </div>
+            <div class="preselected-broth-list">
+              ${broth.split('|').map(item => `
+                <div class="preselected-broth-pill">${item.trim()}</div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
 
         <!-- Danh sách đồ nhúng & thành phần trọn gói kèm định lượng -->
         ${includedItems.length > 0 ? `
@@ -221,9 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         ` : ''}
 
+        <!-- Danh sách món nhúng gọi thêm nếu có -->
         ${addOnList.length > 0 ? `
           <div style="background: white; border-radius: 8px; border: 1px solid #EBE4D8; padding: 12px 14px; margin-bottom: 12px;">
-            <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-dark); margin-bottom: 6px;">Món nhúng gọi thêm kèm theo:</div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-dark); margin-bottom: 6px;">Món nhúng & đồ uống gọi thêm (${addOnList.length} món):</div>
             <ul style="margin: 0; padding-left: 18px; font-size: 0.84rem; color: var(--color-gray-700); display: flex; flex-direction: column; gap: 4px;">
               ${addOnList.map(a => `
                 <li style="display: flex; justify-content: space-between;">
@@ -236,12 +249,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ` : ''}
 
         <!-- Hàng hiển thị tổng tiền dự kiến nổi bật -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2D7C5; padding-top: 12px; margin-top: 6px;">
+        <div class="preselected-total-row">
           <div>
-            <div style="font-size: 0.92rem; font-weight: 700; color: var(--color-dark);">Tổng tiền món ăn dự kiến:</div>
-            <div style="font-size: 0.78rem; color: #166534;">Áp dụng ưu đãi giảm 10% khi nhà hàng xác nhận đơn</div>
+            <div class="preselected-total-lbl">Tổng tiền món ăn dự kiến:</div>
+            <div class="preselected-total-sub">Áp dụng ưu đãi giảm 10% khi nhà hàng xác nhận đơn</div>
           </div>
-          <div style="font-size: 1.65rem; font-weight: 900; color: var(--color-brand);">${formatPrice(grandTotal)}</div>
+          <div class="preselected-total-val">${formatPrice(grandTotal)}</div>
         </div>
       </div>
     `;
