@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!currentUser) {
       // Chưa đăng nhập: Khóa form, đổi nút submit, hiển thị thông báo trang trọng
       if (authNoticeContainer) {
+        authNoticeContainer.style.display = 'block';
         authNoticeContainer.innerHTML = `
           <div style="background: #FFFBEB; border: 1.5px solid #F59E0B; border-radius: var(--radius-md); padding: 18px 20px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);">
             <div style="display: flex; align-items: flex-start; gap: 14px;">
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       }
     } else {
-      // Đã đăng nhập: Mở khóa form và hiển thị thẻ xác nhận tài khoản
+      // Đã đăng nhập: Mở khóa form và ẩn hoàn toàn khối tài khoản để làm gọn trang lại
       form.style.opacity = '1';
       form.style.pointerEvents = 'auto';
       form.style.userSelect = 'auto';
@@ -94,37 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       }
 
+      // Xóa và ẩn khối tài khoản để làm gọn trang theo yêu cầu
       if (authNoticeContainer) {
-        authNoticeContainer.innerHTML = `
-          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: var(--radius-md); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.06);">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <div style="width: 36px; height: 36px; border-radius: 50%; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              </div>
-              <div>
-                <div style="font-size: 0.92rem; color: #166534; font-weight: 700;">
-                  Tài khoản đặt bàn: <span style="color: var(--color-brand);">${currentUser.fullName || 'Khách hàng thân thiết'}</span>
-                </div>
-                <div style="font-size: 0.82rem; color: #15803D; margin-top: 2px;">
-                  Email: ${currentUser.email || 'N/A'} ${currentUser.phone ? ` • Số điện thoại: ${currentUser.phone}` : ''}
-                </div>
-              </div>
-            </div>
-            <div>
-              <button type="button" id="btnChangeAccount" class="btn btn-ghost btn-sm" style="font-size: 0.82rem; padding: 6px 12px; color: #166534; text-decoration: underline; cursor: pointer;">
-                Đổi tài khoản
-              </button>
-            </div>
-          </div>
-        `;
-
-        const btnChange = document.getElementById('btnChangeAccount');
-        if (btnChange) {
-          btnChange.addEventListener('click', () => {
-            window.AppState.logout();
-            window.location.href = 'login.html?redirect=reservation.html';
-          });
-        }
+        authNoticeContainer.innerHTML = '';
+        authNoticeContainer.style.display = 'none';
       }
 
       // Tự động điền thông tin (Pre-fill) từ tài khoản đang đăng nhập
