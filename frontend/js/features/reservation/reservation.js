@@ -143,83 +143,124 @@ document.addEventListener('DOMContentLoaded', () => {
   initReservationAuthGuard();
 
   // ========================================================
-  // 2. NHẬN DIỆN VÀ HIỂN THỊ SET LẨU ĐÃ CHỌN TRƯỚC
+  // 2. NHẬN DIỆN VÀ HIỂN THỊ SET LẨU ĐÃ CHỌN TRƯỚC (HIỆN RÕ GIÁ & ĐỒ ĐI KÈM)
   // ========================================================
-  function initPreselectedCombo() {
-    if (!preselectedContainer) return;
+  const comboSelectEl = document.getElementById('reservationComboSelect');
 
-    let comboData = null;
-    try {
-      const stored = sessionStorage.getItem('launuong_preselected_combo');
-      if (stored) comboData = JSON.parse(stored);
-    } catch (e) {
-      comboData = null;
-    }
+  function renderPreselectedComboCard(comboData) {
+    if (!preselectedContainer) return;
 
     if (!comboData || !comboData.productName) {
       preselectedContainer.style.display = 'none';
       preselectedContainer.innerHTML = '';
+      if (comboSelectEl) comboSelectEl.value = '';
       return;
     }
 
-    const { productName, price, servingSize, broth, addOns } = comboData;
+    const { productId, productName, price, servingSize, broth, addOns } = comboData;
     const addOnList = Array.isArray(addOns) ? addOns.filter(a => a.quantity > 0) : [];
     const addOnsTotal = addOnList.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const grandTotal = (price || 0) + addOnsTotal;
 
+    // Lấy thông tin chi tiết các món đi kèm từ AppState nếu có
+    const originalProd = window.AppState.getProductById(productId);
+    const includedItems = (originalProd && originalProd.comboDetails && originalProd.comboDetails.includedItems) 
+      ? originalProd.comboDetails.includedItems 
+      : [];
+
     preselectedContainer.style.display = 'block';
     preselectedContainer.innerHTML = `
-      <div style="background: #FFFDF9; border: 1.5px solid var(--color-gold); border-radius: var(--radius-md); padding: 18px 20px; box-shadow: 0 4px 14px rgba(184, 134, 11, 0.08);">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed #E2D7C5; padding-bottom: 10px; margin-bottom: 12px;">
+      <div style="background: #FFFDF9; border: 2px solid var(--color-gold); border-radius: var(--radius-md); padding: 20px 22px; box-shadow: 0 6px 18px rgba(184, 134, 11, 0.12); margin-bottom: 22px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed #E2D7C5; padding-bottom: 12px; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; background: var(--color-gold); color: white; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px;">Món đặt trước</span>
-            <span style="font-size: 0.85rem; color: var(--color-gray-600);">${servingSize || 'Thực đơn trọn vị'}</span>
+            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; background: var(--color-gold); color: white; padding: 3px 10px; border-radius: 4px; letter-spacing: 0.5px;">Món đã chọn cho bàn này</span>
+            <span style="font-size: 0.85rem; color: #166534; background: #DCFCE7; padding: 2px 8px; border-radius: 12px; font-weight: 600;">${servingSize || 'Thực đơn trọn vị'}</span>
           </div>
-          <button type="button" id="btnRemovePreselectedCombo" class="btn btn-ghost btn-sm" style="font-size: 0.8rem; padding: 2px 8px; color: var(--color-brand); text-decoration: underline;" title="Hủy chọn trước set lẩu">
-            Hủy chọn món này
-          </button>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <a href="combo-detail.html?id=${productId}" target="_blank" style="font-size: 0.82rem; color: var(--color-brand); font-weight: 600; text-decoration: underline;">
+              Xem trang chi tiết món
+            </a>
+            <button type="button" id="btnRemovePreselectedCombo" class="btn btn-ghost btn-sm" style="font-size: 0.82rem; padding: 2px 6px; color: #991B1B; text-decoration: underline;" title="Hủy chọn trước set lẩu">
+              Hủy chọn món
+            </button>
+          </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-          <div style="font-size: 1.15rem; font-weight: 700; color: var(--color-primary);">${productName}</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: var(--color-brand);">${formatPrice(price)}</div>
+        <!-- Tên món & Giá tiền hiển thị to rõ ràng ngay lập tức -->
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary);">${productName}</div>
+            ${broth ? `
+              <div style="font-size: 0.88rem; color: var(--color-gray-600); margin-top: 4px; display: flex; align-items: center; gap: 6px;">
+                <strong style="color: var(--color-dark);">Nước lẩu cốt:</strong>
+                <span>${broth}</span>
+              </div>
+            ` : ''}
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.78rem; color: var(--color-gray-500); text-transform: uppercase; font-weight: 700;">Giá niêm yết set lẩu:</div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: var(--color-brand);">${formatPrice(price)}</div>
+          </div>
         </div>
 
-        ${broth ? `
-          <div style="font-size: 0.85rem; color: var(--color-gray-600); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
-            <strong style="color: var(--color-dark);">Nước lẩu cốt:</strong>
-            <span>${broth}</span>
+        <!-- Danh sách đồ nhúng & thành phần trọn gói kèm định lượng -->
+        ${includedItems.length > 0 ? `
+          <div style="background: white; border: 1px solid #EBE4D8; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px;">
+            <div style="font-size: 0.84rem; font-weight: 700; color: var(--color-dark); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span>Đồ nhúng & thành phần trọn gói đã bao gồm (${includedItems.length} món):</span>
+              <span style="font-size: 0.76rem; color: #166534; font-weight: 600;">Không tính thêm phí</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px;">
+              ${includedItems.map(item => `
+                <div style="background: #FCFAF6; padding: 6px 10px; border-radius: 6px; border: 1px solid #ECE3D7; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+                  <span style="font-weight: 600; color: var(--color-dark);">${item.name}</span>
+                  <span style="font-weight: 700; color: #166534; font-size: 0.78rem; background: #F0FDF4; padding: 2px 6px; border-radius: 4px; border: 1px solid #BBF7D0;">${item.amount}</span>
+                </div>
+              `).join('')}
+            </div>
           </div>
         ` : ''}
 
         ${addOnList.length > 0 ? `
-          <div style="background: white; border-radius: var(--radius-sm); border: 1px solid #EBE4D8; padding: 10px 14px; margin-bottom: 12px;">
+          <div style="background: white; border-radius: 8px; border: 1px solid #EBE4D8; padding: 12px 14px; margin-bottom: 12px;">
             <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-dark); margin-bottom: 6px;">Món nhúng gọi thêm kèm theo:</div>
             <ul style="margin: 0; padding-left: 18px; font-size: 0.84rem; color: var(--color-gray-700); display: flex; flex-direction: column; gap: 4px;">
               ${addOnList.map(a => `
                 <li style="display: flex; justify-content: space-between;">
                   <span>${a.name} <strong style="color: var(--color-brand);">x${a.quantity}</strong></span>
-                  <span style="color: var(--color-gray-600);">${formatPrice(a.price * a.quantity)}</span>
+                  <span style="color: var(--color-gray-600); font-weight: 600;">${formatPrice(a.price * a.quantity)}</span>
                 </li>
               `).join('')}
             </ul>
           </div>
         ` : ''}
 
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E2D7C5; padding-top: 10px;">
-          <span style="font-size: 0.88rem; font-weight: 600; color: var(--color-gray-700);">Tổng tiền dự kiến món đã chọn:</span>
-          <span style="font-size: 1.2rem; font-weight: 800; color: var(--color-brand);">${formatPrice(grandTotal)}</span>
+        <!-- Hàng hiển thị tổng tiền dự kiến nổi bật -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2D7C5; padding-top: 12px; margin-top: 6px;">
+          <div>
+            <div style="font-size: 0.92rem; font-weight: 700; color: var(--color-dark);">Tổng tiền món ăn dự kiến:</div>
+            <div style="font-size: 0.78rem; color: #166534;">Áp dụng ưu đãi giảm 10% khi nhà hàng xác nhận đơn</div>
+          </div>
+          <div style="font-size: 1.65rem; font-weight: 900; color: var(--color-brand);">${formatPrice(grandTotal)}</div>
         </div>
       </div>
     `;
 
-    // Tự động ghi chú vào ô Ghi chú đặt bàn nếu ô này chưa có nội dung
+    // Đồng bộ lại giá trị trong dropdown chọn combo
+    if (comboSelectEl) {
+      comboSelectEl.value = String(productId || '');
+    }
+
+    // Tự động ghi chú vào ô Ghi chú đặt bàn
     const noteInput = document.getElementById('reservationNote');
-    if (noteInput && (!noteInput.value || noteInput.value.trim() === '')) {
+    if (noteInput) {
       const addonSummary = addOnList.length > 0 
         ? ` + Món gọi thêm: ${addOnList.map(a => `${a.name} x${a.quantity}`).join(', ')}`
         : '';
-      noteInput.value = `[Khách đặt trước: ${productName} (${servingSize})${addonSummary}]`;
+      const textToInsert = `[Khách đặt trước: ${productName} (${servingSize || 'Tiêu chuẩn'}) - Giá: ${formatPrice(grandTotal)}${addonSummary}]`;
+      if (!noteInput.value || noteInput.value.trim() === '' || noteInput.value.includes('[Khách đặt trước:')) {
+        noteInput.value = textToInsert;
+      }
     }
 
     // Xử lý nút hủy chọn món
@@ -229,11 +270,75 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.removeItem('launuong_preselected_combo');
         preselectedContainer.style.display = 'none';
         preselectedContainer.innerHTML = '';
-        if (noteInput && noteInput.value.includes(productName)) {
-          noteInput.value = '';
+        if (comboSelectEl) comboSelectEl.value = '';
+        const noteEl = document.getElementById('reservationNote');
+        if (noteEl && noteEl.value.includes('[Khách đặt trước:')) {
+          noteEl.value = '';
         }
         if (window.showToast) {
-          window.showToast('Đã hủy chọn trước set lẩu.', 'info', 'Đã xóa lựa chọn');
+          window.showToast('Đã hủy chọn trước set lẩu. Quý khách chỉ đặt bàn giữ chỗ.', 'info', 'Đã hủy món');
+        }
+      });
+    }
+  }
+
+  function initPreselectedCombo() {
+    let comboData = null;
+    try {
+      const stored = sessionStorage.getItem('launuong_preselected_combo');
+      if (stored) comboData = JSON.parse(stored);
+    } catch (e) {
+      comboData = null;
+    }
+
+    if (comboData && comboData.productName) {
+      renderPreselectedComboCard(comboData);
+    } else {
+      if (preselectedContainer) {
+        preselectedContainer.style.display = 'none';
+        preselectedContainer.innerHTML = '';
+      }
+    }
+
+    // Lắng nghe sự kiện thay đổi combo trực tiếp từ dropdown trên trang đặt bàn
+    if (comboSelectEl) {
+      comboSelectEl.addEventListener('change', () => {
+        const selectedId = Number(comboSelectEl.value);
+        if (!selectedId) {
+          sessionStorage.removeItem('launuong_preselected_combo');
+          if (preselectedContainer) {
+            preselectedContainer.style.display = 'none';
+            preselectedContainer.innerHTML = '';
+          }
+          const noteEl = document.getElementById('reservationNote');
+          if (noteEl && noteEl.value.includes('[Khách đặt trước:')) {
+            noteEl.value = '';
+          }
+          if (window.showToast) {
+            window.showToast('Đã xóa món đặt trước. Chỉ đặt bàn giữ chỗ.', 'info');
+          }
+          return;
+        }
+
+        const prod = window.AppState.getProductById(selectedId);
+        if (prod) {
+          const newComboData = {
+            productId: prod.id,
+            productName: prod.name,
+            servingSize: prod.comboDetails ? prod.comboDetails.servingSize : 'Tiêu chuẩn',
+            broth: prod.comboDetails ? prod.comboDetails.broth : '',
+            price: prod.price,
+            addOns: []
+          };
+
+          try {
+            sessionStorage.setItem('launuong_preselected_combo', JSON.stringify(newComboData));
+          } catch (e) {}
+
+          renderPreselectedComboCard(newComboData);
+          if (window.showToast) {
+            window.showToast(`Đã chọn "${prod.name}" cho bàn đặt. Giá: ${formatPrice(prod.price)}`, 'success', 'Đã chọn món');
+          }
         }
       });
     }

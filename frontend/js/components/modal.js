@@ -61,9 +61,14 @@
                 <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-gold-dark);">
                   ${catTitle}
                 </span>
-                <span style="background: rgba(201,166,107,0.18); color: var(--color-gold-dark); font-size: 0.82rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(201,166,107,0.4);">
-                  ${details.servingSize || '2 - 3 người dùng'}
-                </span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="background: rgba(201,166,107,0.18); color: var(--color-gold-dark); font-size: 0.82rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(201,166,107,0.4);">
+                    ${details.servingSize || '2 - 3 người dùng'}
+                  </span>
+                  <a href="${window.location.pathname.includes('/pages/') ? '' : 'pages/'}combo-detail.html?id=${product.id}" style="font-size: 0.8rem; color: var(--color-brand); text-decoration: underline; font-weight: 600;">
+                    Mở trang riêng
+                  </a>
+                </div>
               </div>
 
               <h2 style="font-size: 1.45rem; color: var(--color-primary); margin: 0 0 10px; line-height: 1.3;">${product.name}</h2>

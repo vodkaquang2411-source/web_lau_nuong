@@ -525,46 +525,70 @@
             </div>
           ` : ''}
 
-          <!-- Danh sách món đã đặt trước nếu có -->
+          <!-- Danh sách món đã đặt trước nếu có (Hiển thị rõ giá tiền & chi tiết combo) -->
           ${Array.isArray(r.orderedDishes) && r.orderedDishes.length > 0 ? `
-            <div style="background: #faf8f5; border: 1px solid #ebd9c0; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.82rem; font-weight: 700; color: var(--color-primary, #1e1918);">
-                <span>Món ăn đặt trước (${r.orderedDishes.reduce((acc, d) => acc + d.quantity, 0)} món)</span>
-                <span style="color: var(--color-brand, #8f1724);">${formatMoney(r.totalDishPrice || 0)}</span>
+            <div style="background: #FFFDF9; border: 1.5px solid #EBD9C0; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px dashed #E2D7C5; padding-bottom: 6px;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-primary, #1e1918);">
+                  Món ăn & set lẩu đã đặt trước (${r.orderedDishes.reduce((acc, d) => acc + d.quantity, 0)} món):
+                </span>
+                <span style="font-size: 0.95rem; font-weight: 800; color: var(--color-brand, #8f1724);">
+                  ${formatMoney(r.totalDishPrice || 0)}
+                </span>
               </div>
-              <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px;">
-                ${r.orderedDishes.map(d => `
-                  <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; background: #fff; border: 1px solid #eee; border-radius: 6px; padding: 5px 8px;">
-                    <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
-                      <img src="${d.imageUrl}" alt="${d.name}" style="width: 28px; height: 28px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
-                      <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">${d.name}</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
-                      <span style="color: #666; font-size: 0.78rem;">${formatMoney(d.price)}</span>
-                      ${isPending ? `
-                        <div style="display: inline-flex; align-items: center; border: 1px solid #ddd; border-radius: 4px; overflow: hidden;">
-                          <button type="button" class="btn-res-dish-minus" data-res-id="${r.id}" data-dish-id="${d.id}" style="border: none; background: #f0f0f0; width: 22px; height: 22px; cursor: pointer; font-size: 0.85rem; line-height: 1; font-weight: 700;">-</button>
-                          <span style="padding: 0 6px; font-weight: 700; font-size: 0.78rem;">${d.quantity}</span>
-                          <button type="button" class="btn-res-dish-plus" data-res-id="${r.id}" data-dish-id="${d.id}" style="border: none; background: #f0f0f0; width: 22px; height: 22px; cursor: pointer; font-size: 0.85rem; line-height: 1; font-weight: 700;">+</button>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+                ${r.orderedDishes.map(d => {
+                  const isComboOrLau = d.category === 'lau' || d.category === 'combo' || (d.comboDetails);
+                  const detailLink = isSubPage ? `combo-detail.html?id=${d.id}` : `pages/combo-detail.html?id=${d.id}`;
+                  return `
+                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; background: #fff; border: 1px solid #ECE3D7; border-radius: 6px; padding: 6px 10px;">
+                      <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                        <img src="${d.imageUrl}" alt="${d.name}" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 1px solid #eee;">
+                        <div style="min-width: 0;">
+                          <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; color: var(--color-primary, #1e1918);">
+                            ${d.name}
+                          </div>
+                          ${isComboOrLau ? `
+                            <a href="${detailLink}" target="_blank" style="font-size: 0.74rem; color: var(--color-brand, #8f1724); text-decoration: underline;">
+                              Xem đồ đi kèm trong set
+                            </a>
+                          ` : ''}
                         </div>
-                        <button type="button" class="btn-res-dish-del" data-res-id="${r.id}" data-dish-id="${d.id}" title="Xóa món này" style="border: none; background: transparent; color: #b02a37; cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 4px;">&times;</button>
-                      ` : `
-                        <span style="font-weight: 700; color: #333; font-size: 0.82rem;">x${d.quantity}</span>
-                      `}
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: 8px;">
+                        <span style="color: var(--color-brand, #8f1724); font-weight: 700; font-size: 0.84rem;">${formatMoney(d.price)}</span>
+                        ${isPending ? `
+                          <div style="display: inline-flex; align-items: center; border: 1px solid #ddd; border-radius: 4px; overflow: hidden;">
+                            <button type="button" class="btn-res-dish-minus" data-res-id="${r.id}" data-dish-id="${d.id}" style="border: none; background: #f0f0f0; width: 24px; height: 24px; cursor: pointer; font-size: 0.85rem; line-height: 1; font-weight: 700;">-</button>
+                            <span style="padding: 0 8px; font-weight: 700; font-size: 0.82rem;">${d.quantity}</span>
+                            <button type="button" class="btn-res-dish-plus" data-res-id="${r.id}" data-dish-id="${d.id}" style="border: none; background: #f0f0f0; width: 24px; height: 24px; cursor: pointer; font-size: 0.85rem; line-height: 1; font-weight: 700;">+</button>
+                          </div>
+                          <button type="button" class="btn-res-dish-del" data-res-id="${r.id}" data-dish-id="${d.id}" title="Xóa món này" style="border: none; background: transparent; color: #b02a37; cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 0 4px;">&times;</button>
+                        ` : `
+                          <span style="font-weight: 700; color: #333; font-size: 0.82rem;">x${d.quantity}</span>
+                        `}
+                      </div>
                     </div>
-                  </div>
-                `).join('')}
+                  `;
+                }).join('')}
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 6px; border-top: 1px dashed #E2D7C5; font-size: 0.8rem;">
+                <span style="color: var(--color-gray-600);">Tổng tiền tạm tính món ăn:</span>
+                <strong style="color: var(--color-brand, #8f1724); font-size: 0.95rem;">${formatMoney(r.totalDishPrice || 0)}</strong>
               </div>
               ${isPending ? `
-                <div style="text-align: right;">
+                <div style="text-align: right; margin-top: 6px;">
                   <a href="${isSubPage ? 'menu.html' : 'pages/menu.html'}" class="btn-quick-goto-menu" style="font-size: 0.78rem; color: var(--color-brand, #8f1724); font-weight: 600; text-decoration: underline;">+ Chọn thêm món từ thực đơn</a>
                 </div>
               ` : ''}
             </div>
           ` : (isPending ? `
-            <div style="font-size: 0.78rem; color: #777; background: #fbfbfb; border: 1px dashed #ddd; border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-              <span>Chưa có món đặt trước</span>
-              <a href="${isSubPage ? 'menu.html' : 'pages/menu.html'}" class="btn-quick-goto-menu" style="color: var(--color-brand, #8f1724); font-weight: 600; text-decoration: underline;">+ Chọn món từ thực đơn</a>
+            <div style="font-size: 0.8rem; color: #777; background: #FFFDF9; border: 1.5px dashed var(--color-gold); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-weight: 600; color: var(--color-dark);">Chưa chọn món trước</span>
+                <div style="font-size: 0.75rem; color: #888;">Quý khách có thể chọn trước set lẩu để nhà hàng chuẩn bị sẵn</div>
+              </div>
+              <a href="${isSubPage ? 'menu.html' : 'pages/menu.html'}" class="btn-quick-goto-menu" style="color: var(--color-brand, #8f1724); font-weight: 700; font-size: 0.8rem; text-decoration: underline; white-space: nowrap; margin-left: 8px;">+ Chọn set lẩu</a>
             </div>
           ` : '')}
 

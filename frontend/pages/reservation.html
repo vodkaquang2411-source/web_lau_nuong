@@ -110,6 +110,34 @@
             <div id="reservationAuthNotice" style="margin-bottom: 24px;"></div>
 
             <form id="reservationForm" novalidate>
+              <!-- Chọn trước set lẩu / combo ưu đãi (Tùy chọn) -->
+              <div class="form-group" style="background: #FFFDF9; border: 1.5px solid var(--color-gold); border-radius: var(--radius-md); padding: 16px; margin-bottom: 22px;">
+                <label for="reservationComboSelect" class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-weight: 700; color: var(--color-primary); font-size: 0.95rem;">Chọn trước set lẩu hoặc combo ưu đãi (Tùy chọn)</span>
+                  <span style="font-size: 0.78rem; font-weight: 700; color: #166534; background: #DCFCE7; padding: 2px 8px; border-radius: 12px;">Ưu đãi giảm 10%</span>
+                </label>
+                <select id="reservationComboSelect" class="form-control" style="font-weight: 600; font-size: 0.92rem; border-color: var(--color-gold);">
+                  <option value="">-- Chưa chọn trước món (Chỉ giữ chỗ bàn) --</option>
+                  <optgroup label="Combo tiệc sum vầy ưu đãi đặc biệt">
+                    <option value="25">Combo hẹn hò ấm áp (2 - 3 người) • 599.000 đ</option>
+                    <option value="26">Combo sum vầy đoàn viên (4 - 6 người) • 1.199.000 đ</option>
+                    <option value="27">Combo tiệc tùng thịnh soạn (6 - 8 người) • 1.890.000 đ</option>
+                  </optgroup>
+                  <optgroup label="Các set lẩu trọn gói tinh hoa">
+                    <option value="1">Lẩu Thái Tomyum hải sản chua cay • 499.000 đ</option>
+                    <option value="2">Lẩu nấm chim câu bổ dưỡng • 450.000 đ</option>
+                    <option value="3">Lẩu riêu cua bắp bò sườn sụn • 480.000 đ</option>
+                    <option value="4">Lẩu Tứ Xuyên cay nồng thảo mộc • 490.000 đ</option>
+                    <option value="5">Lẩu ếch đồng măng cay giòn rụm • 420.000 đ</option>
+                    <option value="6">Lẩu bò nhúng dấm thảo mộc • 460.000 đ</option>
+                  </optgroup>
+                </select>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                  <span class="form-hint" style="margin: 0;">Chọn món trước để nhà hàng chuẩn bị sẵn sàng ngay khi quý khách tới nơi.</span>
+                  <a href="menu.html" target="_blank" style="font-size: 0.8rem; color: var(--color-brand); font-weight: 600; text-decoration: underline; white-space: nowrap; margin-left: 10px;">Xem thực đơn</a>
+                </div>
+              </div>
+
               <!-- Branch selection -->
               <div class="form-group">
                 <label for="branchSelect" class="form-label">Chọn chi nhánh nhà hàng <span class="required">*</span></label>

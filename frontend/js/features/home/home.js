@@ -79,5 +79,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Gắn sự kiện cho các khối Combo ưu đãi tại Trang chủ
+  function initHomeCombos() {
+    // 1. Nút xem chi tiết đồ đi kèm combo
+    document.querySelectorAll('.btn-view-combo-detail').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = Number(btn.getAttribute('data-id'));
+        const prod = window.AppState.getProductById(id);
+        if (prod && window.openProductDetailModal) {
+          e.preventDefault();
+          window.openProductDetailModal(prod);
+        }
+      });
+    });
+
+    // 2. Nút đặt bàn combo này: Tự động lưu combo vào session và đưa sang trang đặt bàn
+    document.querySelectorAll('.btn-book-combo').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = Number(btn.getAttribute('data-id'));
+        const prod = window.AppState.getProductById(id);
+        if (prod) {
+          const comboData = {
+            productId: prod.id,
+            productName: prod.name,
+            servingSize: prod.comboDetails ? prod.comboDetails.servingSize : 'Tiêu chuẩn',
+            broth: prod.comboDetails ? prod.comboDetails.broth : '',
+            price: prod.price,
+            addOns: []
+          };
+          try {
+            sessionStorage.setItem('launuong_preselected_combo', JSON.stringify(comboData));
+          } catch (err) {}
+          window.location.href = 'pages/reservation.html';
+        }
+      });
+    });
+  }
+
   renderFeaturedProducts();
+  initHomeCombos();
 });

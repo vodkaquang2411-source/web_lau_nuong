@@ -297,60 +297,81 @@
         <div class="grid-3">
           <!-- Combo 1 -->
           <div style="background: white; border-radius: var(--radius-lg); overflow: hidden; border: 2px solid var(--color-gold); box-shadow: var(--shadow-md); display: flex; flex-direction: column;">
-            <div style="background: var(--color-primary); color: white; padding: 20px; text-align: center;">
-              <span style="color: var(--color-gold); font-size: 0.88rem; font-weight: 700;">Dành cho 2 - 3 người</span>
-              <h3 style="color: white; margin: 6px 0; font-size: 1.5rem;">Combo hẹn hò ấm áp</h3>
-              <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-gold);">599.000 đ <span style="font-size: 0.95rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">750.000 đ</span></div>
+            <div style="height: 180px; position: relative; overflow: hidden;">
+              <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" alt="Combo hẹn hò ấm áp" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-hot" style="position: absolute; top: 12px; left: 12px; font-size: 0.8rem; font-weight: 700;">Set lẩu hẹn hò</span>
             </div>
-            <div style="padding: 24px; flex-grow: 1;">
-              <ul style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Nồi lẩu 2 ngăn tùy chọn vị</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Đĩa ba chỉ bò Mỹ & bắp hoa (350g)</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Đĩa dẻ sườn ướp sốt cay Hàn Quốc</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Rau tổng hợp, nấm tươi & mỳ nhúng</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 02 Đồ uống trái cây thanh nhiệt</li>
+            <div style="background: var(--color-primary); color: white; padding: 18px 20px; text-align: center;">
+              <span style="color: var(--color-gold); font-size: 0.88rem; font-weight: 700;">Dành cho 2 - 3 người</span>
+              <h3 style="color: white; margin: 4px 0 6px; font-size: 1.45rem;">Combo hẹn hò ấm áp</h3>
+              <div style="font-size: 1.8rem; font-weight: 800; color: var(--color-gold);">599.000 đ <span style="font-size: 0.92rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">750.000 đ</span></div>
+            </div>
+            <div style="padding: 22px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+              <ul style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; font-size: 0.92rem; color: var(--color-dark);">
+                <li style="display: flex; gap: 8px;">✔ 01 Nồi lẩu 2 ngăn tùy chọn vị (Tomyum / Bò nấm)</li>
+                <li style="display: flex; gap: 8px;">✔ 01 Đĩa ba chỉ bò Mỹ & bắp hoa (350g)</li>
+                <li style="display: flex; gap: 8px;">✔ 01 Đĩa dẻ sườn ướp sốt cay Hàn Quốc</li>
+                <li style="display: flex; gap: 8px;">✔ Rau tổng hợp, nấm tươi & mỳ nhúng</li>
+                <li style="display: flex; gap: 8px;">✔ 02 Đồ uống trái cây thanh nhiệt</li>
               </ul>
-              <a href="pages/reservation.html" class="btn btn-primary" style="width: 100%;">Đặt bàn combo này</a>
+              <div>
+                <a href="pages/combo-detail.html?id=25" class="btn btn-secondary btn-view-combo-detail" data-id="25" style="width: 100%; margin-bottom: 8px; font-weight: 600; text-align: center;">Xem chi tiết đồ đi kèm</a>
+                <button type="button" class="btn btn-primary btn-book-combo" data-id="25" style="width: 100%; font-weight: 700;">Đặt bàn combo này</button>
+              </div>
             </div>
           </div>
 
           <!-- Combo 2 (Best Seller) -->
           <div style="background: white; border-radius: var(--radius-lg); overflow: hidden; border: 3px solid var(--color-brand); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; position: relative;">
-            <div style="position: absolute; top: 12px; right: 12px; background: var(--color-brand); color: white; padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700;">Phổ biến nhất</div>
-            <div style="background: var(--color-dark); color: white; padding: 20px; text-align: center;">
-              <span style="color: var(--color-gold); font-size: 0.88rem; font-weight: 700;">Dành cho 4 - 6 người</span>
-              <h3 style="color: white; margin: 6px 0; font-size: 1.5rem;">Combo sum vầy đoàn viên</h3>
-              <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-gold);">1.199.000 đ <span style="font-size: 0.95rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">1.550.000 đ</span></div>
+            <div style="position: absolute; top: 12px; right: 12px; background: var(--color-brand); color: white; padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700; z-index: 2;">Phổ biến nhất</div>
+            <div style="height: 180px; position: relative; overflow: hidden;">
+              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80" alt="Combo sum vầy đoàn viên" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge" style="position: absolute; top: 12px; left: 12px; background: var(--color-gold); color: var(--color-dark); font-size: 0.8rem; font-weight: 700;">Set lẩu đại tiệc</span>
             </div>
-            <div style="padding: 24px; flex-grow: 1;">
-              <ul style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ 01 Nồi lẩu 4 ngăn đại tiệc</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Thăn ngoại bò Black Angus thượng hạng</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Hải sản tổng hợp (Tôm sú, mực nang, ngao)</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Nọng heo nướng mè & dẻ sườn bò sốt tiêu</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Set rau củ quả hữu cơ không giới hạn</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Tráng miệng chè dưỡng nhan tuyết yến</li>
+            <div style="background: var(--color-dark); color: white; padding: 18px 20px; text-align: center;">
+              <span style="color: var(--color-gold); font-size: 0.88rem; font-weight: 700;">Dành cho 4 - 6 người</span>
+              <h3 style="color: white; margin: 4px 0 6px; font-size: 1.45rem;">Combo sum vầy đoàn viên</h3>
+              <div style="font-size: 1.8rem; font-weight: 800; color: var(--color-gold);">1.199.000 đ <span style="font-size: 0.92rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">1.550.000 đ</span></div>
+            </div>
+            <div style="padding: 22px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+              <ul style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; font-size: 0.92rem; color: var(--color-dark);">
+                <li style="display: flex; gap: 8px;">✔ 01 Nồi lẩu 4 ngăn đại tiệc (Tự chọn 4 vị cốt)</li>
+                <li style="display: flex; gap: 8px;">✔ Thăn ngoại bò Black Angus thượng hạng (350g)</li>
+                <li style="display: flex; gap: 8px;">✔ Hải sản tổng hợp (Tôm sú, mực nang, ngao)</li>
+                <li style="display: flex; gap: 8px;">✔ Nọng heo nướng mè & dẻ sườn bò sốt tiêu</li>
+                <li style="display: flex; gap: 8px;">✔ Set rau củ quả hữu cơ & nấm quý</li>
+                <li style="display: flex; gap: 8px;">✔ Tráng miệng chè dưỡng nhan tuyết yến</li>
               </ul>
-              <a href="pages/reservation.html" class="btn btn-gold" style="width: 100%;">Đặt bàn combo này</a>
+              <div>
+                <a href="pages/combo-detail.html?id=26" class="btn btn-secondary btn-view-combo-detail" data-id="26" style="width: 100%; margin-bottom: 8px; font-weight: 600; text-align: center;">Xem chi tiết đồ đi kèm</a>
+                <button type="button" class="btn btn-gold btn-book-combo" data-id="26" style="width: 100%; font-weight: 700;">Đặt bàn combo này</button>
+              </div>
             </div>
           </div>
 
           <!-- Combo 3 -->
           <div style="background: white; border-radius: var(--radius-lg); overflow: hidden; border: 2px solid var(--color-gold); box-shadow: var(--shadow-md); display: flex; flex-direction: column;">
-            <div style="background: var(--color-primary); color: white; padding: 20px; text-align: center;">
-              <span style="color: var(--color-gold); font-size: 0.88rem; font-weight: 700;">Dành cho 6 - 8 người</span>
-              <h3 style="color: white; margin: 6px 0; font-size: 1.5rem;">Combo tiệc tùng thịnh soạn</h3>
-              <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-gold);">1.890.000 đ <span style="font-size: 0.95rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">2.400.000 đ</span></div>
+            <div style="height: 180px; position: relative; overflow: hidden;">
+              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Combo tiệc tùng thịnh soạn" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge" style="position: absolute; top: 12px; left: 12px; background: var(--color-primary); color: var(--color-gold); font-size: 0.8rem; font-weight: 700;">Thịnh soạn VIP</span>
             </div>
-            <div style="padding: 24px; flex-grow: 1;">
-              <ul style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Nồi lẩu 4 vị tự chọn cao cấp</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Bò Wagyu A5 cắt lát mỏng nhúng lẩu</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Đĩa hải sản cao cấp: Bào ngư & tôm hùm baby</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Khay nướng tổng hợp 6 loại sốt đặc chế</li>
-                <li style="display: flex; gap: 8px; font-size: 0.95rem;">✔ Tặng kèm 01 chai vang đỏ Chile hảo hạng</li>
+            <div style="background: var(--color-primary); color: white; padding: 18px 20px; text-align: center;">
+              <span style="color: var(--color-gold); font-size: 0.88rem; font-weight: 700;">Dành cho 6 - 8 người</span>
+              <h3 style="color: white; margin: 4px 0 6px; font-size: 1.45rem;">Combo tiệc tùng thịnh soạn</h3>
+              <div style="font-size: 1.8rem; font-weight: 800; color: var(--color-gold);">1.890.000 đ <span style="font-size: 0.92rem; text-decoration: line-through; color: rgba(255,255,255,0.6);">2.400.000 đ</span></div>
+            </div>
+            <div style="padding: 22px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+              <ul style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; font-size: 0.92rem; color: var(--color-dark);">
+                <li style="display: flex; gap: 8px;">✔ Nồi lẩu 4 vị tự chọn cao cấp</li>
+                <li style="display: flex; gap: 8px;">✔ Bò Wagyu A5 cắt lát mỏng nhúng lẩu</li>
+                <li style="display: flex; gap: 8px;">✔ Đĩa hải sản cao cấp: Bào ngư & tôm hùm baby</li>
+                <li style="display: flex; gap: 8px;">✔ Khay nướng tổng hợp 6 loại sốt đặc chế</li>
+                <li style="display: flex; gap: 8px;">✔ Tặng kèm 01 chai vang đỏ Chile hảo hạng</li>
               </ul>
-              <a href="pages/reservation.html" class="btn btn-primary" style="width: 100%;">Đặt bàn combo này</a>
+              <div>
+                <a href="pages/combo-detail.html?id=27" class="btn btn-secondary btn-view-combo-detail" data-id="27" style="width: 100%; margin-bottom: 8px; font-weight: 600; text-align: center;">Xem chi tiết đồ đi kèm</a>
+                <button type="button" class="btn btn-primary btn-book-combo" data-id="27" style="width: 100%; font-weight: 700;">Đặt bàn combo này</button>
+              </div>
             </div>
           </div>
         </div>

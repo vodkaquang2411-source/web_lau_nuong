@@ -200,7 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="card-desc">${product.description || ''}</p>
           <div class="card-footer">
             <div class="card-price">${formatPrice(product.price)}</div>
-            <button class="btn btn-sm btn-primary view-detail-btn" data-id="${product.id}">Chi tiết</button>
+            ${(product.category === 'lau' || product.category === 'combo' || product.comboDetails) ? `
+              <button class="btn btn-sm btn-gold view-detail-btn" data-id="${product.id}" title="Xem chi tiết đồ đi kèm set lẩu">Xem set lẩu</button>
+            ` : `
+              <button class="btn btn-sm btn-primary view-detail-btn" data-id="${product.id}">Chi tiết</button>
+            `}
           </div>
         </div>
       </article>

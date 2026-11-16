@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Set Lẩu & Combo - LẨU NƯỚNG VN</title>
+  <meta name="description" content="Xem chi tiết đồ đi kèm trọn gói, nước lẩu cốt, định lượng khẩu phần và các món nhúng gọi thêm trong set lẩu tại LẨU NƯỚNG VN.">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/widgets.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <aside class="top-bar" aria-label="Thông tin nhanh">
+    <div class="container">
+      <div class="top-bar-info">
+        <span>Hotline: <strong>0345662169</strong></span>
+        <span>Trụ sở chính: <strong>Kiến Hưng - Hải Phòng</strong></span>
+        <span>Email: <strong>codeweb@gmail.com</strong></span>
+      </div>
+      <div class="top-bar-auth" id="topBarAuth">
+        <a href="login.html">Đăng nhập</a>
+        <span style="color: rgba(201,166,107,0.4)">|</span>
+        <a href="register.html">Đăng ký</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <nav class="navbar" aria-label="Điều hướng chính">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg>
+          </div>
+          <div class="logo-text">
+            <div class="logo-title">LẨU NƯỚNG <span>VN</span></div>
+            <div class="logo-tagline">Hương vị Việt – Trọn vị sum vầy</div>
+          </div>
+        </a>
+
+        <ul class="nav-menu">
+          <li><a href="../index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="menu.html" class="nav-link active">Thực đơn</a></li>
+          <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+          <li><a href="branches.html" class="nav-link">Chi nhánh</a></li>
+          <li><a href="reservation.html" class="nav-link">Đặt bàn</a></li>
+          <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="reservation.html" class="btn btn-gold nav-cta">Đặt bàn ngay</a>
+          <button class="hamburger" id="hamburgerBtn" aria-label="Mở menu di động">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-links">
+      <a href="../index.html">Trang chủ</a>
+      <a href="menu.html" class="active">Thực đơn</a>
+      <a href="about.html">Giới thiệu</a>
+      <a href="branches.html">Chi nhánh</a>
+      <a href="reservation.html">Đặt bàn</a>
+      <a href="contact.html">Liên hệ</a>
+      <a href="login.html">Tài khoản</a>
+    </div>
+    <div>
+      <a href="reservation.html" class="btn btn-primary" style="width: 100%;">Đặt bàn ngay</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Breadcrumb & Header Title -->
+    <section style="background: var(--color-cream); padding: 24px 0; border-bottom: 1px solid var(--color-gray-200);">
+      <div class="container">
+        <div class="breadcrumb" style="margin-bottom: 8px;">
+          <a href="../index.html">Trang chủ</a>
+          <span>/</span>
+          <a href="menu.html">Thực đơn</a>
+          <span>/</span>
+          <span id="breadcrumbComboName">Chi tiết set lẩu & combo</span>
+        </div>
+        <h1 style="font-size: 1.8rem; color: var(--color-primary); margin: 0;" id="pageMainHeading">
+          Chi tiết set lẩu trọn gói & đồ đi kèm
+        </h1>
+      </div>
+    </section>
+
+    <!-- Combo Details Section -->
+    <section class="section" style="padding: 40px 0 70px;">
+      <div class="container">
+        <div id="comboDetailContainer">
+          <!-- Sẽ được JavaScript tự động render theo ID món lẩu / combo -->
+          <div style="text-align: center; padding: 60px 0; color: var(--color-gray-500);">
+            Đang tải thông tin chi tiết set lẩu...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other Recommended Combos Section -->
+    <section class="section section-cream" style="padding: 50px 0 70px;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Khám phá thêm</span>
+          <h2 class="section-title">Các combo & set lẩu <span>đặc sắc khác</span></h2>
+          <div class="gold-divider"><div class="gold-divider-icon"></div></div>
+          <p class="section-desc">Đa dạng lựa chọn cho bữa tiệc từ 2 đến 8 người với đầy đủ đồ nhúng và nước dùng thơm ngon.</p>
+        </div>
+
+        <div class="grid-3" id="otherCombosContainer">
+          <!-- Render danh sách combo khác -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Product Detail Modal -->
+  <div class="modal-overlay" id="productModalOverlay" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Đóng popup">&times;</button>
+      <div id="modalBodyContent" style="padding: 24px;"></div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-about">
+          <div class="logo" style="margin-bottom: 18px;">
+            <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 4.5 4.5 5.5C18 8.5 19 10 19 12a7 7 0 1 1-14 0c0-2 1-3.5 2.5-4.5C9.5 6.5 11 5 12 2z"></path></svg></div>
+            <div class="logo-text">
+              <div class="logo-title" style="font-size: 1.25rem;">LẨU NƯỚNG <span style="color: var(--color-gold);">VN</span></div>
+              <div class="logo-tagline" style="color: var(--color-cream-dark);">Hương vị Việt – Trọn vị sum vầy</div>
+            </div>
+          </div>
+          <p>Hệ thống nhà hàng Lẩu Nướng cao cấp mang đậm hương vị ẩm thực Việt. Đặt bàn trực tuyến nhanh chóng, tiện lợi.</p>
+        </div>
+        <div class="footer-col footer-links">
+          <h4>Khám phá</h4>
+          <ul>
+            <li><a href="../index.html">Trang chủ</a></li>
+            <li><a href="menu.html">Thực đơn</a></li>
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="reservation.html">Đặt bàn trực tuyến</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-links">
+          <h4>Hỗ trợ</h4>
+          <ul>
+            <li><a href="reservation.html">Chính sách đặt bàn</a></li>
+            <li><a href="contact.html">Liên hệ đóng góp ý kiến</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Thông tin liên hệ</h4>
+          <p style="color: var(--color-cream-dark); margin-bottom: 8px;">Trụ sở chính: <strong style="color: var(--color-white);">Kiến Hưng - Hải Phòng</strong></p>
+          <p style="color: var(--color-cream-dark); margin-bottom: 8px;">Hotline đặt bàn: <br><strong style="font-size: 1.25rem; color: var(--color-gold);">0345662169</strong></p>
+          <p style="color: var(--color-cream-dark); margin-bottom: 8px;">Email: <strong style="color: var(--color-white);">codeweb@gmail.com</strong></p>
+          <p style="color: var(--color-cream-dark);">Mở cửa: 10:00 - 23:00 hàng ngày</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <div>© 2026 LẨU NƯỚNG VN. Tất cả quyền thuộc quyền sở hữu của Mr.Kim</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/core/state.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/components/navbar.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/user-account-modal.js"></script>
+  <script src="../js/components/scroll-effects.js"></script>
+  <script src="../js/components/floating-widgets.js"></script>
+  <script src="../js/features/combo/combo-detail.js"></script>
+</body>
+</html>
